@@ -1,7 +1,6 @@
 # Zen Kommerce - Sample Laravel Application
 
 [![Test Coverage](http://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://codeclimate.com/github/inklabs/kommerce-laravel)
-[![Build Status](https://travis-ci.org/inklabs/kommerce-laravel.svg?branch=master)](https://travis-ci.org/inklabs/kommerce-laravel)
 [![Downloads](https://img.shields.io/packagist/dt/inklabs/kommerce-laravel.svg)](https://packagist.org/packages/inklabs/kommerce-laravel)
 [![License](https://img.shields.io/packagist/l/inklabs/kommerce-laravel.svg)](https://github.com/inklabs/kommerce-laravel/blob/master/LICENSE.txt)
 
