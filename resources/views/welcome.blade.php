@@ -39,6 +39,7 @@
         <div class="container">
             <div class="content">
                 <div class="title">Laravel 5</div>
+                <a href="/p/6f38a24b-2e59-42a9-89a7-ee9e7f99fc25">Product 1</a>
             </div>
         </div>
     </body>

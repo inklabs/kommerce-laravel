@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="Sqlite (Xerial) - db.sqlite" uuid="3cfe7051-da87-41f7-8fdf-3009e26379ae">
+    <database-info product="SQLite" version="3.8.11" jdbc-version="2.1" driver-name="SQLiteJDBC" driver-version="native"/>
+    <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed"/>
+    <schema name="" catalog=""/>
+    <table name="zk_Attachment" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="uri" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="isVisible" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="isLocked" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+    </table>
+    <table name="zk_Attribute" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="description" sqlType="CLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="sortOrder" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+    </table>
+    <table name="zk_AttributeValue" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="attribute_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="sku" sqlType="VARCHAR(64)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="description" sqlType="CLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="sortOrder" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_AttributeValue_1" columns="attribute_id" ref-table="zk_Attribute" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_E058C3BEB6E62EFA" unique="true" columns="attribute_id"/>
+    </table>
+    <table name="zk_Cart" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="user_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="sessionId" sqlType="VARCHAR(64)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="ip4" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="shipmentRate_externalId" sqlType="VARCHAR(60)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_shipmentExternalId" sqlType="VARCHAR(60)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_service" sqlType="VARCHAR(20)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_carrier" sqlType="VARCHAR(20)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_deliveryDate" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_isDeliveryDateGuaranteed" sqlType="BOOLEAN" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_deliveryDays" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_estDeliveryDays" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_rate_amount" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_rate_currency" sqlType="CHAR(3)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_listRate_amount" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_listRate_currency" sqlType="CHAR(3)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_retailRate_amount" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_retailRate_currency" sqlType="CHAR(3)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_deliveryMethod" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shippingAddress_firstName" sqlType="VARCHAR(32)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_lastName" sqlType="VARCHAR(32)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_company" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_address1" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_address2" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_city" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_state" sqlType="CHAR(2)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_zip5" sqlType="CHAR(5)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_zip4" sqlType="CHAR(4)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_country" sqlType="CHAR(2)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_isResidential" sqlType="BOOLEAN" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shippingAddress_phone" sqlType="VARCHAR(20)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_email" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="taxRate_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_Cart_1" columns="taxRate_id" ref-table="zk_TaxRate" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_Cart_2" columns="user_id" ref-table="zk_User" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_87D10F0DC6CD2B2B" unique="true" columns="taxRate_id"/>
+      <index name="UNIQ_87D10F0DA76ED395" unique="true" columns="user_id"/>
+      <index name="UNIQ_87D10F0DC087957B" unique="true" columns="shipmentRate_shipmentExternalId"/>
+      <index name="UNIQ_87D10F0DDB8488DE" unique="true" columns="shipmentRate_externalId"/>
+      <index name="UNIQ_87D10F0D3950B5F6" unique="true" columns="sessionId"/>
+    </table>
+    <table name="zk_CartItem" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="product_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="cart_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="quantity" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_CartItem_1" columns="cart_id" ref-table="zk_Cart" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_CartItem_2" columns="product_id" ref-table="zk_Product" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_ADE0F71D1AD5CDBF" unique="true" columns="cart_id"/>
+      <index name="IDX_ADE0F71D4584665A" unique="true" columns="product_id"/>
+    </table>
+    <table name="zk_CartItemOptionProduct" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="cartItem_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="optionProduct_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_CartItemOptionProduct_1" columns="optionProduct_id" ref-table="zk_OptionProduct" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_CartItemOptionProduct_2" columns="cartItem_id" ref-table="zk_CartItem" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_AD47706996DED417" unique="true" columns="optionProduct_id"/>
+      <index name="IDX_AD4770692A65EE1E" unique="true" columns="cartItem_id"/>
+    </table>
+    <table name="zk_CartItemOptionValue" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="cartItem_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="optionValue_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_CartItemOptionValue_1" columns="optionValue_id" ref-table="zk_OptionValue" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_CartItemOptionValue_2" columns="cartItem_id" ref-table="zk_CartItem" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_738D4F856CEA2FFC" unique="true" columns="optionValue_id"/>
+      <index name="IDX_738D4F852A65EE1E" unique="true" columns="cartItem_id"/>
+    </table>
+    <table name="zk_CartItemTextOptionValue" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="textOptionValue" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="cartItem_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="textOption_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_CartItemTextOptionValue_1" columns="textOption_id" ref-table="zk_TextOption" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_CartItemTextOptionValue_2" columns="cartItem_id" ref-table="zk_CartItem" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_6408B4F8BDB756BE" unique="true" columns="textOption_id"/>
+      <index name="IDX_6408B4F82A65EE1E" unique="true" columns="cartItem_id"/>
+    </table>
+    <table name="zk_CartPriceRule" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="redemptions" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="maxRedemptions" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="reducesTaxSubtotal" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="start" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="end" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+    </table>
+    <table name="zk_CartPriceRuleDiscount" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="product_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="quantity" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="cartPriceRule_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_CartPriceRuleDiscount_1" columns="cartPriceRule_id" ref-table="zk_CartPriceRule" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_CartPriceRuleDiscount_2" columns="product_id" ref-table="zk_Product" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_F0B357101A06E558" unique="true" columns="cartPriceRule_id"/>
+      <index name="IDX_F0B357104584665A" unique="true" columns="product_id"/>
+    </table>
+    <table name="zk_CartPriceRuleItem" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="product_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="tag_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="quantity" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="cartPriceRule_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="type" sqlType="VARCHAR(7)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_CartPriceRuleItem_1" columns="tag_id" ref-table="zk_Tag" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_CartPriceRuleItem_2" columns="product_id" ref-table="zk_Product" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_CartPriceRuleItem_3" columns="cartPriceRule_id" ref-table="zk_CartPriceRule" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_2F580EA6BAD26311" unique="true" columns="tag_id"/>
+      <index name="IDX_2F580EA64584665A" unique="true" columns="product_id"/>
+      <index name="IDX_2F580EA61A06E558" unique="true" columns="cartPriceRule_id"/>
+    </table>
+    <table name="zk_CatalogPromotion" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="tag_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="value" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="redemptions" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="maxRedemptions" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="reducesTaxSubtotal" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="start" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="end" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="code" sqlType="VARCHAR(16)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="type" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_CatalogPromotion_1" columns="tag_id" ref-table="zk_Tag" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_ED25536BBAD26311" unique="true" columns="tag_id"/>
+    </table>
+    <table name="zk_Coupon" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="value" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="redemptions" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="maxRedemptions" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="reducesTaxSubtotal" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="start" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="end" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="code" sqlType="VARCHAR(16)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="canCombineWithOtherCoupons" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="flagFreeShipping" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="minOrderValue" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="maxOrderValue" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="type" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <primary-key columns="id"/>
+    </table>
+    <table name="zk_Image" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="product_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="tag_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="path" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="width" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="height" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="sortOrder" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_Image_1" columns="tag_id" ref-table="zk_Tag" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_Image_2" columns="product_id" ref-table="zk_Product" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_EE052C4ABAD26311" unique="true" columns="tag_id"/>
+      <index name="IDX_EE052C4A4584665A" unique="true" columns="product_id"/>
+    </table>
+    <table name="zk_InventoryLocation" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="warehouse_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="code" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_InventoryLocation_1" columns="warehouse_id" ref-table="zk_Warehouse" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_41C086D05080ECDE" unique="true" columns="warehouse_id"/>
+    </table>
+    <table name="zk_InventoryTransaction" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="product_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="memo" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="debitQuantity" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="creditQuantity" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="type" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="inventoryLocation_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_InventoryTransaction_1" columns="product_id" ref-table="zk_Product" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_InventoryTransaction_2" columns="inventoryLocation_id" ref-table="zk_InventoryLocation" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_690F29634584665A" unique="true" columns="product_id"/>
+      <index name="IDX_690F2963A0740BA2" unique="true" columns="inventoryLocation_id"/>
+    </table>
+    <table name="zk_Option" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="description" sqlType="CLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="sortOrder" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="type" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <primary-key columns="id"/>
+    </table>
+    <table name="zk_OptionProduct" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="option_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="product_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="sortOrder" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_OptionProduct_1" columns="product_id" ref-table="zk_Product" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_OptionProduct_2" columns="option_id" ref-table="zk_Option" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_30A50B044584665A" unique="true" columns="product_id"/>
+      <index name="IDX_30A50B04A7C41D6F" unique="true" columns="option_id"/>
+    </table>
+    <table name="zk_OptionValue" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="option_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="sku" sqlType="VARCHAR(64)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="unitPrice" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="shippingWeight" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="sortOrder" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_OptionValue_1" columns="option_id" ref-table="zk_Option" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_CAB0236AA7C41D6F" unique="true" columns="option_id"/>
+    </table>
+    <table name="zk_Order" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="user_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="externalId" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="discountNames" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="referenceNumber" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="ip4" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="total_origSubtotal" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="total_subtotal" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="total_taxSubtotal" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="total_discount" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="total_shipping" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="total_shippingDiscount" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="total_tax" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="total_total" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="total_savings" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="shippingAddress_firstName" sqlType="VARCHAR(32)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_lastName" sqlType="VARCHAR(32)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_company" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_address1" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_address2" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_city" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_state" sqlType="CHAR(2)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_zip5" sqlType="CHAR(5)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_zip4" sqlType="CHAR(4)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_country" sqlType="CHAR(2)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_isResidential" sqlType="BOOLEAN" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shippingAddress_phone" sqlType="VARCHAR(20)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shippingAddress_email" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="billingAddress_firstName" sqlType="VARCHAR(32)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="billingAddress_lastName" sqlType="VARCHAR(32)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="billingAddress_company" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="billingAddress_address1" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="billingAddress_address2" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="billingAddress_city" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="billingAddress_state" sqlType="CHAR(2)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="billingAddress_zip5" sqlType="CHAR(5)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="billingAddress_zip4" sqlType="CHAR(4)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="billingAddress_country" sqlType="CHAR(2)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="billingAddress_isResidential" sqlType="BOOLEAN" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="billingAddress_phone" sqlType="VARCHAR(20)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="billingAddress_email" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_externalId" sqlType="VARCHAR(60)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_shipmentExternalId" sqlType="VARCHAR(60)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_service" sqlType="VARCHAR(20)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_carrier" sqlType="VARCHAR(20)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_deliveryDate" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_isDeliveryDateGuaranteed" sqlType="BOOLEAN" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_deliveryDays" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_estDeliveryDays" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_rate_amount" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_rate_currency" sqlType="CHAR(3)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_listRate_amount" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_listRate_currency" sqlType="CHAR(3)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_retailRate_amount" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_retailRate_currency" sqlType="CHAR(3)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_deliveryMethod" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="status" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="taxRate_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_Order_1" columns="taxRate_id" ref-table="zk_TaxRate" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_Order_2" columns="user_id" ref-table="zk_User" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_DE11BB8DC6CD2B2B" unique="true" columns="taxRate_id"/>
+      <index name="IDX_DE11BB8DA76ED395" unique="true" columns="user_id"/>
+      <index name="UNIQ_DE11BB8DC087957B" unique="true" columns="shipmentRate_shipmentExternalId"/>
+      <index name="UNIQ_DE11BB8DDB8488DE" unique="true" columns="shipmentRate_externalId"/>
+      <index name="UNIQ_DE11BB8DCDA596EE" unique="true" columns="referenceNumber"/>
+      <index name="UNIQ_DE11BB8DA770AC6E" unique="true" columns="externalId"/>
+    </table>
+    <table name="zk_OrderItem" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="product_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="order_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="quantity" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="sku" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="discountNames" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="price_origUnitPrice" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="price_unitPrice" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="price_origQuantityPrice" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="price_quantityPrice" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_OrderItem_1" columns="order_id" ref-table="zk_Order" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_OrderItem_2" columns="product_id" ref-table="zk_Product" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_5BA329F48D9F6D38" unique="true" columns="order_id"/>
+      <index name="IDX_5BA329F44584665A" unique="true" columns="product_id"/>
+    </table>
+    <table name="zk_OrderItemOptionProduct" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="sku" sqlType="VARCHAR(64)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="optionName" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="optionProductName" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="orderItem_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="optionProduct_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_OrderItemOptionProduct_1" columns="optionProduct_id" ref-table="zk_OptionProduct" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_OrderItemOptionProduct_2" columns="orderItem_id" ref-table="zk_OrderItem" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_633EE00A96DED417" unique="true" columns="optionProduct_id"/>
+      <index name="IDX_633EE00AE76E9C94" unique="true" columns="orderItem_id"/>
+    </table>
+    <table name="zk_OrderItemOptionValue" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="sku" sqlType="VARCHAR(64)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="optionName" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="optionValueName" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="orderItem_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="optionValue_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_OrderItemOptionValue_1" columns="optionValue_id" ref-table="zk_OptionValue" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_OrderItemOptionValue_2" columns="orderItem_id" ref-table="zk_OrderItem" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_B0364F526CEA2FFC" unique="true" columns="optionValue_id"/>
+      <index name="IDX_B0364F52E76E9C94" unique="true" columns="orderItem_id"/>
+    </table>
+    <table name="zk_OrderItemTextOptionValue" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="textOptionName" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="textOptionValue" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="orderItem_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="textOption_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_OrderItemTextOptionValue_1" columns="textOption_id" ref-table="zk_TextOption" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_OrderItemTextOptionValue_2" columns="orderItem_id" ref-table="zk_OrderItem" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_DAD7D1A1BDB756BE" unique="true" columns="textOption_id"/>
+      <index name="IDX_DAD7D1A1E76E9C94" unique="true" columns="orderItem_id"/>
+    </table>
+    <table name="zk_Payment" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="order_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="amount" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="payment_type" sqlType="VARCHAR(6)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="checkNumber" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="memo" sqlType="VARCHAR(100)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="checkDate" sqlType="DATE" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="chargeResponse_externalId" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="chargeResponse_created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="chargeResponse_last4" sqlType="CHAR(4)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="chargeResponse_brand" sqlType="VARCHAR(16)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="chargeResponse_amount" sqlType="INTEGER" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="chargeResponse_currency" sqlType="CHAR(3)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="chargeResponse_description" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_Payment_1" columns="order_id" ref-table="zk_Order" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_6F28E1DB8D9F6D38" unique="true" columns="order_id"/>
+    </table>
+    <table name="zk_Product" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="sku" sqlType="VARCHAR(64)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="description" sqlType="CLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="defaultImage" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="isActive" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="isVisible" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="isInventoryRequired" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="isPriceVisible" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="isTaxable" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="isShippable" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="areAttachmentsEnabled" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="unitPrice" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="quantity" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="shippingWeight" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="rating" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <index name="UNIQ_D14A617BF9038C4" unique="true" columns="sku"/>
+    </table>
+    <table name="zk_ProductAttribute" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="product_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="attribute_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="attributeValue_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_ProductAttribute_1" columns="attributeValue_id" ref-table="zk_AttributeValue" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_ProductAttribute_2" columns="attribute_id" ref-table="zk_Attribute" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_ProductAttribute_3" columns="product_id" ref-table="zk_Product" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_2F2575C8FF82614D" unique="true" columns="attributeValue_id"/>
+      <index name="IDX_2F2575C8B6E62EFA" unique="true" columns="attribute_id"/>
+      <index name="IDX_2F2575C84584665A" unique="true" columns="product_id"/>
+    </table>
+    <table name="zk_ProductQuantityDiscount" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="product_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="value" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="redemptions" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="maxRedemptions" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="reducesTaxSubtotal" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="start" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="end" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="flagApplyCatalogPromotions" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="quantity" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="type" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_ProductQuantityDiscount_1" columns="product_id" ref-table="zk_Product" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_11D5657B4584665A" unique="true" columns="product_id"/>
+    </table>
+    <table name="zk_Shipment" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="order_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_Shipment_1" columns="order_id" ref-table="zk_Order" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_6D7957588D9F6D38" unique="true" columns="order_id"/>
+    </table>
+    <table name="zk_ShipmentComment" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="shipment_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="comment" sqlType="CLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_ShipmentComment_1" columns="shipment_id" ref-table="zk_Shipment" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_67F6590F7BE036FC" unique="true" columns="shipment_id"/>
+    </table>
+    <table name="zk_ShipmentItem" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="shipment_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="quantityToShip" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="orderItem_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_ShipmentItem_1" columns="shipment_id" ref-table="zk_Shipment" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_ShipmentItem_2" columns="orderItem_id" ref-table="zk_OrderItem" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_159D4A027BE036FC" unique="true" columns="shipment_id"/>
+      <index name="IDX_159D4A02E76E9C94" unique="true" columns="orderItem_id"/>
+    </table>
+    <table name="zk_ShipmentTracker" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="shipment_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="trackingCode" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="externalId" sqlType="VARCHAR(60)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="carrier" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="shipmentRate_externalId" sqlType="VARCHAR(60)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_shipmentExternalId" sqlType="VARCHAR(60)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_service" sqlType="VARCHAR(20)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_carrier" sqlType="VARCHAR(20)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_deliveryDate" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_isDeliveryDateGuaranteed" sqlType="BOOLEAN" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_deliveryDays" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_estDeliveryDays" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_rate_amount" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_rate_currency" sqlType="CHAR(3)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_listRate_amount" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_listRate_currency" sqlType="CHAR(3)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_retailRate_amount" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentRate_retailRate_currency" sqlType="CHAR(3)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentRate_deliveryMethod" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentLabel_externalId" sqlType="VARCHAR(60)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentLabel_resolution" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="shipmentLabel_size" sqlType="VARCHAR(10)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentLabel_type" sqlType="VARCHAR(20)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentLabel_fileType" sqlType="VARCHAR(20)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentLabel_url" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentLabel_pdfUrl" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentLabel_epl2Url" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="shipmentLabel_zplUrl" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_ShipmentTracker_1" columns="shipment_id" ref-table="zk_Shipment" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_5FE121CC7BE036FC" unique="true" columns="shipment_id"/>
+      <index name="UNIQ_5FE121CC344440A5" unique="true" columns="shipmentLabel_externalId"/>
+      <index name="UNIQ_5FE121CCC087957B" unique="true" columns="shipmentRate_shipmentExternalId"/>
+      <index name="UNIQ_5FE121CCDB8488DE" unique="true" columns="shipmentRate_externalId"/>
+      <index name="UNIQ_5FE121CCA770AC6E" unique="true" columns="externalId"/>
+    </table>
+    <table name="zk_Tag" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="code" sqlType="VARCHAR(64)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="description" sqlType="CLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="defaultImage" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="isActive" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="isVisible" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="areAttachmentsEnabled" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="sortOrder" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <index name="UNIQ_A272FEDD77153098" unique="true" columns="code"/>
+    </table>
+    <table name="zk_TaxRate" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="state" sqlType="CHAR(2)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="zip5" sqlType="CHAR(5)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="zip5From" sqlType="CHAR(5)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="zip5To" sqlType="CHAR(5)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="rate" sqlType="NUMERIC(4, 2)" precision="0" scale="-1" nullable="false" jdbcType="6"/>
+      <column name="applyToShipping" sqlType="BOOLEAN" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+    </table>
+    <table name="zk_TextOption" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="description" sqlType="CLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="sortOrder" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="type" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <primary-key columns="id"/>
+    </table>
+    <table name="zk_User" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="externalId" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="firstName" sqlType="VARCHAR(50)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="lastName" sqlType="VARCHAR(50)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="email" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="passwordHash" sqlType="CHAR(60)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="totalLogins" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="lastLogin" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="status" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <primary-key columns="id"/>
+      <index name="UNIQ_1E151F3E7927C74" unique="true" columns="email"/>
+      <index name="UNIQ_1E151F3A770AC6E" unique="true" columns="externalId"/>
+    </table>
+    <table name="zk_UserLogin" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="user_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="email" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="ip4" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="result" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="userToken_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_UserLogin_1" columns="userToken_id" ref-table="zk_UserToken" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_UserLogin_2" columns="user_id" ref-table="zk_User" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_A6D72D8894ED7A98" unique="true" columns="userToken_id"/>
+      <index name="IDX_A6D72D88A76ED395" unique="true" columns="user_id"/>
+    </table>
+    <table name="zk_UserProductAttachment" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="user_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="product_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="attachment_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_UserProductAttachment_1" columns="attachment_id" ref-table="zk_Attachment" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_UserProductAttachment_2" columns="product_id" ref-table="zk_Product" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_UserProductAttachment_3" columns="user_id" ref-table="zk_User" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_F843772D464E68B" unique="true" columns="attachment_id"/>
+      <index name="IDX_F843772D4584665A" unique="true" columns="product_id"/>
+      <index name="IDX_F843772DA76ED395" unique="true" columns="user_id"/>
+    </table>
+    <table name="zk_UserRole" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR(32)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="description" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+    </table>
+    <table name="zk_UserToken" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="user_id" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="userAgent" sqlType="VARCHAR(200)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="ip4" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="tokenHash" sqlType="CHAR(60)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="expires" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="0" scale="-1" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="type" sqlType="SMALLINT UNSIGNED" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_zk_UserToken_1" columns="user_id" ref-table="zk_User" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="IDX_53E847A3A76ED395" unique="true" columns="user_id"/>
+    </table>
+    <table name="zk_Warehouse" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="address_attention" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="address_company" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="address_address1" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="address_address2" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="address_city" sqlType="VARCHAR(128)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="address_state" sqlType="CHAR(2)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="address_zip5" sqlType="CHAR(5)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="address_zip4" sqlType="CHAR(4)" precision="0" scale="-1" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="address_point_latitude" sqlType="NUMERIC(10, 6)" precision="0" scale="-1" nullable="true" jdbcType="6" def="TlVMTA=="/>
+      <column name="address_point_longitude" sqlType="NUMERIC(10, 6)" precision="0" scale="-1" nullable="true" jdbcType="6" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+    </table>
+    <table name="zk_cart_coupon" schema="" catalog="" type="TABLE">
+      <column name="cart_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="coupon_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="coupon_id"/>
+      <foreign-key name="#FAKE_zk_cart_coupon_1" columns="coupon_id" ref-table="zk_Coupon" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_cart_coupon_2" columns="cart_id" ref-table="zk_Cart" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <index name="IDX_4F8A5C2866C5951B" unique="true" columns="coupon_id"/>
+      <index name="IDX_4F8A5C281AD5CDBF" unique="true" columns="cart_id"/>
+    </table>
+    <table name="zk_order_cartpricerule" schema="" catalog="" type="TABLE">
+      <column name="order_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="cartpricerule_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="cartpricerule_id"/>
+      <foreign-key name="#FAKE_zk_order_cartpricerule_1" columns="cartpricerule_id" ref-table="zk_CartPriceRule" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_order_cartpricerule_2" columns="order_id" ref-table="zk_Order" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <index name="IDX_D9930884CD8A073C" unique="true" columns="cartpricerule_id"/>
+      <index name="IDX_D99308848D9F6D38" unique="true" columns="order_id"/>
+    </table>
+    <table name="zk_order_coupon" schema="" catalog="" type="TABLE">
+      <column name="order_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="coupon_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="coupon_id"/>
+      <foreign-key name="#FAKE_zk_order_coupon_1" columns="coupon_id" ref-table="zk_Coupon" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_order_coupon_2" columns="order_id" ref-table="zk_Order" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <index name="IDX_877A1B6566C5951B" unique="true" columns="coupon_id"/>
+      <index name="IDX_877A1B658D9F6D38" unique="true" columns="order_id"/>
+    </table>
+    <table name="zk_orderitem_attachment" schema="" catalog="" type="TABLE">
+      <column name="orderitem_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="attachment_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="attachment_id"/>
+      <foreign-key name="#FAKE_zk_orderitem_attachment_1" columns="attachment_id" ref-table="zk_Attachment" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_orderitem_attachment_2" columns="orderitem_id" ref-table="zk_OrderItem" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <index name="IDX_D71A2A1B464E68B" unique="true" columns="attachment_id"/>
+      <index name="IDX_D71A2A1B28D3A508" unique="true" columns="orderitem_id"/>
+    </table>
+    <table name="zk_orderitem_catalogpromotion" schema="" catalog="" type="TABLE">
+      <column name="orderitem_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="catalogpromotion_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="catalogpromotion_id"/>
+      <foreign-key name="#FAKE_zk_orderitem_catalogpromotion_1" columns="catalogpromotion_id" ref-table="zk_CatalogPromotion" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_orderitem_catalogpromotion_2" columns="orderitem_id" ref-table="zk_OrderItem" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <index name="IDX_B4AE05A95C9462C4" unique="true" columns="catalogpromotion_id"/>
+      <index name="IDX_B4AE05A928D3A508" unique="true" columns="orderitem_id"/>
+    </table>
+    <table name="zk_orderitem_productquantitydiscount" schema="" catalog="" type="TABLE">
+      <column name="orderitem_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="productquantitydiscount_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="productquantitydiscount_id"/>
+      <foreign-key name="#FAKE_zk_orderitem_productquantitydiscount_1" columns="productquantitydiscount_id" ref-table="zk_ProductQuantityDiscount" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_orderitem_productquantitydiscount_2" columns="orderitem_id" ref-table="zk_OrderItem" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <index name="IDX_19C5A3CEADD88A5F" unique="true" columns="productquantitydiscount_id"/>
+      <index name="IDX_19C5A3CE28D3A508" unique="true" columns="orderitem_id"/>
+    </table>
+    <table name="zk_product_tag" schema="" catalog="" type="TABLE">
+      <column name="product_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="tag_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="tag_id"/>
+      <foreign-key name="#FAKE_zk_product_tag_1" columns="tag_id" ref-table="zk_Tag" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_product_tag_2" columns="product_id" ref-table="zk_Product" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <index name="IDX_C617E2E9BAD26311" unique="true" columns="tag_id"/>
+      <index name="IDX_C617E2E94584665A" unique="true" columns="product_id"/>
+    </table>
+    <table name="zk_tag_option" schema="" catalog="" type="TABLE">
+      <column name="tag_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="option_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="option_id"/>
+      <foreign-key name="#FAKE_zk_tag_option_1" columns="option_id" ref-table="zk_Option" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_tag_option_2" columns="tag_id" ref-table="zk_Tag" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <index name="IDX_6D149C2EA7C41D6F" unique="true" columns="option_id"/>
+      <index name="IDX_6D149C2EBAD26311" unique="true" columns="tag_id"/>
+    </table>
+    <table name="zk_tag_textoption" schema="" catalog="" type="TABLE">
+      <column name="tag_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="textoption_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="textoption_id"/>
+      <foreign-key name="#FAKE_zk_tag_textoption_1" columns="textoption_id" ref-table="zk_TextOption" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_tag_textoption_2" columns="tag_id" ref-table="zk_Tag" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <index name="IDX_D456CCE53F46D41D" unique="true" columns="textoption_id"/>
+      <index name="IDX_D456CCE5BAD26311" unique="true" columns="tag_id"/>
+    </table>
+    <table name="zk_user_userrole" schema="" catalog="" type="TABLE">
+      <column name="user_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="userrole_id" sqlType="BLOB" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="userrole_id"/>
+      <foreign-key name="#FAKE_zk_user_userrole_1" columns="userrole_id" ref-table="zk_UserRole" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <foreign-key name="#FAKE_zk_user_userrole_2" columns="user_id" ref-table="zk_User" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="0" deferrability="1"/>
+      <index name="IDX_34D68E8F4A62DE12" unique="true" columns="userrole_id"/>
+      <index name="IDX_34D68E8FA76ED395" unique="true" columns="user_id"/>
+    </table>
+  </data-source>
+</component>

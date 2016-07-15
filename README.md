@@ -6,6 +6,18 @@
 
 This is a sample application utilizing [Zen Kommerce Core](https://github.com/inklabs/kommerce-core)
 
+## Setup Sqlite DB
+
+```
+vendor/bin/doctrine orm:schema-tool:create
+```
+
+## Serve
+
+```
+php artisan serve
+```
+
 ## Contributing
 
 Thank you for considering contributing to the sample Laravel application! The contribution guide can be found in the [Core Project](https://github.com/inklabs/kommerce-core/blob/master/CONTRIBUTING.md).
