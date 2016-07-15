@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
+        "inklabs/kommerce-core": "dev-master",
         "laravel/framework": "5.2.*"
     },
     "require-dev": {
