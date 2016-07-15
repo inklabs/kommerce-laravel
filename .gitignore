@@ -1,0 +1,11 @@
+/vendor
+/node_modules
+/public/storage
+Homestead.yaml
+Homestead.json
+.env
+.idea/*.iws
+.idea/workspace.xml
+.idea/codeStyleSettings.xml
+.idea/tasks.xml
+.idea/dictionaries/
