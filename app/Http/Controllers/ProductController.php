@@ -18,5 +18,9 @@ class ProductController extends Controller
         $request = new GetProductRequest($productId);
         $response = new GetProductResponse($this->getPricing());
         $this->dispatchQuery(new GetProductQuery($request, $response));
+
+        $productDTO = $response->getProductDTO();
+
+        print_r($productDTO);
     }
 }
