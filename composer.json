@@ -1,6 +1,6 @@
 {
     "name": "inklabs/kommerce-laravel",
-    "description": "Zen Kommerce Laravel Sample Application",
+    "description": "Zen Kommerce - Sample Laravel Application",
     "keywords": ["commerce", "ecommerce", "store", "framework", "laravel"],
     "license": "MIT",
     "type": "project",
