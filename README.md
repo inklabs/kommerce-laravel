@@ -12,11 +12,17 @@ This is a sample application utilizing [Zen Kommerce Core](https://github.com/in
 vendor/bin/doctrine orm:schema-tool:create
 ```
 
+## Setup Environment
+```
+cp .env.example .env
+php artisan key:generate
+```
+
 ## Serve
 
 ```
 php artisan serve
-open http://127.0.0.1:8000
+open http://localhost:8000
 ```
 
 ## Contributing
