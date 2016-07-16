@@ -2,6 +2,6 @@
 
 @section ('content')
 
-    Dummy List all Products Page
+    Dummy Edit Product Page
 
 @endsection
