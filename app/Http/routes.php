@@ -1,9 +1,12 @@
 <?php
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('p.createDummy');
 });
 
+Route::resource('/p', 'ProductController');
 
-Route::resource('/p', 'ProductController', ['only' => 'show']);
-Route::get('/createDummyProduct', 'ProductController@createDummy');
+Route::get('/createDummyProduct', [
+    'as' => 'p.createDummy',
+    'uses' => 'ProductController@createDummy'
+]);

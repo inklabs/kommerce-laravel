@@ -23,8 +23,12 @@ class ProductController extends Controller
 
         $productDTO = $response->getProductDTOWithAllData();
 
-        echo '<pre>';
-        print_r($productDTO);
+        dd($productDTO);
+    }
+
+    public function edit(Request $request, $productId)
+    {
+        dd($request, $productId);
     }
 
     public function createDummy()
@@ -39,6 +43,8 @@ class ProductController extends Controller
         $this->dispatch($command);
 
         echo 'Created: ' . $productDTO->name;
-        echo '<p><a href="/p/' . $command->getProductId()->getHex() . '">' . $command->getProductId()->getHex() . '</a></p>';
+        echo '<p><a href="/p/' . $command->getProductId() . '">' . $command->getProductId()->getHex() . '</a></p>';
+
+        dd($productDTO);
     }
 }
