@@ -16,6 +16,7 @@ vendor/bin/doctrine orm:schema-tool:create
 
 ```
 php artisan serve
+open http://127.0.0.1:8000
 ```
 
 ## Contributing
