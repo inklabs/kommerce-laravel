@@ -23,6 +23,15 @@ open http://localhost:8000
 
 Thank you for considering contributing to the sample Laravel application! The contribution guide can be found in the [Core Project](https://github.com/inklabs/kommerce-core/blob/master/CONTRIBUTING.md).
 
+### Working with Base Templates
+
+[Prefer source to edit your vendors](https://moquet.net/blog/5-features-about-composer-php/#5.-prefer-source-to-edit-your-vendors)
+
+```
+rm -rf vendor/inklabs/kommerce-templates
+composer update inklabs/kommerce-templates --prefer-source
+```
+
 ### License
 
 The MIT License (MIT)

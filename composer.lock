@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "18cb911ccd337644bb5b3a8ee36b8aef",
-    "content-hash": "3e1ad79bbd8d0be049b3c699a7d9aaff",
+    "hash": "6f57eb9055f11dfc60b604943a43c460",
+    "content-hash": "962e8a1f9486a29e63290a27970a6f9d",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -938,6 +938,38 @@
                 "zen"
             ],
             "time": "2016-07-15 17:04:57"
+        },
+        {
+            "name": "inklabs/kommerce-templates",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inklabs/kommerce-templates.git",
+                "reference": "0a9a08e68cb62847ea48c6833da869751b9fe7c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/0a9a08e68cb62847ea48c6833da869751b9fe7c8",
+                "reference": "0a9a08e68cb62847ea48c6833da869751b9fe7c8",
+                "shasum": ""
+            },
+            "require": {
+                "inklabs/kommerce-core": "dev-master",
+                "php": ">=5.5.9"
+            },
+            "type": "project",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Zen Kommerce - Base Templates",
+            "keywords": [
+                "commerce",
+                "ecommerce",
+                "store",
+                "templates"
+            ],
+            "time": "2016-07-16 06:18:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -4099,7 +4131,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "inklabs/kommerce-core": 20
+        "inklabs/kommerce-core": 20,
+        "inklabs/kommerce-templates": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
