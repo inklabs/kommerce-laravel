@@ -6,16 +6,10 @@
 
 This is a sample application utilizing [Zen Kommerce Core](https://github.com/inklabs/kommerce-core)
 
-## Setup Sqlite DB
+## Initialize project
 
 ```
-vendor/bin/doctrine orm:schema-tool:create
-```
-
-## Setup Environment
-```
-cp .env.example .env
-php artisan key:generate
+composer create-project
 ```
 
 ## Serve
