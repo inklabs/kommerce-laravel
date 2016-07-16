@@ -11,7 +11,7 @@
 
     <!-- Place favicon.ico in the root directory -->
 
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
 </head>
 <body>
 
@@ -21,7 +21,11 @@
         browser</a> to improve your experience.</p>
     <![endif]-->
 
-    @yeild ('content')
+    @yield ('content')
 
+    <script src="{{ asset('assets/js/vendor.js') }}"></script>
+    <script>
+        $(document).foundation();
+    </script>
 </body>
 </html>
