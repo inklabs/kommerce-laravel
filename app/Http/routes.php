@@ -6,3 +6,4 @@ Route::get('/', function () {
 
 
 Route::resource('/p', 'ProductController', ['only' => 'show']);
+Route::get('/createDummyProduct', 'ProductController@createDummy');
