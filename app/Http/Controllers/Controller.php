@@ -160,7 +160,7 @@ class Controller extends BaseController
     private function setupFileManager()
     {
         $this->fileManager = new LocalFileManager(
-            storage_path() . 'files'
+            storage_path() . '/files'
         );
     }
 
