@@ -1,0 +1,48 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.zk-main-wrapper {
+  display: flex;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.zk-main-sidebar {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: scroll;
+  max-width: 220px;
+  border-right: 1px solid $light-gray;
+}
+
+.zk-sidebar-branding {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+}
+
+.zk-sidebar-logo {
+  height: 75px;
+  width: auto;
+}
+
+.zk-main-content {
+  display: flex;
+  flex-direction: column;
+  flex: 5;
+  overflow-y: scroll;
+  padding: 0 15px;
+}
+

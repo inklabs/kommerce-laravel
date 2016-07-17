@@ -15,17 +15,34 @@
 </head>
 <body>
 
-    <!--[if lt IE 10]>
-    <p class="browserupgrade">
-        You are using an <strong>outdated</strong> browser. Please <a href="//browsehappy.com/">upgrade your
-        browser</a> to improve your experience.</p>
-    <![endif]-->
+<div class="zk-main-wrapper">
+    <aside class="zk-main-sidebar">
 
-    @yield ('content')
+        <div class="zk-sidebar-branding">
+            <img class="zk-sidebar-logo" src="//placehold.it/150x150" alt="">
+        </div>
 
-    <script src="{{ asset('assets/js/vendor.js') }}"></script>
-    <script>
-        $(document).foundation();
-    </script>
+        <ul class="zk-menu vertical menu" data-accordion-menu>
+            <li>
+                <a href="#">Product</a>
+                <ul class="vertical menu">
+                    <li><a href="{{ route('p.index') }}">List All Products</a></li>
+                    <li><a href="{{ route('p.createDummy') }}">Create Dummy Product</a></li>
+                </ul>
+            </li>
+            <li><a href="#2">Item 2</a></li>
+            <li><a href="#3">Item 3</a></li>
+            <li><a href="#4">Item 4</a></li>
+        </ul>
+    </aside>
+    <section class="zk-main-content">
+        @yield ('content')
+    </section>
+</div>
+
+<script src="{{ asset('assets/js/vendor.js') }}"></script>
+<script>
+    $(document).foundation();
+</script>
 </body>
 </html>

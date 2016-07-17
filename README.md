@@ -18,6 +18,16 @@ php artisan serve
 open http://localhost:8000
 ```
 
+## Building Assets
+
+```
+npm install
+gulp [--production]
+
+# for development
+gulp watch 
+```
+
 ## Contributing
 
 Thank you for considering contributing to the sample Laravel application! The contribution guide can be found in the [Core Project](https://github.com/inklabs/kommerce-core/blob/master/CONTRIBUTING.md).
