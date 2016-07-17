@@ -28,12 +28,32 @@ class ProductController extends Controller
 
         $this->dispatchQuery(new ListProductsQuery($request, $response));
 
-        $productDTO = $response->getProductDTOs();
+        $productDTOs = $response->getProductDTOs();
 
-        return view('product.index');
+        $show = [
+            'slug'                  => true,
+            'sku'                   => true,
+            'name'                  => true,
+            'quantity'              => true,
+            'unitPrice'             => false,
+            'isInventoryRequired'   => false,
+            'isPriceVisible'        => false,
+            'isActive'              => false,
+            'isVisible'             => false,
+            'isTaxable'             => false,
+            'isShippable'           => false,
+            'areAttachmentsEnabled' => false,
+        ];
+
+        return view('product.index', compact('productDTOs', 'show'));
 
     }
 
+    /**
+     * @param $productId
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show($productId)
     {
         $request = new GetProductRequest($productId);
