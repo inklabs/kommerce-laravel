@@ -19,6 +19,9 @@ use inklabs\kommerce\EntityDTO\ProductDTO;
 
 class ProductController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $paginationDTO = new PaginationDTO();
@@ -65,11 +68,19 @@ class ProductController extends Controller
         return view('product.show', compact('productDTO'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         return view('product.create');
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -84,6 +95,11 @@ class ProductController extends Controller
         return redirect()->route('p.show', $productDTO->id);
     }
 
+    /**
+     * @param $productId
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($productId)
     {
         $request = new GetProductRequest($productId);
@@ -95,6 +111,12 @@ class ProductController extends Controller
         return view('product.edit', compact('productDTO'));
     }
 
+    /**
+     * @param Request $request
+     * @param         $productId
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $productId)
     {
         $this->validate($request, [
@@ -114,6 +136,10 @@ class ProductController extends Controller
         return redirect()->route('p.show', $productDTO->id);
     }
 
+    /**
+     * Delete Product
+     * @param $productId
+     */
     public function destroy($productId)
     {
         $this->dispatch(new DeleteProductCommand($productId));
@@ -139,6 +165,9 @@ class ProductController extends Controller
         $productDTO->areAttachmentsEnabled = ($request->get('attachments-enabled') === 'on');
     }
 
+    /**
+     * Generate a product
+     */
     public function createDummy()
     {
         $faker = \Faker\Factory::create();
