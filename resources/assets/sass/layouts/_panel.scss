@@ -15,13 +15,12 @@ body {
 }
 
 .lk-topbar {
-  //height: 100px;
 
   .top-bar {
-    //display: flex;
+    @include breakpoint(small only) {
+      padding-bottom: 17px;
+    }
     height: 100%;
-    //align-items: center;
-    //justify-content: center;
   }
 }
 
