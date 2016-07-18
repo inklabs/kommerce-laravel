@@ -8,10 +8,6 @@
             {{ $productDTO->name }}
         </h1>
 
-        <div>
-            {{ var_dump($productDTO->productAttributes) }}
-        </div>
-
         <p>
             <strong>Slug:</strong>
             {{ $productDTO->slug }}
@@ -20,6 +16,11 @@
         <p>
             <strong>Quantity:</strong>
             {{ $productDTO->quantity }}
+        </p>
+
+        <p>
+            <strong>Price:</strong>
+            {{ ($productDTO->unitPrice / 100) }}
         </p>
 
         <p>
@@ -116,6 +117,17 @@
                 False
             @endif
         </p>
+
+        <p>
+            <strong>Rating:</strong>
+            {{ $productDTO->rating }}
+        </p>
+
+        <p>
+            <strong>Shipping Weight:</strong>
+            {{ $productDTO->shippingWeight }}
+        </p>
+
 
         <a href="{{ route('p.edit', $productDTO->id) }}" class="button">Edit Product</a>
 

@@ -120,7 +120,7 @@ class ProductController extends Controller
     public function update(Request $request, $productId)
     {
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required|min:2'
         ]);
 
         $productRequest = new GetProductRequest($productId);
@@ -163,6 +163,13 @@ class ProductController extends Controller
         $productDTO->isTaxable = ($request->get('taxable') === 'on');
         $productDTO->isShippable = ($request->get('shippable') === 'on');
         $productDTO->areAttachmentsEnabled = ($request->get('attachments-enabled') === 'on');
+
+        if( $request->hasFile('default-image') ) {
+            $productDTO->defaultImage = $request->file('default-image');
+        }
+
+        $productDTO->quantity = $request->get('quantity');
+        $productDTO->shippingWeight = $request->get('shipping-weight');
     }
 
     /**

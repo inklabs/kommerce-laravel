@@ -1,8 +1,20 @@
-<form action="{{ $route }}" method="POST">
+<h1>{{ $productDTO->name or 'Blank Product Name' }}</h1>
+
+<form action="{{ $route }}" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
     @if ($method === 'PUT')
         {{ method_field('PUT') }}
     @endif
+
+    <label>
+        Name
+        <input name="name"
+               type="text"
+               id="lk-product-name"
+               placeholder="Name"
+               value="{{ $productDTO->name or old('name') }}">
+    </label>
+
     <label>
         Slug
         <input name="slug"
@@ -22,15 +34,6 @@
     </label>
 
     <label>
-        Name
-        <input name="name"
-               type="text"
-               id="lk-product-name"
-               placeholder="Name"
-               value="{{ $productDTO->name or old('name') }}">
-    </label>
-
-    <label>
         Description
         <textarea name="lk-product-description"
                   id="lk-product-description"
@@ -45,6 +48,7 @@
                placeholder="Price"
                value="{{ $productDTO->unitPrice or old('price') }}">
     </label>
+
     <label>
         Quantity
         <input name="quantity"
@@ -53,6 +57,7 @@
                placeholder="Quantity"
                value="{{ $productDTO->quantity or old('quantity') }}">
     </label>
+
     <fieldset>
         <legend>Inventory Settings</legend>
         <div>
@@ -143,13 +148,31 @@
     </label>
 
     <div>
-        Default Image
+        Default Image: {{ $productDTO->defaultImage }}
         <label for="lk-product-default-image" class="button">Upload File</label>
         <input name="default-image"
                type="file"
                id="lk-product-default-image"
                class="show-for-sr">
     </div>
+
+    <label>
+        Rating
+        <input name="rating"
+               type="number"
+               id="lk-product-rating"
+               placeholder="Rating"
+               value="{{ $productDTO->rating or old('rating') }}">
+    </label>
+
+    <label>
+        Shipping Weight
+        <input name="shipping-weight"
+               type="number"
+               id="lk-product-shipping-weight"
+               placeholder="Shipping Weight"
+               value="{{ $productDTO->shippingWeight or old('shipping-weight') }}">
+    </label>
 
     <button type="submit" class="button">Submit</button>
 </form>
