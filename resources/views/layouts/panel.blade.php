@@ -18,9 +18,9 @@
         </section>
     </div>
 
-<script src="{{ asset('assets/js/vendor.js') }}"></script>
-<script>
-    $(document).foundation();
-</script>
+    <script src="{{ asset('assets/common.js') }}"></script>
+    <script src="{{ asset('assets/app.js') }}"></script>
+    <script src="{{ asset('assets/package.js') }}"></script>
+
 </body>
 </html>
