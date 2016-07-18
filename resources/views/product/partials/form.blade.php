@@ -7,7 +7,7 @@
         Slug
         <input name="slug"
                type="text"
-               id="zk-product-slug"
+               id="lk-product-slug"
                placeholder="Slug"
                value="{{ $productDTO->slug or old('slug') }}">
     </label>
@@ -16,7 +16,7 @@
         SKU
         <input name="sku"
                type="text"
-               id="zk-product-sku"
+               id="lk-product-sku"
                placeholder="SKU"
                value="{{ $productDTO->sku or old('sku') }}">
     </label>
@@ -25,15 +25,15 @@
         Name
         <input name="name"
                type="text"
-               id="zk-product-name"
+               id="lk-product-name"
                placeholder="Name"
                value="{{ $productDTO->name or old('name') }}">
     </label>
 
     <label>
         Description
-        <textarea name="zk-product-description"
-                  id="zk-product-description"
+        <textarea name="lk-product-description"
+                  id="lk-product-description"
                   rows="3">{{ $productDTO->description or old('description') }}</textarea>
     </label>
 
@@ -41,7 +41,7 @@
         Price
         <input name="price"
                type="number"
-               id="zk-product-price"
+               id="lk-product-price"
                placeholder="Price"
                value="{{ $productDTO->unitPrice or old('price') }}">
     </label>
@@ -49,7 +49,7 @@
         Quantity
         <input name="quantity"
                type="number"
-               id="zk-product-quantity"
+               id="lk-product-quantity"
                placeholder="Quantity"
                value="{{ $productDTO->quantity or old('quantity') }}">
     </label>
@@ -58,73 +58,73 @@
         <div>
             <input name="inventory-required"
                    type="checkbox"
-                   id="zk-product-inventory-required"
+                   id="lk-product-inventory-required"
                    @if (isset($productDTO->isInventoryRequired) && $productDTO->isInventoryRequired)
                         checked="checked"
                    @endif
             >
-            <label for="zk-product-inventory-required">Inventory Required?</label>
+            <label for="lk-product-inventory-required">Inventory Required?</label>
         </div>
         <div>
             <input name="price-visible"
                    type="checkbox"
-                   id="zk-product-price-visible"
+                   id="lk-product-price-visible"
                    @if (isset($productDTO->isPriceVisible) && $productDTO->isPriceVisible)
                         checked="checked"
                    @endif
             >
-            <label for="zk-product-price-visible">Price Visible?</label>
+            <label for="lk-product-price-visible">Price Visible?</label>
         </div>
         <div>
             <input name="active"
                    type="checkbox"
-                   id="zk-product-active"
+                   id="lk-product-active"
                    @if (isset($productDTO->isActive) && $productDTO->isActive)
                         checked="checked"
                    @endif
             >
-            <label for="zk-product-active">Active?</label>
+            <label for="lk-product-active">Active?</label>
         </div>
         <div>
             <input name="visible"
                    type="checkbox"
-                   id="zk-product-visible"
+                   id="lk-product-visible"
                    @if (isset($productDTO->isVisible) && $productDTO->isVisible)
                         checked="checked"
                    @endif
             >
-            <label for="zk-product-visible">Visible?</label>
+            <label for="lk-product-visible">Visible?</label>
         </div>
         <div>
             <input name="taxable"
                    type="checkbox"
-                   id="zk-product-taxable"
+                   id="lk-product-taxable"
                    @if (isset($productDTO->isTaxable) && $productDTO->isTaxable)
                         checked="checked"
                    @endif
             >
-            <label for="zk-product-taxable">Taxable?</label>
+            <label for="lk-product-taxable">Taxable?</label>
         </div>
         <div>
             <input name="shippable"
                    type="checkbox"
-                   id="zk-product-shippable"
+                   id="lk-product-shippable"
                    @if (isset($productDTO->isShippable) && $productDTO->isShippable)
                         checked="checked"
                    @endif
             >
-            <label for="zk-product-shippable">Shippable?</label>
+            <label for="lk-product-shippable">Shippable?</label>
         </div>
 
         <div>
             <input name="attachments-enabled"
                    type="checkbox"
-                   id="zk-product-attachments-enabled"
+                   id="lk-product-attachments-enabled"
                    @if (isset($productDTO->areAttachmentsEnabled) && $productDTO->areAttachmentsEnabled)
                         checked="checked"
                    @endif
             >
-            <label for="zk-product-attachments-enabled">Attachments Enabled?</label>
+            <label for="lk-product-attachments-enabled">Attachments Enabled?</label>
         </div>
     </fieldset>
 
@@ -144,10 +144,10 @@
 
     <div>
         Default Image
-        <label for="zk-product-default-image" class="button">Upload File</label>
+        <label for="lk-product-default-image" class="button">Upload File</label>
         <input name="default-image"
                type="file"
-               id="zk-product-default-image"
+               id="lk-product-default-image"
                class="show-for-sr">
     </div>
 

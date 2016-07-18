@@ -4,18 +4,38 @@ body {
   width: 100%;
 }
 
-.zk-main-wrapper {
+body {
   display: flex;
+  flex-direction: column;
   position: fixed;
-  height: 100%;
-  width: 100%;
   top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
-  bottom: 0;
 }
 
-.zk-main-sidebar {
+.lk-topbar {
+  //height: 100px;
+
+  .top-bar {
+    //display: flex;
+    height: 100%;
+    //align-items: center;
+    //justify-content: center;
+  }
+}
+
+
+.lk-wrapper {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+
+
+
+
+.lk-sidebar {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -24,7 +44,7 @@ body {
   border-right: 1px solid $light-gray;
 }
 
-.zk-sidebar-branding {
+.lk-sidebar-branding {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -33,12 +53,12 @@ body {
   min-height: 100px;
 }
 
-.zk-sidebar-logo {
+.lk-sidebar-logo {
   height: 75px;
   width: auto;
 }
 
-.zk-main-content {
+.lk-content {
   display: flex;
   flex-direction: column;
   flex: 5;
@@ -46,3 +66,48 @@ body {
   padding: 0 15px;
 }
 
+
+
+
+
+
+.lk-list-product-title {
+  font-weight: bolder;
+}
+.lk-list-product-header {
+  border-bottom: 1px solid $black;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.lk-list-product-link {
+  display: block;
+  color: inherit;
+
+  &:hover,
+  &:focus {
+    background-color: $light-gray;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+.no-js {
+  @include breakpoint(small only) {
+    .top-bar {
+      display: none;
+    }
+  }
+  @include breakpoint(medium) {
+    .title-bar {
+      display: none;
+    }
+  }
+}

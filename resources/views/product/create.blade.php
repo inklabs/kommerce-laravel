@@ -2,9 +2,11 @@
 
 @section ('content')
 
-    @include ('product.partials.form', [
-        'method' => 'POST',
-        'route' => route('p.store')
-    ])
+    <article>
+        @include ('product.partials.form', [
+            'method' => 'POST',
+            'route' => route('p.store')
+        ])
+    </article>
 
 @endsection
