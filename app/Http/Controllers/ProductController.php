@@ -48,7 +48,7 @@ class ProductController extends Controller
             'areAttachmentsEnabled' => false,
         ];
 
-        return view('product.index', compact('productDTOs', 'show'));
+        return view('layouts.panel', compact('productDTOs', 'show'));
 
     }
 
