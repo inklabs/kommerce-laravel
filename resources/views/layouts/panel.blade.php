@@ -14,7 +14,7 @@
             @include ('layouts.content.sidebar')
         </nav>
         <section class="lk-content">
-            @yield ('content')
+            <div id="lk-app"></div>
         </section>
     </div>
 

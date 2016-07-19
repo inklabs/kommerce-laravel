@@ -1,7 +1,7 @@
 <template>
 
   <div>
-    <h1>HELLO DASHBOARD</h1>
+    <h1>This is going on</h1>
   </div>
 
 </template>

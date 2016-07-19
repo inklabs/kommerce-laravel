@@ -7,4 +7,4 @@
 <!-- Place favicon.ico in the root directory -->
 <link rel="icon" href="/favicon.ico">
 
-<link rel="stylesheet" href="{{ asset('assets/css/package.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">

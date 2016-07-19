@@ -4,21 +4,23 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 var router = new VueRouter({
-  history: true
+  history: false
 });
 
 import DashboardPage from './pages/dashboard';
 import ProductPage from './pages/product';
 
 router.map({
-  '/': {
-    name: 'dashboard',
-    component: DashboardPage
+  '/home': {
+    component: Vue.component('home', DashboardPage),
   },
   '/product': {
-    name: 'product',
-    component: ProductPage
+    component: Vue.component('product', ProductPage),
   }
+});
+
+router.alias({
+  '': '/home'
 });
 
 export default router

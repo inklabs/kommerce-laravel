@@ -1,5 +1,12 @@
 <template>
-  <article>
-    <h1>HELLO</h1>
-  </article>
+
+  <div>
+    <h1>Product</h1>
+  </div>
+
 </template>
+<script>
+  export default {
+
+  };
+</script>
