@@ -1,5 +1,7 @@
 import '../sass/app.scss';
 
+import $ from 'jquery';
+
 import '../../../node_modules/foundation-sites/dist/plugins/foundation.core';
 import '../../../node_modules/foundation-sites/dist/plugins/foundation.util.mediaQuery';
 import '../../../node_modules/foundation-sites/dist/plugins/foundation.util.box';
@@ -29,4 +31,4 @@ import '../../../node_modules/foundation-sites/dist/plugins/foundation.tabs';
 import '../../../node_modules/foundation-sites/dist/plugins/foundation.toggler';
 import '../../../node_modules/foundation-sites/dist/plugins/foundation.tooltip';
 
-import './app/general';
+$(document).foundation();

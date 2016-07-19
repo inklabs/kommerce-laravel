@@ -7,7 +7,7 @@ module.exports = {
   path: projectRoot,
   entry: {
     'package': './resources/assets/js/main.js',
-    'app': './resources/assets/js/app.js'
+    'app': './resources/assets/js/foundation.js'
   },
   output: {
     path: projectRoot + '/public/assets/',
@@ -30,7 +30,6 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel',
-        include: projectRoot + '/resources/',
         exclude: /node_modules/,
         query: {
           presets: ['es2015'],
