@@ -7,12 +7,12 @@ var router = new VueRouter({
   history: false
 });
 
-import DashboardPage from './pages/dashboard';
-import ProductPage from './pages/product';
+import DashboardPage from './views/dashboard/index';
+import ProductPage from './views/product/index';
 
 router.map({
-  '/home': {
-    component: Vue.component('home', DashboardPage),
+  '/dashboard': {
+    component: Vue.component('dashboard', DashboardPage),
   },
   '/product': {
     component: Vue.component('product', ProductPage),
@@ -20,7 +20,7 @@ router.map({
 });
 
 router.alias({
-  '': '/home'
+  '': '/dashboard'
 });
 
 export default router
