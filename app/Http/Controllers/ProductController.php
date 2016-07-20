@@ -26,7 +26,7 @@ class ProductController extends Controller
     {
         $paginationDTO = new PaginationDTO();
 
-        $request = new ListProductsRequest('', $paginationDTO);
+        $request = new ListProductsRequest(null, $paginationDTO);
         $response = new ListProductsResponse();
 
         $this->dispatchQuery(new ListProductsQuery($request, $response));
@@ -48,8 +48,7 @@ class ProductController extends Controller
             'areAttachmentsEnabled' => false,
         ];
 
-        return view('layouts.panel', compact('productDTOs', 'show'));
-
+        return $productDTOs;
     }
 
     /**
@@ -65,15 +64,7 @@ class ProductController extends Controller
 
         $productDTO = $response->getProductDTOWithAllData();
 
-        return view('product.show', compact('productDTO'));
-    }
-
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create()
-    {
-        return view('product.create');
+////        return view('product.show', compact('productDTO'));
     }
 
     /**
@@ -92,7 +83,7 @@ class ProductController extends Controller
 
         $this->dispatch(new CreateProductCommand($productDTO));
 
-        return redirect()->route('p.show', $productDTO->id);
+//        return redirect()->route('p.show', $productDTO->id);
     }
 
     /**
@@ -108,7 +99,7 @@ class ProductController extends Controller
 
         $productDTO = $response->getProductDTOWithAllData();
 
-        return view('product.edit', compact('productDTO'));
+//        return view('product.edit', compact('productDTO'));
     }
 
     /**
@@ -133,7 +124,7 @@ class ProductController extends Controller
 
         $this->dispatch(new UpdateProductCommand($productDTO));
 
-        return redirect()->route('p.show', $productDTO->id);
+//        return redirect()->route('p.show', $productDTO->id);
     }
 
     /**
@@ -188,7 +179,7 @@ class ProductController extends Controller
         $this->dispatch($command);
 
         echo 'Created: ' . $productDTO->name;
-        echo '<p><a href="/p/' . $command->getProductId() . '">' . $command->getProductId()->getHex() . '</a></p>';
+//        echo '<p><a href="/p/' . $command->getProductId() . '">' . $command->getProductId()->getHex() . '</a></p>';
 
         dd($productDTO);
     }

@@ -1,9 +1,12 @@
 <?php
 
-Route::get('/', ['as' => 'home', 'uses' => 'ProductController@index']);
+Route::get('/', function () {
+    return view('default');
+});
 
-
-//Route::resource('/p', 'ProductController');
+Route::group(['prefix' => 'api'], function() {
+    Route::resource('products', 'ProductController');
+});
 
 Route::get('/createDummyProduct', [
     'as' => 'p.createDummy',
