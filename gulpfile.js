@@ -1,3 +1,9 @@
+var paths = {
+  'SOURCE': './resources/assets/',
+  'DESTINATION': './public/assets/',
+  'NODE': './node_modules/'
+};
+
 var elixir = require('laravel-elixir');
 
 /*
@@ -11,6 +17,17 @@ var elixir = require('laravel-elixir');
  |
  */
 
-elixir(function(mix) {
-    mix.sass('app.scss');
+elixir(function (mix) {
+
+  mix.sass('app.scss', paths.DESTINATION + 'css', {
+    includePaths: [
+      paths.NODE + 'foundation-sites/scss',
+    ]
+  });
+
+  mix.scripts([
+        paths.NODE + 'jquery/dist/jquery.js',
+        paths.NODE + 'foundation-sites/dist/foundation.js'
+  ], paths.DESTINATION + 'js/vendor.js', './');
+
 });

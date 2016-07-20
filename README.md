@@ -18,6 +18,15 @@ php artisan serve
 open http://localhost:8000
 ```
 
+## Building Assets
+
+```
+npm install
+npm run dev
+npm run prod // uglify, autoprefix, no maps
+npm run watch
+```
+
 ## Contributing
 
 Thank you for considering contributing to the sample Laravel application! The contribution guide can be found in the [Core Project](https://github.com/inklabs/kommerce-core/blob/master/CONTRIBUTING.md).

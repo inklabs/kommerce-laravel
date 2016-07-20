@@ -1,2 +1,65 @@
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@charset 'UTF-8';
 
+// import all of the foundation mixins, but none of the actual code
+// this is coming from node_modules/foundation-sites/scss/foundation.scss
+@import '../../../node_modules/foundation-sites/scss/foundation';
+
+// These will actually import the foundation elements code
+
+// Everything
+// @include foundation-everything($flex: false);
+
+// Individual Components
+@include foundation-global-styles; // normalize.scss
+@include foundation-accordion-menu;
+//@include foundation-accordion;
+// @include foundation-badge;
+// @include foundation-breadcrumbs;
+@include foundation-button-group;
+@include foundation-button;
+@include foundation-callout;
+// @include foundation-close-button;
+@include foundation-drilldown-menu;
+@include foundation-dropdown-menu;
+//@include foundation-dropdown;
+// @include foundation-flex-video;
+// @include foundation-flex-classes;
+//@include foundation-float-classes;
+@include foundation-label;
+//@include foundation-media-object;
+@include foundation-menu-icon;
+@include foundation-menu;
+// @include foundation-off-canvas;
+// @include foundation-orbit;
+// @include foundation-pagination;
+// @include foundation-progress-bar;
+// @include foundation-reveal;
+// @include foundation-slider;z
+// @include foundation-sticky;
+// @include foundation-switch;
+// @include foundation-table($nest: false);
+// @include foundation-tabs;
+// @include foundation-thumbnail;
+@include foundation-title-bar;
+// @include foundation-tooltip;
+@include foundation-top-bar;
+@include foundation-visibility-classes;
+// @include foundation-meter-element;
+// @include foundation-progress-element;
+// @include foundation-range-input;
+@include foundation-grid;
+//@include foundation-flex-grid;
+
+// TYPOGRAPHY
+@include foundation-typography;
+
+// FORMS
+@include foundation-forms;
+
+.top-bar-title strong {
+margin-top: 7px;
+display: inline-block;
+margin-left: 8px;
+}
+
+@import "layouts/panel";

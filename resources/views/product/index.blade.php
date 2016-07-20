@@ -1,7 +1,6 @@
-@extends ('layouts.panel')
+@extends ('panel')
 
 @section ('content')
 
-    Dummy List all Products Page
 
 @endsection

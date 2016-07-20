@@ -1,0 +1,116 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#lk-app {
+  min-height: 100%;
+  width: 100%;
+}
+
+.lk-topbar {
+
+  .top-bar {
+    @include breakpoint(small only) {
+      padding-bottom: 17px;
+    }
+    height: 100%;
+  }
+}
+
+
+.lk-wrapper {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+
+
+
+
+.lk-sidebar {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: scroll;
+  max-width: 220px;
+  border-right: 1px solid $light-gray;
+}
+
+.lk-sidebar-branding {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+}
+
+.lk-sidebar-logo {
+  height: 75px;
+  width: auto;
+}
+
+.lk-content {
+  display: flex;
+  flex-direction: column;
+  flex: 5;
+  overflow-y: scroll;
+}
+
+
+
+
+
+
+.lk-list-product-title {
+  font-weight: bolder;
+}
+.lk-list-product-header {
+  border-bottom: 1px solid $black;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.lk-list-product-link {
+  display: block;
+  color: inherit;
+
+  &:hover,
+  &:focus {
+    background-color: $light-gray;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+.no-js {
+  @include breakpoint(small only) {
+    .top-bar {
+      display: none;
+    }
+  }
+  @include breakpoint(medium) {
+    .title-bar {
+      display: none;
+    }
+  }
+}

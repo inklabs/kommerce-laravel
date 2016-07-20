@@ -1,7 +1,12 @@
-@extends ('layouts.panel')
+@extends ('panel')
 
 @section ('content')
 
-    Dummy Edit Product Page
+    <article>
+        @include ('product.partials.form', [
+            'method' => 'PUT',
+            'route' => route('p.update', $productDTO->id)
+        ])
+    </article>
 
 @endsection

@@ -1,7 +1,12 @@
-@extends ('layouts.panel')
+@extends ('panel')
 
 @section ('content')
 
-    Dummy Create Product Page
+    <article>
+        @include ('product.partials.form', [
+            'method' => 'POST',
+            'route' => route('p.store')
+        ])
+    </article>
 
 @endsection
