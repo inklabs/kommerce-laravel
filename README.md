@@ -22,10 +22,9 @@ open http://localhost:8000
 
 ```
 npm install
-gulp [--production]
-
-# for development
-gulp watch 
+npm run dev
+npm run prod // uglify, autoprefix, no maps
+npm run watch
 ```
 
 ## Contributing
