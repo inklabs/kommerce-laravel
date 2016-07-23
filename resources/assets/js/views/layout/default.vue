@@ -1,11 +1,9 @@
 <template>
 
   <div class="lk-wrapper">
-    <nav class="lk-sidebar">
-      <side-bar></side-bar>
-    </nav>
+    <side-bar></side-bar>
     <section class="lk-content">
-      <router-view keep-alive></router-view>
+      <router-view></router-view>
     </section>
   </div>
 
@@ -16,8 +14,6 @@
 
   export default{
 
-    components: {
-      SideBar: SideBar,
-    }
+    components: { SideBar }
   }
 </script>

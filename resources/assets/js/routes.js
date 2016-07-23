@@ -1,22 +1,36 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+import DashboardPage from './views/dashboard/index';
+import Product from './views/product/Product';
+import ProductList from './views/product/list';
+import ProductShow from './views/product/show';
+
 Vue.use(VueRouter);
 
 var router = new VueRouter({
   history: false
 });
 
-import DashboardPage from './views/dashboard/index';
-import ProductPage from './views/product/index';
-
 router.map({
   '/dashboard': {
-    component: Vue.component('dashboard', DashboardPage),
+    name: 'dashboard',
+    component: DashboardPage,
   },
   '/product': {
-    component: Vue.component('product', ProductPage),
-  }
+    name: 'product',
+    component: Product,
+    subRoutes: {
+      '/': {
+        name: 'product.show',
+        component: ProductList,
+      },
+      '/:id': {
+        name: 'product.show',
+        component: ProductShow,
+      }
+    }
+  },
 });
 
 router.alias({
