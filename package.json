@@ -6,6 +6,11 @@
     "Larave",
     "Kommerce"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/inlkabs/kommerce-laravel.git"
+  },
+  "license": "MIT",
   "author": "Jason Raimondi",
   "scripts": {
     "prod": "node build/build.js",
@@ -15,9 +20,10 @@
   "dependencies": {
     "foundation-sites": "^6.2.0",
     "jquery": "^2.1.4",
-    "vue": "^1.0.17",
+    "vue": "^1.0.26",
     "vue-resource": "^0.7.0",
-    "vue-router": "^0.7.13"
+    "vue-router": "^0.7.13",
+    "vue-typeahead": "^2.2.1"
   },
   "devDependencies": {
     "argv": "0.0.2",

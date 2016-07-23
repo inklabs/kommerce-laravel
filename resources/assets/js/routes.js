@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import DashboardPage from './views/dashboard/index';
-import Product from './views/product/Product';
-import ProductList from './views/product/list';
-import ProductShow from './views/product/show';
-import ProductEdit from './views/product/edit';
+import DashboardPage from './views/dashboard/index.vue';
+import Product from './views/product/Product.vue';
+import ProductList from './views/product/list.vue';
+import ProductShow from './views/product/show.vue';
+import ProductEdit from './views/product/edit.vue';
 
 Vue.use(VueRouter);
 

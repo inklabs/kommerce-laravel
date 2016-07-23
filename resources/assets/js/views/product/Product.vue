@@ -1,10 +1,10 @@
 <template>
-  <breadcrumbs :list="list"></breadcrumbs>
+  <!--<breadcrumbs :list="list"></breadcrumbs>-->
   <router-view></router-view>
 </template>
 
 <script>
-  import Breadcrumbs from '../../components/breadcrumbs';
+  import Breadcrumbs from '../layout/partials/breadcrumbs.vue';
 
   export default{
 

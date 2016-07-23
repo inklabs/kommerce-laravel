@@ -20,16 +20,20 @@ use inklabs\kommerce\EntityDTO\ProductDTO;
 class ProductController extends Controller
 {
     /**
+     * @param null $query
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = $request->has('q') ? $request->get('q') : null;
+
         $paginationDTO = new PaginationDTO();
 
-        $request = new ListProductsRequest(null, $paginationDTO);
+        $productRequest = new ListProductsRequest($query, $paginationDTO);
         $response = new ListProductsResponse();
 
-        $this->dispatchQuery(new ListProductsQuery($request, $response));
+        $this->dispatchQuery(new ListProductsQuery($productRequest, $response));
 
         $data = $response->getProductDTOs();
 
