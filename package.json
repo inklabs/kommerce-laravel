@@ -22,7 +22,8 @@
     "jquery": "^2.1.4",
     "vue": "^1.0.17",
     "vue-resource": "^0.7.0",
-    "vue-router": "^0.7.13"
+    "vue-router": "^0.7.13",
+    "vue-typeahead": "^2.2.1"
   },
   "devDependencies": {
     "argv": "0.0.2",

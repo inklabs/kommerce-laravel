@@ -1,6 +1,9 @@
 <template>
 
   <article>
+
+    <product-search></product-search>
+
     <div class="row lk-list-product-header hide-for-small-only">
       <div class="medium-3 columns" v-for="(name, showTitle) in show" v-if="showTitle">
         <span class="lk-list-product-title">{{ name }}</span>
@@ -20,7 +23,13 @@
 </template>
 
 <script>
+  import ProductSearch from '../../components/ProductSearch.vue';
+
   export default {
+
+    components: {
+      ProductSearch
+    },
 
     data() {
       return {
