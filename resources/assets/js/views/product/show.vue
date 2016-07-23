@@ -4,6 +4,7 @@
     <h1>
       <a v-link="{ name: 'product' }">&laquo;</a>
       {{ product.name }}
+      <a v-link="{ name: 'product.edit',  params: { id: product.id }}">Edit</a>
     </h1>
 
     <ul>
