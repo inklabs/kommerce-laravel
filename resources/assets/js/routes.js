@@ -5,6 +5,7 @@ import DashboardPage from './views/dashboard/index';
 import Product from './views/product/Product';
 import ProductList from './views/product/list';
 import ProductShow from './views/product/show';
+import ProductEdit from './views/product/edit';
 
 Vue.use(VueRouter);
 
@@ -22,12 +23,16 @@ router.map({
     component: Product,
     subRoutes: {
       '/': {
-        name: 'product.show',
+        name: 'product.list',
         component: ProductList,
       },
       '/:id': {
         name: 'product.show',
         component: ProductShow,
+      },
+      '/:id/edit': {
+        name: 'product.edit',
+        component: ProductEdit,
       }
     }
   },

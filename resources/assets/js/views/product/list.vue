@@ -6,11 +6,12 @@
         <span class="lk-list-product-title">{{ name }}</span>
       </div>
     </div>
+
     <a class="lk-list-product-link" v-for="product in products" v-link="{ name: 'product.show', params: { id: product.id }}">
       <div class="row">
         <div class="medium-3 columns" v-for="(name, showTitle) in show" v-if="showTitle">
           <span class="lk-list-product-title show-for-small-only">{{ name }}</span>
-          <span>{{ product.name }}</span>
+          <span>{{ product[name] }}</span>
         </div>
       </div>
     </a>

@@ -1,7 +1,28 @@
 <template>
-      <router-view></router-view>
+  <breadcrumbs :list="list"></breadcrumbs>
+  <router-view></router-view>
 </template>
 
 <script>
-    export default{}
+  import Breadcrumbs from '../../components/breadcrumbs';
+
+  export default{
+
+    data() {
+      return {
+        list: [{
+          'link':'dashboard',
+          'label':'Dashboard'
+        },{
+          'link':'product',
+          'label': 'Products'
+        },{
+          'link':'product',
+          'label': 'Products234'
+        }]
+      }
+    },
+
+    components: {Breadcrumbs}
+  }
 </script>

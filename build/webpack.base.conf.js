@@ -6,8 +6,7 @@ var webpack = require('webpack');
 module.exports = {
   path: projectRoot,
   entry: {
-    'package': './resources/assets/js/main.js',
-    'app': './resources/assets/js/foundation.js'
+    'main': './resources/assets/js/main.js',
   },
   output: {
     path: projectRoot + '/public/assets/',
@@ -55,7 +54,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('common.js'),
+    // new webpack.optimize.CommonsChunkPlugin('common.js'),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery'}),
     new ExtractTextPlugin('css/[name].css', {allChunks: true})

@@ -4,6 +4,7 @@
     <h1>
       <a v-link="{ name: 'product' }">&laquo;</a>
       {{ product.name }}
+      <a v-if="product.id" v-link="{ name: 'product.edit',  params: { id: product.id }}">Edit</a>
     </h1>
 
     <ul>
@@ -22,14 +23,14 @@
   export default {
 
     ready() {
-      this.id = this.$route.params.id;
       this.fetch();
     },
 
     data() {
       return {
-        product: null,
-        id: this.$route.params.id
+        product: {
+          id: this.$route.params.id
+        },
       }
     },
 
@@ -37,7 +38,7 @@
     methods: {
 
       fetch() {
-        this.$resource('/api/products/' + this.id).get().then(function (res) {
+        this.$resource('/api/products/' + this.product.id).get().then(function (res) {
           this.product = res.data[0];
         });
       },
