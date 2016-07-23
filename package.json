@@ -6,6 +6,11 @@
     "Larave",
     "Kommerce"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/inlkabs/kommerce-laravel.git"
+  },
+  "license": "MIT",
   "author": "Jason Raimondi",
   "scripts": {
     "prod": "node build/build.js",
