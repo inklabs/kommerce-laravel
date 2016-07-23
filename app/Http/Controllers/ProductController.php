@@ -129,25 +129,67 @@ class ProductController extends Controller
      */
     public function buildProduct($request, $productDTO)
     {
-        $productDTO->slug = $request->get('slug');
-        $productDTO->sku = $request->get('sku');
-        $productDTO->name = $request->get('name');
-        $productDTO->quantity = $request->get('quantity');
-        $productDTO->unitPrice = $request->get('price');
-        $productDTO->isInventoryRequired = ($request->get('inventory-required') === 'on');
-        $productDTO->isPriceVisible = ($request->get('price-visible') === 'on');
-        $productDTO->isActive = ($request->get('active') === 'on');
-        $productDTO->isVisible = ($request->get('visible') === 'on');
-        $productDTO->isTaxable = ($request->get('taxable') === 'on');
-        $productDTO->isShippable = ($request->get('shippable') === 'on');
-        $productDTO->areAttachmentsEnabled = ($request->get('attachments-enabled') === 'on');
 
-        if( $request->hasFile('default-image') ) {
+        if ($request->has('slug')) {
+            $productDTO->slug = $request->get('slug');
+        }
+
+        if ($request->has('sku')) {
+            $productDTO->sku = $request->get('sku');
+        }
+
+        if ($request->has('name')) {
+            $productDTO->name = $request->get('name');
+        }
+
+        if ($request->has('quantity')) {
+            $productDTO->quantity = $request->get('quantity');
+        }
+
+        if ($request->has('price')) {
+            $productDTO->unitPrice = $request->get('price');
+        }
+
+        if ($request->has('inventory-required')) {
+            $productDTO->isInventoryRequired = $request->get('inventory-required');
+        }
+
+        if ($request->has('price-visible')) {
+            $productDTO->isPriceVisible = $request->get('price-visible');
+        }
+
+        if ($request->has('active')) {
+            $productDTO->isActive = $request->get('active');
+        }
+
+        if ($request->has('visible')) {
+            $productDTO->isVisible = $request->get('visible');
+        }
+
+        if ($request->has('taxable')) {
+            $productDTO->isTaxable = $request->get('taxable');
+        }
+
+        if ($request->has('shippable')) {
+            $productDTO->isShippable = $request->get('shippable');
+        }
+
+        if ($request->has('attachments-enabled')) {
+            $productDTO->areAttachmentsEnabled = $request->get('attachments-enabled');
+        }
+
+        if ($request->hasFile('default-image')) {
             $productDTO->defaultImage = $request->file('default-image');
         }
 
-        $productDTO->quantity = $request->get('quantity');
-        $productDTO->shippingWeight = $request->get('shipping-weight');
+        if ($request->has('quantity')) {
+            $productDTO->quantity = $request->get('quantity');
+        }
+
+        if ($request->has('shipping-weight')) {
+            $productDTO->shippingWeight = $request->get('shipping-weight');
+        }
+
     }
 
     /**
