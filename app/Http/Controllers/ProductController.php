@@ -31,24 +31,10 @@ class ProductController extends Controller
 
         $this->dispatchQuery(new ListProductsQuery($request, $response));
 
-        $productDTOs = $response->getProductDTOs();
+        $data = $response->getProductDTOs();
 
-        $show = [
-            'slug'                  => true,
-            'sku'                   => true,
-            'name'                  => true,
-            'quantity'              => true,
-            'unitPrice'             => false,
-            'isInventoryRequired'   => false,
-            'isPriceVisible'        => false,
-            'isActive'              => false,
-            'isVisible'             => false,
-            'isTaxable'             => false,
-            'isShippable'           => false,
-            'areAttachmentsEnabled' => false,
-        ];
+        return $data;
 
-        return $productDTOs;
     }
 
     /**
@@ -62,9 +48,10 @@ class ProductController extends Controller
         $response = new GetProductResponse($this->getPricing());
         $this->dispatchQuery(new GetProductQuery($request, $response));
 
-        $productDTO = $response->getProductDTOWithAllData();
+        $data = $response->getProductDTOWithAllData();
 
-////        return view('product.show', compact('productDTO'));
+        return [$data];
+
     }
 
     /**

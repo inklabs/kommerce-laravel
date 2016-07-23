@@ -6,7 +6,7 @@
         <span class="lk-list-product-title">{{ name }}</span>
       </div>
     </div>
-    <a href="#" class="lk-list-product-link" v-for="product in products">
+    <a class="lk-list-product-link" v-for="product in products" v-link="{ name: 'product.show', params: { id: product.id }}">
       <div class="row">
         <div class="medium-3 columns" v-for="(name, showTitle) in show" v-if="showTitle">
           <span class="lk-list-product-title show-for-small-only">{{ name }}</span>
@@ -19,8 +19,6 @@
 </template>
 
 <script>
-  import Vue from 'vue';
-
   export default {
 
     data() {
@@ -48,7 +46,6 @@
       fetch() {
         this.$resource('/api/products').get().then(function (res) {
           this.products = res.data;
-          this.$set('products', this.products);
         });
       },
 

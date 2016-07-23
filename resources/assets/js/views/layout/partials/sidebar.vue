@@ -1,18 +1,14 @@
 <template>
-  <div>
+  <nav class="lk-sidebar">
     <div class="lk-sidebar-branding">
-      <img class="lk-sidebar-logo" src="//placehold.it/150x150" alt="">
+      <a v-link="{ name: 'dashboard' }">
+        <img class="lk-sidebar-logo" src="//placehold.it/150x150" alt="">
+      </a>
     </div>
 
     <ul class="lk-menu vertical menu" data-accordion-menu>
-      <li>
-        <a v-link="'product'">Product</a>
-        <ul class="vertical menu">
-          <li><a v-link="'product'">List All Products</a></li>
-          <li><a v-link="'dashboard'">Create Dummy Product</a></li>
-        </ul>
-      </li>
-      <li><a v-link="'dashboard'">Dashboard</a></li>
+      <li><a v-link="{ name: 'product' }">Product</a></li>
+      <li><a v-link="{ name: 'dashboard' }">Dashboard</a></li>
     </ul>
-  </div>
+  </nav>
 </template>
