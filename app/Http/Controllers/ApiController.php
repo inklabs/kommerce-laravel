@@ -6,22 +6,40 @@ use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use inklabs\kommerce\Exception\KommerceException;
 use ReflectionClass;
 
 class ApiController extends Controller
 {
     const HANDS_IMG = '<img src="http://i.imgur.com/bq4XXwm.png">';
 
-    public function process(Request $request, $model, $action)
+    public function processQuery(Request $request, $model, $action, $method)
     {
-        if ($this->actionIsQuery($action)) {
-            return $this->processQuery($request, $model, $action);
-        } elseif ($this->actionIsCommand($action)) {
-            return $this->processCommand($request, $model, $action);
-        } else {
-            return self::HANDS_IMG;
-        }
+        $query = $request->query();
+
+        $queryActionName = $action;
+        $requestActionName = str_replace('Query', 'Request', $queryActionName);
+        $responseActionName = str_replace('Query', 'Response', $queryActionName);
+
+        $queryClassName = '\\inklabs\\kommerce\\Action\\' . $model . '\\' . $queryActionName;
+        $requestClassName = '\\inklabs\\kommerce\\Action\\' . $model . '\\Query\\' . $requestActionName;
+        $responseClassName = '\\inklabs\\kommerce\\Action\\' . $model . '\\Query\\' . $responseActionName;
+
+        $requestObject = $this->getDynamicObject($requestClassName, $query);
+
+        $responseObject = new $responseClassName($this->getPricing());
+        $queryObject = new $queryClassName($requestObject, $responseObject);
+
+        $this->dispatchQuery($queryObject);
+
+        $data = $this->getDataFromMethods($method, $responseObject);
+
+        return response()->json($data);
+
+        /**
+         * Example:
+         *  http://localhost:8000/api/v1/Product/GetRandomProductsQuery/getProductDTOs?limit=5
+         *  http://localhost:8000/api/v1/Product/GetProductQuery/getProductDTOWithAllData?id=63FBF0B1875447D9B6ECD04BCB74B9A1
+         */
     }
 
     /**
@@ -48,53 +66,7 @@ class ApiController extends Controller
         return $requestObject;
     }
 
-    private function actionIsQuery($action)
-    {
-        return stripos($action, 'Query') !== false;
-    }
-
-    private function actionIsCommand($action)
-    {
-        return stripos($action, 'Command') !== false;
-    }
-
-    private function processQuery(Request $request, $model, $action)
-    {
-        $query = $request->query();
-
-        $queryActionName = $action;
-        $requestActionName = str_replace('Query', 'Request', $queryActionName);
-        $responseActionName = str_replace('Query', 'Response', $queryActionName);
-
-        $queryClassName = '\\inklabs\\kommerce\\Action\\' . $model . '\\' . $queryActionName;
-        $requestClassName = '\\inklabs\\kommerce\\Action\\' . $model . '\\Query\\' . $requestActionName;
-        $responseClassName = '\\inklabs\\kommerce\\Action\\' . $model . '\\Query\\' . $responseActionName;
-
-        $requestObject = $this->getDynamicObject($requestClassName, $query);
-
-        $responseObject = new $responseClassName($this->getPricing());
-        $queryObject = new $queryClassName($requestObject, $responseObject);
-
-        $this->dispatchQuery($queryObject);
-
-        if (method_exists($responseObject, 'getProductDTOWithAllData')) {
-            return [$responseObject->getProductDTOWithAllData()];
-        } elseif (method_exists($responseObject, 'getProductDTO')) {
-            return [$responseObject->getProductDTO()];
-        } elseif (method_exists($responseObject, 'getProductDTOs')) {
-            return $responseObject->getProductDTOs();
-        } else {
-            return self::HANDS_IMG;
-        }
-
-        /**
-         * Example:
-         *  http://localhost:8000/api/v1/Product/GetRandomProductsQuery?limit=5
-         *  http://localhost:8000/api/v1/Product/GetProductQuery?id=63FBF0B1875447D9B6ECD04BCB74B9A1
-         */
-    }
-
-    private function processCommand(Request $request, $model, $action)
+    public function processCommand(Request $request, $model, $action, $method = '')
     {
         $post = $request->query();
 
@@ -112,24 +84,35 @@ class ApiController extends Controller
             ];
         }
 
-        $dataCollection = [];
-        if (method_exists($commandObject, 'getProductId')) {
-            $dataCollection['productId'] = $commandObject->getProductId();
-        }
+        $data = $this->getDataFromMethods($method, $commandObject);
 
-        if (method_exists($commandObject, 'getTagId')) {
-            $dataCollection['tagId'] = $commandObject->getTagId();
-        }
-
-        return [
+        return response()->json([
             'isSuccess' => true,
-            'data' => $dataCollection
-        ];
+            'data' => $data,
+        ]);
 
         /**
          * Example:
          *  http://localhost:8000/api/v1/Product/AddTagToProductCommand?productId=63FBF0B1875447D9B6ECD04BCB74B9A1&tagId=f77980b69e0b4eaabe6f8fd859e62a8e
          *  http://localhost:8000/api/v1/Product/RemoveTagFromProductCommand?productId=63FBF0B1875447D9B6ECD04BCB74B9A1&tagId=f77980b69e0b4eaabe6f8fd859e62a8e
          */
+    }
+
+    /**
+     * @param $method
+     * @param $commandObject
+     * @return array
+     */
+    private function getDataFromMethods($method, $commandObject)
+    {
+        $methods = explode('_', $method);
+        $data = [];
+        foreach ($methods as $method) {
+            if (empty($method)) {
+                continue;
+            }
+            $data[$method] = $commandObject->$method();
+        }
+        return $data;
     }
 }
