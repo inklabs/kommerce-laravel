@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Exception;
@@ -54,6 +53,16 @@ class ApiController extends Controller
         $constructorParameters = [];
 
         foreach ($query as $key => $value) {
+
+            if (is_array($value)) {
+                $entityDTOClassName = '\\inklabs\\kommerce\\EntityDTO\\' . $key;
+                $entityDTO = new $entityDTOClassName;
+                foreach ($value as $k => $v) {
+                    $entityDTO->$k = $v;
+                }
+                $value = $entityDTO;
+            }
+
             $constructorParameters[] = $value;
         }
 
