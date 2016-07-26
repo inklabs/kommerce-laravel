@@ -207,6 +207,8 @@ class ProductController extends Controller
         $productDTO->name = $faker->name;
         $productDTO->sku = $faker->md5;
         $productDTO->unitPrice = $faker->numberBetween(100, 2000);
+        $productDTO->isVisible = true;
+        $productDTO->isActive = true;
 
         $command = new CreateProductCommand($productDTO);
         $this->dispatch($command);
