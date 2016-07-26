@@ -14,8 +14,10 @@ use inklabs\kommerce\Action\Product\Query\GetProductResponse;
 use inklabs\kommerce\Action\Product\Query\ListProductsRequest;
 use inklabs\kommerce\Action\Product\Query\ListProductsResponse;
 use inklabs\kommerce\Action\Product\UpdateProductCommand;
+use inklabs\kommerce\Action\Tag\CreateTagCommand;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\EntityDTO\TagDTO;
 
 class ProductController extends Controller
 {
@@ -214,8 +216,22 @@ class ProductController extends Controller
         $this->dispatch($command);
 
         echo 'Created: ' . $productDTO->name;
-//        echo '<p><a href="/p/' . $command->getProductId() . '">' . $command->getProductId()->getHex() . '</a></p>';
+        echo '<p><a href="/p/' . $command->getProductId() . '">' . $command->getProductId()->getHex() . '</a></p>';
 
-        dd($productDTO);
+        $faker = \Faker\Factory::create();
+
+        $tagDTO = new TagDTO();
+        $tagDTO->name = $faker->name;
+        $tagDTO->isVisible = true;
+        $tagDTO->isActive = true;
+        $tagDTO->sortOrder = 0;
+
+        $command = new CreateTagCommand($tagDTO);
+        $this->dispatch($command);
+
+        echo 'Created: ' . $tagDTO->name;
+        echo '<p><a href="/t/' . $command->getTagId() . '">' . $command->getTagId()->getHex() . '</a></p>';
+
+        dd($productDTO, $tagDTO);
     }
 }
