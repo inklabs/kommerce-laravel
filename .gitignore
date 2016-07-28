@@ -5,8 +5,15 @@
 Homestead.yaml
 Homestead.json
 .env
+
+# PhpStorm:
 .idea/*.iws
+.idea/*.ids
 .idea/workspace.xml
-.idea/codeStyleSettings.xml
 .idea/tasks.xml
-.idea/dictionaries/
+.idea/vcs.xml
+.idea/dictionaries
+.idea/codeStyleSettings.xml
+
+.idea/dataSources.xml
+.idea/dataSources.local.xml
