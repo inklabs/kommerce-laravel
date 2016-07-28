@@ -197,41 +197,4 @@ class ProductController extends Controller
         }
 
     }
-
-    /**
-     * Generate a product
-     */
-    public function createDummy()
-    {
-        $faker = \Faker\Factory::create();
-
-        $productDTO = new ProductDTO();
-        $productDTO->name = $faker->name;
-        $productDTO->sku = $faker->md5;
-        $productDTO->unitPrice = $faker->numberBetween(100, 2000);
-        $productDTO->isVisible = true;
-        $productDTO->isActive = true;
-
-        $command = new CreateProductCommand($productDTO);
-        $this->dispatch($command);
-
-        echo 'Created: ' . $productDTO->name;
-        echo '<p><a href="/p/' . $command->getProductId() . '">' . $command->getProductId()->getHex() . '</a></p>';
-
-        $faker = \Faker\Factory::create();
-
-        $tagDTO = new TagDTO();
-        $tagDTO->name = $faker->name;
-        $tagDTO->isVisible = true;
-        $tagDTO->isActive = true;
-        $tagDTO->sortOrder = 0;
-
-        $command = new CreateTagCommand($tagDTO);
-        $this->dispatch($command);
-
-        echo 'Created: ' . $tagDTO->name;
-        echo '<p><a href="/t/' . $command->getTagId() . '">' . $command->getTagId()->getHex() . '</a></p>';
-
-        dd($productDTO, $tagDTO);
-    }
 }

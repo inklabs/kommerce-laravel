@@ -22,7 +22,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::resource('products', 'ProductController');
 });
 
-Route::get('/createDummyProduct', [
-    'as' => 'p.createDummy',
-    'uses' => 'ProductController@createDummy'
+Route::get('/dummyData/createDummyProduct', [
+    'as' => 'ddc.createDummyProduct',
+    'uses' => 'DummyDataController@createDummyProduct'
 ]);

@@ -113,9 +113,8 @@ class ApiController extends Controller
         $constructorParameters = [];
 
         foreach ($query as $key => $value) {
-
-            if (is_array($value)) {
-                $entityDTOClassName = '\\inklabs\\kommerce\\EntityDTO\\' . $key;
+            $entityDTOClassName = '\\inklabs\\kommerce\\EntityDTO\\' . $key;
+            if (is_array($value) && class_exists($entityDTOClassName)) {
                 $entityDTO = new $entityDTOClassName;
                 foreach ($value as $k => $v) {
                     $entityDTO->$k = $v;
@@ -145,12 +144,15 @@ class ApiController extends Controller
 
         $constructorParameters = [];
         $constructor = $reflection->getConstructor();
-        foreach ($constructor->getParameters() as $parameter) {
-            $parameterClassName = $parameter->getClass()->getName();
-            if ($parameterClassName === Pricing::class || $parameterClassName === PricingInterface::class) {
-                $constructorParameters[] = $this->getPricing();
-            } elseif ($parameterClassName === CartCalculator::class) {
-                $constructorParameters[] = $this->getCartCalculator();
+        if ($constructor !== null) {
+
+            foreach ($constructor->getParameters() as $parameter) {
+                $parameterClassName = $parameter->getClass()->getName();
+                if ($parameterClassName === Pricing::class || $parameterClassName === PricingInterface::class) {
+                    $constructorParameters[] = $this->getPricing();
+                } elseif ($parameterClassName === CartCalculator::class) {
+                    $constructorParameters[] = $this->getCartCalculator();
+                }
             }
         }
 

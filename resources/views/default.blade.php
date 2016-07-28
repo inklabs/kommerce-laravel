@@ -41,7 +41,13 @@
         </div>
     </header>
 
-    <div id="lk-app"></div>
+    <div id="lk-app">
+        <h3>Demo Data Setup:</h3>
+        <ul>
+            <li><a href="/dummyData/createDummyProduct">Create Dummy Product and Tag</a></li>
+        </ul>
+
+    </div>
 
 <script src="{{ asset('assets/main.js') }}"></script>
 
