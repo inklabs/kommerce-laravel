@@ -5,6 +5,7 @@ use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use inklabs\kommerce\Exception\KommerceException;
 use ReflectionClass;
 
 class ApiController extends Controller
@@ -86,9 +87,15 @@ class ApiController extends Controller
         try {
             $this->dispatch($commandObject);
         } catch (Exception $e) {
+            if ($e instanceof KommerceException) {
+                $safeMessage = $e->getMessage();
+            } else {
+                $safeMessage = 'Unrecoverable error';
+            }
+
             return [
                 'isSuccess' => false,
-                'message' => $e->getMessage(),
+                'message' => $safeMessage,
                 'data' => [],
             ];
         }
