@@ -37,12 +37,6 @@ class ApiController extends Controller
         $data = $this->getDataFromMethods($method, $responseObject);
 
         return response()->json($data);
-
-        /**
-         * Example:
-         *  http://localhost:8000/api/v1/Product/GetRandomProductsQuery/getProductDTOs?limit=5
-         *  http://localhost:8000/api/v1/Product/GetProductQuery/getProductDTOWithAllData?id=63FBF0B1875447D9B6ECD04BCB74B9A1
-         */
     }
 
     public function processCommand(Request $request, $model, $action, $method = '')
@@ -75,12 +69,6 @@ class ApiController extends Controller
             'isSuccess' => true,
             'data' => $data,
         ]);
-
-        /**
-         * Example:
-         *  http://localhost:8000/api/v1/Product/AddTagToProductCommand?productId=63FBF0B1875447D9B6ECD04BCB74B9A1&tagId=f77980b69e0b4eaabe6f8fd859e62a8e
-         *  http://localhost:8000/api/v1/Product/RemoveTagFromProductCommand?productId=63FBF0B1875447D9B6ECD04BCB74B9A1&tagId=f77980b69e0b4eaabe6f8fd859e62a8e
-         */
     }
 
     /**
