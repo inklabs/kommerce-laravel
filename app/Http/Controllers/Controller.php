@@ -90,6 +90,11 @@ class Controller extends BaseController
         return $this->pricing;
     }
 
+    public function getCartCalculator()
+    {
+        return $this->cartCalculator;
+    }
+
     protected function dispatch(CommandInterface $command)
     {
         $this->commandBus->execute($command);

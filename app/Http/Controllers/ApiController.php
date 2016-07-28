@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use inklabs\kommerce\Exception\KommerceException;
+use inklabs\kommerce\Lib\CartCalculator;
+use inklabs\kommerce\Lib\Pricing;
+use inklabs\kommerce\Lib\PricingInterface;
 use ReflectionClass;
 
 class ApiController extends Controller
@@ -26,7 +29,7 @@ class ApiController extends Controller
 
         $requestObject = $this->getDynamicObject($requestClassName, $query);
 
-        $responseObject = new $responseClassName($this->getPricing());
+        $responseObject = $this->getResponseObject($responseClassName);
         $queryObject = new $queryClassName($requestObject, $responseObject);
 
         $this->dispatchQuery($queryObject);
@@ -40,40 +43,6 @@ class ApiController extends Controller
          *  http://localhost:8000/api/v1/Product/GetRandomProductsQuery/getProductDTOs?limit=5
          *  http://localhost:8000/api/v1/Product/GetProductQuery/getProductDTOWithAllData?id=63FBF0B1875447D9B6ECD04BCB74B9A1
          */
-    }
-
-    /**
-     * @param string $requestClassName
-     * @param array $query
-     * @return mixed
-     */
-    private function getDynamicObject($requestClassName, $query)
-    {
-        $reflection = new ReflectionClass($requestClassName);
-
-        $constructorParameters = [];
-
-        foreach ($query as $key => $value) {
-
-            if (is_array($value)) {
-                $entityDTOClassName = '\\inklabs\\kommerce\\EntityDTO\\' . $key;
-                $entityDTO = new $entityDTOClassName;
-                foreach ($value as $k => $v) {
-                    $entityDTO->$k = $v;
-                }
-                $value = $entityDTO;
-            }
-
-            $constructorParameters[] = $value;
-        }
-
-        if (! empty($constructorParameters)) {
-            $requestObject = $reflection->newInstanceArgs($constructorParameters);
-        } else {
-            $requestObject = $reflection->newInstance();
-        }
-
-        return $requestObject;
     }
 
     public function processCommand(Request $request, $model, $action, $method = '')
@@ -130,5 +99,67 @@ class ApiController extends Controller
             $data[$method] = $commandObject->$method();
         }
         return $data;
+    }
+
+    /**
+     * @param string $requestClassName
+     * @param array $query
+     * @return mixed
+     */
+    private function getDynamicObject($requestClassName, $query)
+    {
+        $reflection = new ReflectionClass($requestClassName);
+
+        $constructorParameters = [];
+
+        foreach ($query as $key => $value) {
+
+            if (is_array($value)) {
+                $entityDTOClassName = '\\inklabs\\kommerce\\EntityDTO\\' . $key;
+                $entityDTO = new $entityDTOClassName;
+                foreach ($value as $k => $v) {
+                    $entityDTO->$k = $v;
+                }
+                $value = $entityDTO;
+            }
+
+            $constructorParameters[] = $value;
+        }
+
+        if (! empty($constructorParameters)) {
+            $requestObject = $reflection->newInstanceArgs($constructorParameters);
+        } else {
+            $requestObject = $reflection->newInstance();
+        }
+
+        return $requestObject;
+    }
+
+    /**
+     * @param $responseClassName
+     * @return mixed
+     */
+    private function getResponseObject($responseClassName)
+    {
+        $reflection = new ReflectionClass($responseClassName);
+
+        $constructorParameters = [];
+        $constructor = $reflection->getConstructor();
+        foreach ($constructor->getParameters() as $parameter) {
+            $parameterClassName = $parameter->getClass()->getName();
+            if ($parameterClassName === Pricing::class || $parameterClassName === PricingInterface::class) {
+                $constructorParameters[] = $this->getPricing();
+            } elseif ($parameterClassName === CartCalculator::class) {
+                $constructorParameters[] = $this->getCartCalculator();
+            }
+        }
+
+        if (! empty($constructorParameters)) {
+            $responseObject = $reflection->newInstanceArgs($constructorParameters);
+        } else {
+            $responseObject = $reflection->newInstance();
+        }
+
+        return $responseObject;
     }
 }
