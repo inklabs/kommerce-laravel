@@ -96,7 +96,8 @@ class ApiController extends Controller
             if (empty($method)) {
                 continue;
             }
-            $data[$method] = $commandObject->$method();
+            $cleanedMethodName = str_replace('get', '', $method);
+            $data[$cleanedMethodName] = $commandObject->$method();
         }
         return $data;
     }
