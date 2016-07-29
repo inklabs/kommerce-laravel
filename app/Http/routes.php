@@ -18,11 +18,14 @@ Route::get('/api/v1/{model}/{action}/{method?}', [
     'action' => '.*Command'
 ]);
 
-Route::group(['prefix' => 'api'], function() {
-    Route::resource('products', 'ProductController');
-});
-
 Route::get('/dummyData/createDummyProduct', [
     'as' => 'ddc.createDummyProduct',
     'uses' => 'DummyDataController@createDummyProduct'
 ]);
+
+Route::get('/p/{slug}-{productId}', 'ProductController@show')
+    ->name('product.show')
+    ->where([
+        'slug' => '[a-z0-9-]+',
+        'productId' => '[0-9a-f]{32}',
+    ]);

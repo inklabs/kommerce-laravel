@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use inklabs\kommerce\Action\Product\CreateProductCommand;
+use inklabs\kommerce\Action\Product\GetProductQuery;
+use inklabs\kommerce\Action\Product\Query\GetProductRequest;
+use inklabs\kommerce\Action\Product\Query\GetProductResponse;
 use inklabs\kommerce\Action\Tag\CreateTagCommand;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
@@ -26,6 +29,12 @@ class DummyDataController extends Controller
 
         $productId = $command->getProductId()->getHex();
 
+        $request = new GetProductRequest($productId);
+        $response = new GetProductResponse($this->getPricing());
+        $this->dispatchQuery(new GetProductQuery($request, $response));
+
+        $productDTO = $response->getProductDTO();
+
         $faker = \Faker\Factory::create();
 
         $tagDTO = new TagDTO();
@@ -41,12 +50,21 @@ class DummyDataController extends Controller
 
         $pagination = 'PaginationDTO[maxResults]=5&PaginationDTO[page]=1';
 
+        $productUrl = route(
+            'product.show',
+            [
+                'slug' => $productDTO->slug,
+                'productId' => $productDTO->id->getHex(),
+            ]
+        );
+
         echo <<<HEREDOC
         <h3>Created:</h3>
         <ul>
             <li>Product: {$productId}</li>
             <li>Tag: {$tagId}</li>
-            <li><a href="/dummyData/createDummyProduct">Create another dummy Product and Tag</a></li>
+            <li><a href="{$productUrl}">View Product</a></li>
+            <li><a href="">Create another dummy Product and Tag</a></li>
         </ul>
 
         <h3>Queries</h3>

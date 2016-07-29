@@ -1,4 +1,4 @@
-@extends ('panel')
+@extends ('default')
 
 @section ('content')
 
@@ -128,8 +128,6 @@
             {{ $productDTO->shippingWeight }}
         </p>
 
-
-        <a href="{{ route('p.edit', $productDTO->id) }}" class="button">Edit Product</a>
 
         {{ var_dump($productDTO) }}
 

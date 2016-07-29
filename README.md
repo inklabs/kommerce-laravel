@@ -23,8 +23,13 @@ open http://localhost:8000
 ```
 npm install
 npm run dev
-npm run prod // uglify, autoprefix, no maps
 npm run watch
+```
+
+### Build for production
+
+```
+npm run prod // uglify, autoprefix, no maps
 ```
 
 ## Contributing
