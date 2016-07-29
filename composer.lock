@@ -895,12 +895,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-core.git",
-                "reference": "2f85600a4aed08a4b78b7e23a24d099017e597f7"
+                "reference": "608c464da9777ff105d42b916efff78e53060253"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/2f85600a4aed08a4b78b7e23a24d099017e597f7",
-                "reference": "2f85600a4aed08a4b78b7e23a24d099017e597f7",
+                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/608c464da9777ff105d42b916efff78e53060253",
+                "reference": "608c464da9777ff105d42b916efff78e53060253",
                 "shasum": ""
             },
             "require": {
@@ -937,7 +937,7 @@
                 "kommerce",
                 "zen"
             ],
-            "time": "2016-07-15 17:04:57"
+            "time": "2016-07-26 21:51:28"
         },
         {
             "name": "inklabs/kommerce-templates",
@@ -945,17 +945,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-templates.git",
-                "reference": "0a9a08e68cb62847ea48c6833da869751b9fe7c8"
+                "reference": "4cb0c7dcd1df848c48fcbc10a1a87771034e4ce9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/0a9a08e68cb62847ea48c6833da869751b9fe7c8",
-                "reference": "0a9a08e68cb62847ea48c6833da869751b9fe7c8",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/4cb0c7dcd1df848c48fcbc10a1a87771034e4ce9",
+                "reference": "4cb0c7dcd1df848c48fcbc10a1a87771034e4ce9",
                 "shasum": ""
             },
             "require": {
                 "inklabs/kommerce-core": "dev-master",
-                "php": ">=5.5.9"
+                "php": ">=5.5.9",
+                "twig/twig": "~1.24"
             },
             "type": "project",
             "notification-url": "https://packagist.org/downloads/",
@@ -969,7 +970,7 @@
                 "store",
                 "templates"
             ],
-            "time": "2016-07-16 06:18:00"
+            "time": "2016-07-29 00:34:16"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1118,16 +1119,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.2.39",
+            "version": "5.2.41",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "c2a77050269b4e03bd9a735a9f24e573a7598b8a"
+                "reference": "29ba2e310cfeb42ab6545bcd81ff4c2ec1f6b5c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/c2a77050269b4e03bd9a735a9f24e573a7598b8a",
-                "reference": "c2a77050269b4e03bd9a735a9f24e573a7598b8a",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/29ba2e310cfeb42ab6545bcd81ff4c2ec1f6b5c2",
+                "reference": "29ba2e310cfeb42ab6545bcd81ff4c2ec1f6b5c2",
                 "shasum": ""
             },
             "require": {
@@ -1184,7 +1185,8 @@
                 "illuminate/support": "self.version",
                 "illuminate/translation": "self.version",
                 "illuminate/validation": "self.version",
-                "illuminate/view": "self.version"
+                "illuminate/view": "self.version",
+                "tightenco/collect": "self.version"
             },
             "require-dev": {
                 "aws/aws-sdk-php": "~3.0",
@@ -1243,20 +1245,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-06-17 19:25:12"
+            "time": "2016-07-20 13:13:06"
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.24",
+            "version": "1.0.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "9aca859a303fdca30370f42b8c611d9cf0dedf4b"
+                "reference": "a76afa4035931be0c78ca8efc6abf3902362f437"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/9aca859a303fdca30370f42b8c611d9cf0dedf4b",
-                "reference": "9aca859a303fdca30370f42b8c611d9cf0dedf4b",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a76afa4035931be0c78ca8efc6abf3902362f437",
+                "reference": "a76afa4035931be0c78ca8efc6abf3902362f437",
                 "shasum": ""
             },
             "require": {
@@ -1269,7 +1271,7 @@
                 "ext-fileinfo": "*",
                 "mockery/mockery": "~0.9",
                 "phpspec/phpspec": "^2.2",
-                "phpunit/phpunit": "~4.8 || ~5.0"
+                "phpunit/phpunit": "~4.8"
             },
             "suggest": {
                 "ext-fileinfo": "Required for MimeType",
@@ -1326,7 +1328,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2016-06-03 19:11:39"
+            "time": "2016-07-18 12:22:57"
         },
         {
             "name": "monolog/monolog",
@@ -2804,6 +2806,67 @@
             "time": "2016-06-29 05:40:00"
         },
         {
+            "name": "twig/twig",
+            "version": "v1.24.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig.git",
+                "reference": "3566d311a92aae4deec6e48682dc5a4528c4a512"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3566d311a92aae4deec6e48682dc5a4528c4a512",
+                "reference": "3566d311a92aae4deec6e48682dc5a4528c4a512",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.7"
+            },
+            "require-dev": {
+                "symfony/debug": "~2.7",
+                "symfony/phpunit-bridge": "~2.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.24-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                },
+                {
+                    "name": "Twig Team",
+                    "homepage": "http://twig.sensiolabs.org/contributors",
+                    "role": "Contributors"
+                }
+            ],
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "http://twig.sensiolabs.org",
+            "keywords": [
+                "templating"
+            ],
+            "time": "2016-05-30 09:11:59"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v2.3.0",
             "source": {
@@ -3422,16 +3485,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.26",
+            "version": "4.8.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "fc1d8cd5b5de11625979125c5639347896ac2c74"
+                "reference": "c062dddcb68e44b563f66ee319ddae2b5a322a90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/fc1d8cd5b5de11625979125c5639347896ac2c74",
-                "reference": "fc1d8cd5b5de11625979125c5639347896ac2c74",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c062dddcb68e44b563f66ee319ddae2b5a322a90",
+                "reference": "c062dddcb68e44b563f66ee319ddae2b5a322a90",
                 "shasum": ""
             },
             "require": {
@@ -3490,7 +3553,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-05-17 03:09:28"
+            "time": "2016-07-21 06:48:14"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
