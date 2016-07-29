@@ -945,12 +945,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-templates.git",
-                "reference": "4cb0c7dcd1df848c48fcbc10a1a87771034e4ce9"
+                "reference": "0037d1e1c9b8eb3a314509e9802816e719a01f00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/4cb0c7dcd1df848c48fcbc10a1a87771034e4ce9",
-                "reference": "4cb0c7dcd1df848c48fcbc10a1a87771034e4ce9",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/0037d1e1c9b8eb3a314509e9802816e719a01f00",
+                "reference": "0037d1e1c9b8eb3a314509e9802816e719a01f00",
                 "shasum": ""
             },
             "require": {
@@ -959,6 +959,11 @@
                 "twig/twig": "~1.24"
             },
             "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "inklabs\\KommerceTemplates\\": "src"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -970,7 +975,7 @@
                 "store",
                 "templates"
             ],
-            "time": "2016-07-29 00:34:16"
+            "time": "2016-07-29 00:55:59"
         },
         {
             "name": "jakub-onderka/php-console-color",

@@ -33,6 +33,9 @@ use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\EasyPostGateway;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\ServiceFactory;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
+use Twig_SimpleFilter;
 
 class Controller extends BaseController
 {
@@ -218,5 +221,27 @@ class Controller extends BaseController
         $this->queryBus = new QueryBus(
             $this->mapper
         );
+    }
+
+    protected function getTwig()
+    {
+        $loader = new Twig_Loader_Filesystem(
+            __DIR__ . '/../../../vendor/inklabs/kommerce-templates/themes/base/templates'
+        );
+
+        $twig = new Twig_Environment(
+            $loader,
+            [
+                'debug' => true,
+            ]
+        );
+
+        $displayPriceFilter = new Twig_SimpleFilter('displayPrice', function (/** int */ $price) {
+            return '$' . number_format(($price / 100), 2);
+        });
+
+        $twig->addFilter($displayPriceFilter);
+
+        return $twig;
     }
 }

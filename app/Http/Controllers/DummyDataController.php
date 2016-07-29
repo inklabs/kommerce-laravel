@@ -19,6 +19,8 @@ class DummyDataController extends Controller
 
         $productDTO = new ProductDTO();
         $productDTO->name = $faker->name;
+        $productDTO->description = $faker->paragraph(5);
+        $productDTO->defaultImage = $faker->imageUrl();
         $productDTO->sku = $faker->md5;
         $productDTO->unitPrice = $faker->numberBetween(100, 2000);
         $productDTO->isVisible = true;
@@ -39,6 +41,7 @@ class DummyDataController extends Controller
 
         $tagDTO = new TagDTO();
         $tagDTO->name = $faker->name;
+        $tagDTO->description = $faker->paragraph(5);
         $tagDTO->isVisible = true;
         $tagDTO->isActive = true;
         $tagDTO->sortOrder = 0;

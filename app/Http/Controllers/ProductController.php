@@ -3,8 +3,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use inklabs\kommerce\Action\Product\GetProductQuery;
+use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
 use inklabs\kommerce\Action\Product\Query\GetProductRequest;
 use inklabs\kommerce\Action\Product\Query\GetProductResponse;
+use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
+use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
 
 class ProductController extends Controller
 {
@@ -31,10 +34,18 @@ class ProductController extends Controller
             );
         }
 
-        return view(
-            'product/show',
+        $request = new GetRandomProductsRequest(4);
+        $response = new GetRandomProductsResponse($this->getPricing());
+        $this->dispatchQuery(new GetRandomProductsQuery($request, $response));
+        $relatedProductDTOs = $response->getProductDTOs();
+
+        $twig = $this->getTwig();
+
+        $twig->display(
+            'product/show.twig',
             [
-                'productDTO' => $productDTO,
+                'product' => $productDTO,
+                'relatedProducts' => $relatedProductDTOs,
             ]
         );
     }
