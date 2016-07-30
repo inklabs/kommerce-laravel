@@ -26,7 +26,7 @@ class RenderTwig
         $response->setContent(
             $this->getTwig()->render(
                 $actionName . '.twig',
-               $response->getOriginalContent()
+                $response->getOriginalContent()
             )
         );
 
