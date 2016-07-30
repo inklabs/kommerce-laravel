@@ -223,17 +223,4 @@ class Controller extends BaseController
             $this->mapper
         );
     }
-
-    protected function getTwig()
-    {
-        $baseThemePath = __DIR__ . '/../../../vendor/inklabs/kommerce-templates/themes/base/templates';
-
-        $twigTemplate = new TwigTemplate([
-            $baseThemePath,
-        ]);
-
-        $twigTemplate->enableDebug();
-
-        return $twigTemplate->getTwigEnvironment();
-    }
 }
