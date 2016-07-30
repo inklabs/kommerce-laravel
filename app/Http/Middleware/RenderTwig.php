@@ -5,6 +5,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use inklabs\KommerceTemplates\Lib\TwigTemplate;
+use Twig_Environment;
 
 class RenderTwig
 {
@@ -35,16 +36,11 @@ class RenderTwig
     }
 
     /**
-     * @return \Twig_Environment
+     * @return Twig_Environment
      */
     private function getTwig()
     {
-        $baseThemePath = __DIR__ . '/../../../vendor/inklabs/kommerce-templates/themes/base/templates';
-
-        $twigTemplate = new TwigTemplate([
-            $baseThemePath,
-        ]);
-
+        $twigTemplate = new TwigTemplate();
         $twigTemplate->enableDebug();
 
         return $twigTemplate->getTwigEnvironment();
