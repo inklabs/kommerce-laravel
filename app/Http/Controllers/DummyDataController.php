@@ -54,7 +54,7 @@ class DummyDataController extends Controller
         $pagination = 'PaginationDTO[maxResults]=5&PaginationDTO[page]=1';
 
         $productUrl = route(
-            'product.show',
+            'product/show',
             [
                 'slug' => $productDTO->slug,
                 'productId' => $productDTO->id->getHex(),

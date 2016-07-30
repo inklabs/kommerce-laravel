@@ -14,7 +14,7 @@ class ProductController extends Controller
     /**
      * @param string $slug
      * @param string $productId
-     * @return \Illuminate\Contracts\View\Factory | \Illuminate\View\View
+     * @return array | \Illuminate\Http\RedirectResponse
      */
     public function show($slug, $productId)
     {
@@ -26,7 +26,7 @@ class ProductController extends Controller
 
         if ($slug !== $productDTO->slug) {
             return redirect()->route(
-                'product.show',
+                'product/show',
                 [
                     'slug' => $productDTO->slug,
                     'productId' => $productDTO->id->getHex(),
