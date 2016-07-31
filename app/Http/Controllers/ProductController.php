@@ -14,7 +14,7 @@ class ProductController extends Controller
     /**
      * @param string $slug
      * @param string $productId
-     * @return array | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function show($slug, $productId)
     {
@@ -39,9 +39,12 @@ class ProductController extends Controller
         $this->dispatchQuery(new GetRandomProductsQuery($request, $response));
         $relatedProductDTOs = $response->getProductDTOs();
 
-        return [
-            'product' => $productDTO,
-            'relatedProducts' => $relatedProductDTOs,
-        ];
+        $this->displayTemplate(
+            'product/show.twig',
+            [
+                'product' => $productDTO,
+                'relatedProducts' => $relatedProductDTOs,
+            ]
+        );
     }
 }

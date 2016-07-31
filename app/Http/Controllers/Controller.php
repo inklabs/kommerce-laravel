@@ -9,10 +9,20 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
+use inklabs\kommerce\Action\Cart\CreateCartCommand;
+use inklabs\kommerce\Action\Cart\GetCartBySessionIdQuery;
+use inklabs\kommerce\Action\Cart\GetCartQuery;
+use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdRequest;
+use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdResponse;
+use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
+use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
+use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
+use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Command\CommandBus;
 use inklabs\kommerce\Lib\Command\CommandBusInterface;
@@ -35,6 +45,7 @@ use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\KommerceTemplates\Lib\TwigTemplate;
 use Twig_Environment;
+use Twig_Extensions_Extension_I18n;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFilter;
 
@@ -84,6 +95,12 @@ class Controller extends BaseController
     /** @var FileManagerInterface */
     private $fileManager;
 
+    /** @var CartDTO */
+    private $cartDTO;
+
+    /** @var UserDTO */
+    private $userDTO;
+
     public function __construct()
     {
         $this->setupKommerce();
@@ -94,7 +111,7 @@ class Controller extends BaseController
         return $this->pricing;
     }
 
-    public function getCartCalculator()
+    protected function getCartCalculator()
     {
         return $this->cartCalculator;
     }
@@ -222,5 +239,90 @@ class Controller extends BaseController
         $this->queryBus = new QueryBus(
             $this->mapper
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCartId()
+    {
+        if ($this->cartDTO != null) {
+            return $this->cartDTO->id->getHex();
+        }
+
+        $cartDTO = $this->getCartFromSession();
+        if ($cartDTO !== null) {
+            return $cartDTO->id->getHex();
+        }
+
+        $this->createNewCart();
+
+        return $this->cartDTO->id->getHex();
+    }
+
+    /**
+     * @return string
+     */
+    private function getRemoteIP4()
+    {
+        return request()->ip();
+    }
+
+    /**
+     * @return string
+     */
+    private function getSessionId()
+    {
+        return session()->getId();
+    }
+
+    /**
+     * @return CartDTO
+     */
+    private function getCartFromSession()
+    {
+        $request = new GetCartBySessionIdRequest($this->getSessionId());
+        $response = new GetCartBySessionIdResponse($this->cartCalculator);
+        $this->dispatchQuery(new GetCartBySessionIdQuery($request, $response));
+
+        return $response->getCartDTO();
+    }
+
+    protected function createNewCart()
+    {
+        $userId = null;
+        if ($this->userDTO !== null) {
+            $userId = $this->userDTO->id->getHex();
+        }
+
+        $createCartCommand = new CreateCartCommand(
+            $this->getRemoteIP4(),
+            $userId,
+            $this->getSessionId()
+        );
+        $this->dispatch($createCartCommand);
+        $cartId = $createCartCommand->getCartId();
+
+        $request = new GetCartRequest($cartId);
+        $response = new GetCartResponse($this->getCartCalculator());
+        $this->dispatchQuery(new GetCartQuery($request, $response));
+
+        $this->cartDTO = $response->getCartDTO();
+    }
+
+    protected function displayTemplate($name, $context)
+    {
+        $this->getTwig()->display($name, $context);
+    }
+
+    /**
+     * @return Twig_Environment
+     */
+    protected function getTwig()
+    {
+        $twigTemplate = new TwigTemplate();
+        $twigTemplate->enableDebug();
+
+        return $twigTemplate->getTwigEnvironment();
     }
 }

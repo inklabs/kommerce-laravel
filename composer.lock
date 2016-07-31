@@ -945,17 +945,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-templates.git",
-                "reference": "09503b1d14ff1168bdc3eee34565f63f77051c6c"
+                "reference": "a9f66a3aacb9d1a6587347579236df13898dd151"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/09503b1d14ff1168bdc3eee34565f63f77051c6c",
-                "reference": "09503b1d14ff1168bdc3eee34565f63f77051c6c",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/a9f66a3aacb9d1a6587347579236df13898dd151",
+                "reference": "a9f66a3aacb9d1a6587347579236df13898dd151",
                 "shasum": ""
             },
             "require": {
                 "inklabs/kommerce-core": "dev-master",
                 "php": ">=5.5.9",
+                "twig/extensions": "~1.3.0",
                 "twig/twig": "~1.24"
             },
             "type": "project",
@@ -975,7 +976,7 @@
                 "store",
                 "templates"
             ],
-            "time": "2016-07-30 04:39:56"
+            "time": "2016-07-31 22:05:12"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -2809,6 +2810,58 @@
                 "dump"
             ],
             "time": "2016-06-29 05:40:00"
+        },
+        {
+            "name": "twig/extensions",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig-extensions.git",
+                "reference": "449e3c8a9ffad7c2479c7864557275a32b037499"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/449e3c8a9ffad7c2479c7864557275a32b037499",
+                "reference": "449e3c8a9ffad7c2479c7864557275a32b037499",
+                "shasum": ""
+            },
+            "require": {
+                "twig/twig": "~1.20|~2.0"
+            },
+            "require-dev": {
+                "symfony/translation": "~2.3"
+            },
+            "suggest": {
+                "symfony/translation": "Allow the time_diff output to be translated"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_Extensions_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Common additional features for Twig that do not directly belong in core",
+            "homepage": "http://twig.sensiolabs.org/doc/extensions/index.html",
+            "keywords": [
+                "i18n",
+                "text"
+            ],
+            "time": "2015-08-22 16:38:35"
         },
         {
             "name": "twig/twig",
