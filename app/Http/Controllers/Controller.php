@@ -373,7 +373,7 @@ class Controller extends BaseController
      */
     protected function flashError(Request $request, $message = '')
     {
-        $this->flashMessage($request, 'error', $message);
+        $this->flashMessage($request, 'danger', $message);
     }
 
     /**

@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Cart\AddCartItemCommand;
+use inklabs\kommerce\Action\Cart\AddCouponToCartCommand;
 use inklabs\kommerce\Action\Cart\DeleteCartItemCommand;
 use inklabs\kommerce\Action\Cart\GetCartQuery;
 use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
@@ -115,6 +116,22 @@ class CartController extends Controller
             $this->flashError($request, 'Unable to add item');
             return redirect('cart');
         }
+    }
+
+    public function postApplyCoupon(Request $request)
+    {
+        $couponCode = strtoupper($request->input('coupon_code'));
+
+        try {
+            $this->dispatch(new AddCouponToCartCommand(
+                $this->getCartId(),
+                $couponCode
+            ));
+        } catch (KommerceException $e) {
+            $this->flashError($request, 'Unable to add Coupon.');
+        }
+
+        return redirect('cart');
     }
 
     public function postUpdateQuantity(Request $request)
