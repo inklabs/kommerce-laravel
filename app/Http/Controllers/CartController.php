@@ -3,9 +3,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Cart\AddCartItemCommand;
+use inklabs\kommerce\Action\Cart\DeleteCartItemCommand;
 use inklabs\kommerce\Action\Cart\GetCartQuery;
 use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
+use inklabs\kommerce\Action\Cart\UpdateCartItemQuantityCommand;
 use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
 use inklabs\kommerce\Action\Product\GetRelatedProductsQuery;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
@@ -113,6 +115,43 @@ class CartController extends Controller
             $this->flashError($request, 'Unable to add item');
             return redirect('cart');
         }
+    }
+
+    public function postUpdateQuantity(Request $request)
+    {
+        $cartItemId = $request->input('id');
+        $quantity = (int) $request->input('quantity');
+
+        try {
+            if ($quantity > 0) {
+                $this->dispatch(new UpdateCartItemQuantityCommand(
+                    $cartItemId,
+                    $quantity
+                ));
+                $this->flashSuccess($request, 'Quantity updated to ' . $quantity);
+            } else {
+                $this->dispatch(new DeleteCartItemCommand($cartItemId));
+                $this->flashSuccess($request, 'Removed item from Cart');
+            }
+        } catch (KommerceException $e) {
+            $this->flashError($request, 'Unable to modify item in Cart');
+        }
+
+        return redirect('cart');
+    }
+
+    public function postDeleteItem(Request $request)
+    {
+        $cartItemId = $request->input('id');
+
+        try {
+            $this->dispatch(new DeleteCartItemCommand($cartItemId));
+            $this->flashSuccess($request, 'Removed item from Cart');
+        } catch (KommerceException $e) {
+            $this->flashError($request, 'Unable to remove item');
+        }
+
+        return redirect('cart');
     }
 
     protected function getRelatedProducts(CartDTO $cartDTO, $limit = 4)
