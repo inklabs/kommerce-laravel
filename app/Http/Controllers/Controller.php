@@ -349,7 +349,7 @@ class Controller extends BaseController
      */
     protected function getTwig()
     {
-        $twigTemplate = new TwigTemplate();
+        $twigTemplate = new TwigTemplate(env('BASE_TEMPLATE'));
         $twigTemplate->enableDebug();
 
         return $twigTemplate->getTwigEnvironment();

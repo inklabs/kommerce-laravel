@@ -945,12 +945,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-templates.git",
-                "reference": "89502b2e40394861155bd37bb9ff6f23c23e4d4e"
+                "reference": "083fd178e05af92d1b885a1a0f2c4bf094d8f396"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/89502b2e40394861155bd37bb9ff6f23c23e4d4e",
-                "reference": "89502b2e40394861155bd37bb9ff6f23c23e4d4e",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/083fd178e05af92d1b885a1a0f2c4bf094d8f396",
+                "reference": "083fd178e05af92d1b885a1a0f2c4bf094d8f396",
                 "shasum": ""
             },
             "require": {
@@ -976,7 +976,7 @@
                 "store",
                 "templates"
             ],
-            "time": "2016-08-01 05:12:07"
+            "time": "2016-08-01 17:11:34"
         },
         {
             "name": "jakub-onderka/php-console-color",
