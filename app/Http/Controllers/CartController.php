@@ -189,15 +189,4 @@ class CartController extends Controller
 
         return $response->getProductDTOs();
     }
-
-    private function getCart()
-    {
-        $cartId = $this->getCartId();
-
-        $request = new GetCartRequest($cartId);
-        $response = new GetCartResponse($this->getCartCalculator());
-        $this->dispatchQuery(new GetCartQuery($request, $response));
-
-        return $response->getCartDTOWithAllData();
-    }
 }

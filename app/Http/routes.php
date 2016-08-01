@@ -31,3 +31,4 @@ Route::get('/p/{slug}-{productId}', 'ProductController@show')
     ]);
 
 Route::controller('cart', 'CartController');
+Route::controller('checkout', 'CheckoutController');

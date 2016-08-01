@@ -245,26 +245,6 @@ class Controller extends BaseController
     /**
      * @return string
      */
-    protected function getCartId()
-    {
-        if ($this->cartDTO != null) {
-            return $this->cartDTO->id->getHex();
-        }
-
-        try {
-            $cartDTO = $this->getCartFromSession();
-            return $cartDTO->id->getHex();
-        } catch (EntityNotFoundException $e) {
-        }
-
-        $this->createNewCart();
-
-        return $this->cartDTO->id->getHex();
-    }
-
-    /**
-     * @return string
-     */
     private function getRemoteIP4()
     {
         return request()->ip();
@@ -284,6 +264,40 @@ class Controller extends BaseController
     private function getSession()
     {
         return session();
+    }
+
+    /**
+     * @return CartDTO
+     */
+    protected function getCart()
+    {
+        $cartId = $this->getCartId();
+
+        $request = new GetCartRequest($cartId);
+        $response = new GetCartResponse($this->getCartCalculator());
+        $this->dispatchQuery(new GetCartQuery($request, $response));
+
+        return $response->getCartDTOWithAllData();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCartId()
+    {
+        if ($this->cartDTO != null) {
+            return $this->cartDTO->id->getHex();
+        }
+
+        try {
+            $cartDTO = $this->getCartFromSession();
+            return $cartDTO->id->getHex();
+        } catch (EntityNotFoundException $e) {
+        }
+
+        $this->createNewCart();
+
+        return $this->cartDTO->id->getHex();
     }
 
     /**
