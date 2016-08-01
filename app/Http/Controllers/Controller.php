@@ -46,9 +46,6 @@ use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\KommerceTemplates\Lib\TwigTemplate;
 use Twig_Environment;
-use Twig_Extensions_Extension_I18n;
-use Twig_Loader_Filesystem;
-use Twig_SimpleFilter;
 
 class Controller extends BaseController
 {
