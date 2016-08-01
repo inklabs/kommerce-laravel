@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -250,9 +251,10 @@ class Controller extends BaseController
             return $this->cartDTO->id->getHex();
         }
 
-        $cartDTO = $this->getCartFromSession();
-        if ($cartDTO !== null) {
+        try {
+            $cartDTO = $this->getCartFromSession();
             return $cartDTO->id->getHex();
+        } catch (EntityNotFoundException $e) {
         }
 
         $this->createNewCart();
@@ -277,7 +279,16 @@ class Controller extends BaseController
     }
 
     /**
+     * @return \Illuminate\Session\Store
+     */
+    private function getSession()
+    {
+        return session();
+    }
+
+    /**
      * @return CartDTO
+     * @throws EntityNotFoundException
      */
     private function getCartFromSession()
     {
@@ -323,6 +334,41 @@ class Controller extends BaseController
         $twigTemplate = new TwigTemplate();
         $twigTemplate->enableDebug();
 
+        $session = $this->getSession();
+        if ($session->isStarted()) {
+            $twigTemplate->addGlobal('flashMessages', $session->get('flashMessages'));
+        }
+
         return $twigTemplate->getTwigEnvironment();
+    }
+
+    /**
+     * @param Request $request
+     * @param string $message
+     */
+    protected function flashSuccess(Request $request, $message = '')
+    {
+        $this->flashMessage($request, 'success', $message);
+    }
+
+    /**
+     * @param Request $request
+     * @param $message
+     */
+    protected function flashError(Request $request, $message = '')
+    {
+        $this->flashMessage($request, 'error', $message);
+    }
+
+    /**
+     * @param Request $request
+     * @param string $type
+     * @param string $message
+     */
+    private function flashMessage(Request $request, $type, $message = '')
+    {
+        $messages = $request->session()->get('flashMessages', []);
+        $messages[$type][] = $message;
+        $request->session()->flash('flashMessages', $messages);
     }
 }

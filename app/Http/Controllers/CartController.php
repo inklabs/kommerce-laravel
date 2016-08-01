@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Cart\AddCartItemCommand;
 use inklabs\kommerce\Action\Cart\GetCartQuery;
@@ -114,24 +113,6 @@ class CartController extends Controller
             $this->flashError($request, 'Unable to add item');
             return redirect('cart');
         }
-    }
-
-    /**
-     * @param Request $request
-     * @param string $message
-     */
-    protected function flashSuccess(Request $request, $message = '')
-    {
-        $request->session()->flash('success', $message);
-    }
-
-    /**
-     * @param Request $request
-     * @param $message
-     */
-    protected function flashError(Request $request, $message = '')
-    {
-        $request->session()->flash('error', $message);
     }
 
     protected function getRelatedProducts(CartDTO $cartDTO, $limit = 4)
