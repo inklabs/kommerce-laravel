@@ -10,6 +10,7 @@ Homestead.json
 .idea/*.iws
 .idea/*.ids
 .idea/workspace.xml
+.idea/watcherTasks.xml
 .idea/tasks.xml
 .idea/blade.xml
 .idea/vcs.xml

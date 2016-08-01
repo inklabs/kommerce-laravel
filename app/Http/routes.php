@@ -30,5 +30,7 @@ Route::get('/p/{slug}-{productId}', 'ProductController@show')
         'productId' => '[0-9a-f]{32}',
     ]);
 
+Route::get('/s', 'StyleController@serve');
+
 Route::controller('cart', 'CartController');
 Route::controller('checkout', 'CheckoutController');
