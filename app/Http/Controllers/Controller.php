@@ -323,7 +323,14 @@ class Controller extends BaseController
 
     protected function displayTemplate($name, $context)
     {
-        $this->getTwig()->display($name, $context);
+        $twig = $this->getTwig();
+
+        $session = $this->getSession();
+        if ($session->isStarted()) {
+            $twig->addGlobal('flashMessages', $session->get('flashMessages'));
+        }
+
+        $twig->display($name, $context);
     }
 
     /**
@@ -333,11 +340,6 @@ class Controller extends BaseController
     {
         $twigTemplate = new TwigTemplate();
         $twigTemplate->enableDebug();
-
-        $session = $this->getSession();
-        if ($session->isStarted()) {
-            $twigTemplate->addGlobal('flashMessages', $session->get('flashMessages'));
-        }
 
         return $twigTemplate->getTwigEnvironment();
     }
