@@ -23,6 +23,7 @@ use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Exception\EntityNotFoundException;
@@ -389,5 +390,24 @@ class Controller extends BaseController
         $messages = $request->session()->get('flashMessages', []);
         $messages[$type][] = $message;
         $request->session()->flash('flashMessages', $messages);
+    }
+
+    /**
+     * @param Request $request
+     * @param int $maxResults
+     * @return PaginationDTO
+     */
+    protected function getPaginationDTO(Request $request, $maxResults)
+    {
+        $page = $request->query('page');
+        if (empty($page)) {
+            $page = 1;
+        }
+        $paginationDTO = new PaginationDTO;
+        $paginationDTO->maxResults = $maxResults;
+        $paginationDTO->page = $page;
+        $paginationDTO->isTotalIncluded = true;
+
+        return $paginationDTO;
     }
 }

@@ -26,7 +26,7 @@ class ProductController extends Controller
 
         if ($slug !== $productDTO->slug) {
             return redirect()->route(
-                'product/show',
+                'product.show',
                 [
                     'slug' => $productDTO->slug,
                     'productId' => $productDTO->id->getHex(),

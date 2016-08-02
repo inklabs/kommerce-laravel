@@ -30,6 +30,13 @@ Route::get('/p/{slug}-{productId}', 'ProductController@show')
         'productId' => '[0-9a-f]{32}',
     ]);
 
+Route::get('/t/{slug}-{tagId}', 'TagController@show')
+    ->name('tag.show')
+    ->where([
+        'slug' => '[a-z0-9-]+',
+        'tagId' => '[0-9a-f]{32}',
+    ]);
+
 Route::get('/s', 'StyleController@serve');
 
 Route::controller('cart', 'CartController');
