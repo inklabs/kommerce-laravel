@@ -15,6 +15,6 @@ class RouteUrl implements RouteUrlInterface
      */
     function getRoute($name, $parameters = [], $absolute = true)
     {
-        route($name, $parameters, $absolute);
+        return route($name, $parameters, $absolute);
     }
 }
