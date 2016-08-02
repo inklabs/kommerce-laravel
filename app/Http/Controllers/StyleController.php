@@ -9,14 +9,14 @@ class StyleController extends Controller
 {
     public function serve(Request $request)
     {
-        $bootswatchTheme = 'default';
         $formatter = $request->query('formatter', 'compressed');
         $cacheDir = __DIR__ . '/../../../storage/scss_cache';
         $mainScssDirectory = __DIR__ . '/../../../resources/assets/scss';
 
         $server = new SassServer(
             $mainScssDirectory,
-            $bootswatchTheme,
+            env('BASE_TEMPLATE'),
+            env('BOOTSWATCH_THEME'),
             $formatter,
             $cacheDir
         );
