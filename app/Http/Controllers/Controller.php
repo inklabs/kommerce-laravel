@@ -339,7 +339,7 @@ class Controller extends BaseController
         $twig = $this->getTwig();
 
         $session = $this->getSession();
-        if ($session->isStarted()) {
+        if ($session->isStarted() && $session->has('flashMessages')) {
             $twig->addGlobal('flashMessages', $session->get('flashMessages'));
         }
 
