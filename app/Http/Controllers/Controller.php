@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Lib\CSRFTokenGenerator;
+use App\Lib\RouteUrl;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -349,7 +351,11 @@ class Controller extends BaseController
      */
     protected function getTwig()
     {
-        $twigTemplate = new TwigTemplate(env('BASE_TEMPLATE'));
+        $twigTemplate = new TwigTemplate(
+            env('BASE_TEMPLATE'),
+            new CSRFTokenGenerator(),
+            new RouteUrl()
+        );
         $twigTemplate->enableDebug();
 
         return $twigTemplate->getTwigEnvironment();
