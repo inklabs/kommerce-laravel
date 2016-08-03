@@ -49,6 +49,7 @@
         <h3>Demo Data Setup:</h3>
         <ul>
             <li><a href="/dummyData/createDummyProduct">Create Dummy Product and Tag</a></li>
+            <li><a href="/dummyData/createDummyOption">Create Dummy Option and OptionValue</a></li>
         </ul>
     </footer>
 

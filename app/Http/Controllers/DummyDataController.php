@@ -3,16 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use inklabs\kommerce\Action\Option\CreateOptionCommand;
+use inklabs\kommerce\Action\Option\CreateOptionValueCommand;
+use inklabs\kommerce\Action\Option\GetOptionQuery;
+use inklabs\kommerce\Action\Option\Query\GetOptionRequest;
+use inklabs\kommerce\Action\Option\Query\GetOptionResponse;
 use inklabs\kommerce\Action\Product\CreateProductCommand;
 use inklabs\kommerce\Action\Product\GetProductQuery;
 use inklabs\kommerce\Action\Product\Query\GetProductRequest;
 use inklabs\kommerce\Action\Product\Query\GetProductResponse;
 use inklabs\kommerce\Action\Tag\CreateTagCommand;
+use inklabs\kommerce\EntityDTO\OptionDTO;
+use inklabs\kommerce\EntityDTO\OptionValueDTO;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
 
 class DummyDataController extends Controller
 {
+    const PAGINATION_STRING = 'PaginationDTO[maxResults]=5&PaginationDTO[page]=1';
+
     public function createDummyProduct()
     {
         $faker = \Faker\Factory::create();
@@ -51,7 +60,7 @@ class DummyDataController extends Controller
 
         $tagId = $command->getTagId()->getHex();
 
-        $pagination = 'PaginationDTO[maxResults]=5&PaginationDTO[page]=1';
+        $pagination = self::PAGINATION_STRING;
 
         $productUrl = route(
             'product.show',
@@ -88,6 +97,65 @@ class DummyDataController extends Controller
             <li><a href="/api/v1/Product/AddTagToProductCommand?productId={$productId}&tagId={$tagId}">AddTagToProductCommand</a></li>
             <li><a href="/api/v1/Product/RemoveTagFromProductCommand?productId={$productId}&tagId={$tagId}">RemoveTagFromProductCommand</a></li>
             <li><a href="/api/v1/Product/DeleteProductCommand?productId={$productId}">DeleteProductCommand</a></li>
+        </ul>
+
+HEREDOC;
+    }
+
+    public function createDummyOption()
+    {
+        $faker = \Faker\Factory::create();
+
+        $optionDTO = new OptionDTO();
+        $optionDTO->name = 'Shirt Size';
+        $optionDTO->description = $faker->paragraph(3);
+        $optionDTO->sortOrder = 0;
+
+        $command = new CreateOptionCommand($optionDTO);
+        $this->dispatch($command);
+
+        $optionId = $command->getOptionId()->getHex();
+
+        $request = new GetOptionRequest($optionId);
+        $response = new GetOptionResponse($this->getPricing());
+        $this->dispatchQuery(new GetOptionQuery($request, $response));
+
+        $optionDTO = $response->getOptionDTO();
+
+        $faker = \Faker\Factory::create();
+
+        $optionValueDTO = new OptionValueDTO();
+        $optionValueDTO->name = 'L';
+        $optionValueDTO->sku = 'ML';
+        $optionValueDTO->unitPrice = $faker->numberBetween(100, 1000);
+        $optionValueDTO->shippingWeight = $faker->numberBetween(10, 40);
+        $optionValueDTO->sortOrder = 0;
+
+        $command = new CreateOptionValueCommand($optionId, $optionValueDTO);
+        $this->dispatch($command);
+
+        $optionValueId = $command->getOptionId()->getHex();
+
+        $pagination = self::PAGINATION_STRING;
+
+        echo <<<HEREDOC
+        <h3>Created:</h3>
+        <ul>
+            <li>Option: {$optionId}</li>
+            <li>OptionValue: {$optionValueId}</li>
+            <li><a href="">Create another dummy Option and Option Value</a></li>
+        </ul>
+
+        <h3>Queries</h3>
+        <ul>
+            <li><a href="/api/v1/Option/ListOptionsQuery/getOptionDTOs_getPaginationDTO?query=&{$pagination}">ListOptionsQuery</a></li>
+            <li><a href="/api/v1/Option/GetOptionQuery/getOptionDTOWithAllData?id={$optionId}">GetOptionQuery - getOptionDTOWithAllData</a></li>
+            <li><a href="/api/v1/Option/GetOptionQuery/getOptionDTO?id={$optionId}">GetOptionQuery - getOptionDTO</a></li>
+        </ul>
+
+        <h3>Commands</h3>
+        <ul>
+            <li><a href="/api/v1/Option/DeleteOptionCommand?optionId={$optionId}">DeleteOptionCommand</a></li>
         </ul>
 
 HEREDOC;
