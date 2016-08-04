@@ -23,11 +23,6 @@ Route::get('/dummyData/createDummyProduct', [
     'uses' => 'DummyDataController@createDummyProduct'
 ]);
 
-Route::get('/dummyData/createDummyOption', [
-    'as' => 'dd.createDummyOption',
-    'uses' => 'DummyDataController@createDummyOption'
-]);
-
 Route::get('/p/{slug}-{productId}', 'ProductController@show')
     ->name('product.show')
     ->where([
