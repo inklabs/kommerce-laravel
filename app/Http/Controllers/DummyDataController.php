@@ -1,23 +1,22 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use inklabs\kommerce\Action\Option\CreateOptionCommand;
 use inklabs\kommerce\Action\Option\CreateOptionProductCommand;
 use inklabs\kommerce\Action\Option\CreateOptionValueCommand;
-use inklabs\kommerce\Action\Option\GetOptionQuery;
-use inklabs\kommerce\Action\Option\Query\GetOptionRequest;
-use inklabs\kommerce\Action\Option\Query\GetOptionResponse;
 use inklabs\kommerce\Action\Product\AddTagToProductCommand;
 use inklabs\kommerce\Action\Product\CreateProductCommand;
 use inklabs\kommerce\Action\Product\GetProductQuery;
 use inklabs\kommerce\Action\Product\Query\GetProductRequest;
 use inklabs\kommerce\Action\Product\Query\GetProductResponse;
 use inklabs\kommerce\Action\Tag\AddOptionToTagCommand;
+use inklabs\kommerce\Action\Tag\AddTextOptionToTagCommand;
 use inklabs\kommerce\Action\Tag\CreateTagCommand;
 use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
+use inklabs\kommerce\Action\Option\CreateTextOptionCommand;
+use inklabs\kommerce\Entity\TextOptionType;
 use inklabs\kommerce\EntityDTO\OptionDTO;
 use inklabs\kommerce\EntityDTO\OptionProductDTO;
 use inklabs\kommerce\EntityDTO\OptionValueDTO;
@@ -33,28 +32,30 @@ class DummyDataController extends Controller
         $productDTO = $this->getDummyProduct();
         $tagDTO = $this->getDummyTag();
 
-        $optionDTO = $this->getDummyOption('Shirt Size');
-        $optionId = $optionDTO->id->getHex();
-        $optionValueId = $this->getDummyOptionValue($optionId);
+        $optionShirtSizeId = $this->getDummyOptionId('Shirt Size');
+        $optionValueId = $this->getDummyOptionValueId($optionShirtSizeId);
 
+        $optionStickerId = $this->getDummyOptionId('Heat Transfer Sticker');
         $productDTOSticker1 = $this->getDummyProduct('Chicago Bears');
         $productDTOSticker2 = $this->getDummyProduct('Green Bay Packers');
-        $optionDTOSticker = $this->getDummyOption('Heat Transfer Sticker');
-        $optionProductDTO1 = $this->getDummyOptionProduct(
-            $optionDTOSticker->id->getHex(),
+        $this->createDummyOptionProduct(
+            $optionStickerId,
             $productDTOSticker1->id->getHex()
         );
-        $optionProductDTO2 = $this->getDummyOptionProduct(
-            $optionDTOSticker->id->getHex(),
+        $this->createDummyOptionProduct(
+            $optionStickerId,
             $productDTOSticker2->id->getHex()
         );
+
+        $textOptionId = $this->getDummyTextOptionId('Enscription Message');
 
         $productId = $productDTO->id->getHex();
         $tagId = $tagDTO->id->getHex();
 
         $this->addTagToProduct($productId, $tagId);
-        $this->addOptionToTag($tagId, $optionId);
-        $this->addOptionToTag($tagId, $optionDTOSticker->id->getHex());
+        $this->addOptionToTag($tagId, $optionShirtSizeId);
+        $this->addOptionToTag($tagId, $optionStickerId);
+        $this->addTextOptionToTag($tagId, $textOptionId);
 
         $productUrl = route(
             'product.show',
@@ -71,7 +72,7 @@ class DummyDataController extends Controller
         <ul>
             <li>Product: {$productId}</li>
             <li>Tag: {$tagId}</li>
-            <li>Option: {$optionId}</li>
+            <li>Option: {$optionShirtSizeId}</li>
             <li>OptionValue: {$optionValueId}</li>
             <li><a href="{$productUrl}">View Product</a></li>
             <li><a href="">Create another dummy Product and Tag</a></li>
@@ -99,8 +100,15 @@ class DummyDataController extends Controller
             <li>Option:
                 <ul>
                     <li><a href="/api/v1/Option/ListOptionsQuery/getOptionDTOs_getPaginationDTO?query=&{$pagination}">ListOptionsQuery</a></li>
-                    <li><a href="/api/v1/Option/GetOptionQuery/getOptionDTOWithAllData?id={$optionId}">GetOptionQuery - getOptionDTOWithAllData</a></li>
-                    <li><a href="/api/v1/Option/GetOptionQuery/getOptionDTO?id={$optionId}">GetOptionQuery - getOptionDTO</a></li>
+                    <li><a href="/api/v1/Option/GetOptionQuery/getOptionDTOWithAllData?id={$optionShirtSizeId}">GetOptionQuery - getOptionDTOWithAllData</a></li>
+                    <li><a href="/api/v1/Option/GetOptionQuery/getOptionDTO?id={$optionShirtSizeId}">GetOptionQuery - getOptionDTO</a></li>
+                </ul>
+            </li>
+            <li>TextOption:
+                <ul>
+                    <li><a href="/api/v1/Option/ListTextOptionsQuery/getTextOptionDTOs_getPaginationDTO?query=&{$pagination}">ListTextOptionsQuery</a></li>
+                    <li><a href="/api/v1/Option/GetTextOptionQuery/getTextOptionDTOWithAllData?id={$textOptionId}">GetTextOptionQuery - getTextOptionDTOWithAllData</a></li>
+                    <li><a href="/api/v1/TextOption/GetTextOptionQuery/getTextOptionDTO?id={$textOptionId}">GetTextOptionQuery - getTextOptionDTO</a></li>
                 </ul>
             </li>
         </ul>
@@ -110,7 +118,7 @@ class DummyDataController extends Controller
             <li><a href="/api/v1/Product/AddTagToProductCommand?productId={$productId}&tagId={$tagId}">AddTagToProductCommand</a></li>
             <li><a href="/api/v1/Product/RemoveTagFromProductCommand?productId={$productId}&tagId={$tagId}">RemoveTagFromProductCommand</a></li>
             <li><a href="/api/v1/Product/DeleteProductCommand?productId={$productId}">DeleteProductCommand</a></li>
-            <li><a href="/api/v1/Option/DeleteOptionCommand?optionId={$optionId}">DeleteOptionCommand</a></li>
+            <li><a href="/api/v1/Option/DeleteOptionCommand?optionId={$optionShirtSizeId}">DeleteOptionCommand</a></li>
         </ul>
 
 HEREDOC;
@@ -131,7 +139,7 @@ HEREDOC;
         $productDTO->name = $name;
         $productDTO->description = $faker->paragraph(5);
         $productDTO->defaultImage = $faker->imageUrl();
-        $productDTO->sku = $faker->md5;
+        $productDTO->sku = $faker->randomNumber(5);
         $productDTO->unitPrice = $faker->numberBetween(100, 2000);
         $productDTO->isVisible = true;
         $productDTO->isActive = true;
@@ -176,9 +184,9 @@ HEREDOC;
 
     /**
      * @param string $name
-     * @return OptionDTO
+     * @return string
      */
-    protected function getDummyOption($name)
+    protected function getDummyOptionId($name)
     {
         $faker = \Faker\Factory::create();
 
@@ -191,20 +199,14 @@ HEREDOC;
         $command = new CreateOptionCommand($optionDTO);
         $this->dispatch($command);
 
-        $optionId = $command->getOptionId()->getHex();
-
-        $request = new GetOptionRequest($optionId);
-        $response = new GetOptionResponse($this->getPricing());
-        $this->dispatchQuery(new GetOptionQuery($request, $response));
-
-        return $response->getOptionDTO();
+        return $command->getOptionId()->getHex();
     }
 
     /**
      * @param $optionId
      * @return string
      */
-    protected function getDummyOptionValue($optionId)
+    protected function getDummyOptionValueId($optionId)
     {
         $faker = \Faker\Factory::create();
 
@@ -226,15 +228,43 @@ HEREDOC;
      * @param string $productId
      * @return OptionProductDTO
      */
-    private function getDummyOptionProduct($optionId, $productId)
+    private function createDummyOptionProduct($optionId, $productId)
     {
         $optionProductDTO = new OptionProductDTO();
         $optionProductDTO->sortOrder = 0;
 
         $command = new CreateOptionProductCommand($optionId, $productId, $optionProductDTO);
         $this->dispatch($command);
+    }
 
-        return $command->getOptionProductDTO();
+    /**
+     * @param string $name
+     * @return string
+     */
+    private function getDummyTextOptionId($name)
+    {
+        $faker = \Faker\Factory::create();
+
+        $description = $faker->paragraph(3);
+        $sortOrder = 0;
+        $textOptionTypeId = TextOptionType::TEXT;
+
+        $command = new CreateTextOptionCommand(
+            $name,
+            $description,
+            $sortOrder,
+            $textOptionTypeId
+        );
+        $this->dispatch($command);
+
+        return $command->getTextOptionId()->getHex();
+    }
+
+    private function addTagToProduct($productId, $tagId)
+    {
+        $this->dispatch(
+            new AddTagToProductCommand($productId, $tagId)
+        );
     }
 
     private function addOptionToTag($tagId, $optionId)
@@ -244,10 +274,10 @@ HEREDOC;
         );
     }
 
-    private function addTagToProduct($productId, $tagId)
+    private function addTextOptionToTag($tagId, $textOptionId)
     {
         $this->dispatch(
-            new AddTagToProductCommand($productId, $tagId)
+            new AddTextOptionToTagCommand($tagId, $textOptionId)
         );
     }
 }

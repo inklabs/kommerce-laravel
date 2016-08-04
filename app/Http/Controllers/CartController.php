@@ -15,6 +15,7 @@ use inklabs\kommerce\Action\Product\Query\GetRelatedProductsResponse;
 use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\Exception\KommerceException;
+use inklabs\kommerce\InputDTO\TextOptionValueDTO;
 
 class CartController extends Controller
 {
@@ -73,7 +74,7 @@ class CartController extends Controller
 
         $optionProductIds = [];
         $optionValueIds = [];
-        $textOptionValues = [];
+        $textOptionValueDTOs = [];
 
         foreach ($options as $option) {
             list($optionCode, $value) = explode('-', $option);
@@ -84,14 +85,14 @@ class CartController extends Controller
             }
         }
 
-//        foreach ($textOptions as $textOptionId => $value) {
-//            $value = trim($value);
-//
-//            if ($value === '') {
-//                continue;
-//            }
-//            $textOptionValues[$textOptionId] = $value;
-//        }
+        foreach ($textOptions as $textOptionId => $value) {
+            $value = trim($value);
+
+            if ($value === '') {
+                continue;
+            }
+            $textOptionValueDTOs[] = new TextOptionValueDTO($textOptionId, $value);
+        }
 
         try {
             $addCartItemCommand = new AddCartItemCommand(
@@ -100,7 +101,7 @@ class CartController extends Controller
                 $quantity,
                 $optionProductIds,
                 $optionValueIds,
-                $textOptionValues
+                $textOptionValueDTOs
             );
             $this->dispatch($addCartItemCommand);
             $cartItemId = $addCartItemCommand->getCartItemId();
