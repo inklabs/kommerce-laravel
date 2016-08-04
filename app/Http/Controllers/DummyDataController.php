@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use inklabs\kommerce\Action\Option\CreateOptionCommand;
+use inklabs\kommerce\Action\Option\CreateOptionProductCommand;
 use inklabs\kommerce\Action\Option\CreateOptionValueCommand;
 use inklabs\kommerce\Action\Option\GetOptionQuery;
 use inklabs\kommerce\Action\Option\Query\GetOptionRequest;
@@ -18,6 +19,7 @@ use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
 use inklabs\kommerce\EntityDTO\OptionDTO;
+use inklabs\kommerce\EntityDTO\OptionProductDTO;
 use inklabs\kommerce\EntityDTO\OptionValueDTO;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
@@ -31,15 +33,28 @@ class DummyDataController extends Controller
         $productDTO = $this->getDummyProduct();
         $tagDTO = $this->getDummyTag();
 
-        $optionDTO = $this->getDummyOption();
+        $optionDTO = $this->getDummyOption('Shirt Size');
         $optionId = $optionDTO->id->getHex();
         $optionValueId = $this->getDummyOptionValue($optionId);
+
+        $productDTOSticker1 = $this->getDummyProduct('Chicago Bears');
+        $productDTOSticker2 = $this->getDummyProduct('Green Bay Packers');
+        $optionDTOSticker = $this->getDummyOption('Heat Transfer Sticker');
+        $optionProductDTO1 = $this->getDummyOptionProduct(
+            $optionDTOSticker->id->getHex(),
+            $productDTOSticker1->id->getHex()
+        );
+        $optionProductDTO2 = $this->getDummyOptionProduct(
+            $optionDTOSticker->id->getHex(),
+            $productDTOSticker2->id->getHex()
+        );
 
         $productId = $productDTO->id->getHex();
         $tagId = $tagDTO->id->getHex();
 
         $this->addTagToProduct($productId, $tagId);
         $this->addOptionToTag($tagId, $optionId);
+        $this->addOptionToTag($tagId, $optionDTOSticker->id->getHex());
 
         $productUrl = route(
             'product.show',
@@ -104,12 +119,16 @@ HEREDOC;
     /**
      * @return $productDTO
      */
-    protected function getDummyProduct()
+    protected function getDummyProduct($name = null)
     {
         $faker = \Faker\Factory::create();
 
+        if ($name === null) {
+            $name = $faker->name;
+        }
+
         $productDTO = new ProductDTO();
-        $productDTO->name = $faker->name;
+        $productDTO->name = $name;
         $productDTO->description = $faker->paragraph(5);
         $productDTO->defaultImage = $faker->imageUrl();
         $productDTO->sku = $faker->md5;
@@ -156,14 +175,16 @@ HEREDOC;
     }
 
     /**
+     * @param string $name
      * @return OptionDTO
      */
-    protected function getDummyOption()
+    protected function getDummyOption($name)
     {
         $faker = \Faker\Factory::create();
 
         $optionDTO = new OptionDTO();
-        $optionDTO->name = 'Shirt Size';
+
+        $optionDTO->name = $name;
         $optionDTO->description = $faker->paragraph(3);
         $optionDTO->sortOrder = 0;
 
@@ -198,6 +219,22 @@ HEREDOC;
         $this->dispatch($command);
 
         return $command->getOptionId()->getHex();
+    }
+
+    /**
+     * @param string $optionId
+     * @param string $productId
+     * @return OptionProductDTO
+     */
+    private function getDummyOptionProduct($optionId, $productId)
+    {
+        $optionProductDTO = new OptionProductDTO();
+        $optionProductDTO->sortOrder = 0;
+
+        $command = new CreateOptionProductCommand($optionId, $productId, $optionProductDTO);
+        $this->dispatch($command);
+
+        return $command->getOptionProductDTO();
     }
 
     private function addOptionToTag($tagId, $optionId)

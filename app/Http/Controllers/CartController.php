@@ -68,23 +68,22 @@ class CartController extends Controller
     {
         $productId = $request->input('id');
         $quantity = $request->input('quantity');
-        $options = $request->input('options');
+        $options = $request->input('option');
         $textOptions = $request->input('textOption');
 
         $optionProductIds = [];
         $optionValueIds = [];
         $textOptionValues = [];
 
-//
-//        foreach ($options as $option) {
-//            list($optionCode, $value) = explode('-', $option);
-//            if ($optionCode === 'OV') {
-//                $optionValueIds[] = $value;
-//            } elseif ($optionCode === 'OP') {
-//                $optionProductIds[] = $value;
-//            }
-//        }
-//
+        foreach ($options as $option) {
+            list($optionCode, $value) = explode('-', $option);
+            if ($optionCode === 'OV') {
+                $optionValueIds[] = $value;
+            } elseif ($optionCode === 'OP') {
+                $optionProductIds[] = $value;
+            }
+        }
+
 //        foreach ($textOptions as $textOptionId => $value) {
 //            $value = trim($value);
 //
@@ -95,7 +94,7 @@ class CartController extends Controller
 //        }
 
         try {
-            $addCartCommand = new AddCartItemCommand(
+            $addCartItemCommand = new AddCartItemCommand(
                 $this->getCartId(),
                 $productId,
                 $quantity,
@@ -103,8 +102,8 @@ class CartController extends Controller
                 $optionValueIds,
                 $textOptionValues
             );
-            $this->dispatch($addCartCommand);
-            $cartItemId = $addCartCommand->getCartItemId();
+            $this->dispatch($addCartItemCommand);
+            $cartItemId = $addCartItemCommand->getCartItemId();
 
             $this->flashSuccess($request, $quantity . ' ' . ngettext('item', 'items', $quantity) . ' added to Cart');
 
