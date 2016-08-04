@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use inklabs\kommerce\Action\Option\CreateOptionCommand;
 use inklabs\kommerce\Action\Option\CreateOptionValueCommand;
 use inklabs\kommerce\Action\Option\GetOptionQuery;
@@ -29,15 +28,15 @@ class DummyDataController extends Controller
 
     public function createDummyProduct()
     {
-        $productDTO = $this->getFakeProduct();
+        $productDTO = $this->getDummyProduct();
         $tagDTO = $this->getDummyTag();
-
-        $productId = $productDTO->id->getHex();
-        $tagId = $tagDTO->id->getHex();
 
         $optionDTO = $this->getDummyOption();
         $optionId = $optionDTO->id->getHex();
         $optionValueId = $this->getDummyOptionValue($optionId);
+
+        $productId = $productDTO->id->getHex();
+        $tagId = $tagDTO->id->getHex();
 
         $this->addTagToProduct($productId, $tagId);
         $this->addOptionToTag($tagId, $optionId);
@@ -105,7 +104,7 @@ HEREDOC;
     /**
      * @return $productDTO
      */
-    protected function getFakeProduct()
+    protected function getDummyProduct()
     {
         $faker = \Faker\Factory::create();
 
@@ -189,7 +188,7 @@ HEREDOC;
         $faker = \Faker\Factory::create();
 
         $optionValueDTO = new OptionValueDTO();
-        $optionValueDTO->name = 'L';
+        $optionValueDTO->name = 'Large';
         $optionValueDTO->sku = 'ML';
         $optionValueDTO->unitPrice = $faker->numberBetween(100, 1000);
         $optionValueDTO->shippingWeight = $faker->numberBetween(10, 40);
