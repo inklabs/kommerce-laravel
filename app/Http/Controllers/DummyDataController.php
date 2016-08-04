@@ -8,10 +8,12 @@ use inklabs\kommerce\Action\Option\CreateOptionValueCommand;
 use inklabs\kommerce\Action\Option\GetOptionQuery;
 use inklabs\kommerce\Action\Option\Query\GetOptionRequest;
 use inklabs\kommerce\Action\Option\Query\GetOptionResponse;
+use inklabs\kommerce\Action\Product\AddTagToProductCommand;
 use inklabs\kommerce\Action\Product\CreateProductCommand;
 use inklabs\kommerce\Action\Product\GetProductQuery;
 use inklabs\kommerce\Action\Product\Query\GetProductRequest;
 use inklabs\kommerce\Action\Product\Query\GetProductResponse;
+use inklabs\kommerce\Action\Tag\AddOptionToTagCommand;
 use inklabs\kommerce\Action\Tag\CreateTagCommand;
 use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
@@ -36,6 +38,9 @@ class DummyDataController extends Controller
         $optionDTO = $this->getDummyOption();
         $optionId = $optionDTO->id->getHex();
         $optionValueId = $this->getDummyOptionValue($optionId);
+
+        $this->addTagToProduct($productId, $tagId);
+        $this->addOptionToTag($tagId, $optionId);
 
         $productUrl = route(
             'product.show',
@@ -194,5 +199,19 @@ HEREDOC;
         $this->dispatch($command);
 
         return $command->getOptionId()->getHex();
+    }
+
+    private function addOptionToTag($tagId, $optionId)
+    {
+        $this->dispatch(
+            new AddOptionToTagCommand($tagId, $optionId)
+        );
+    }
+
+    private function addTagToProduct($productId, $tagId)
+    {
+        $this->dispatch(
+            new AddTagToProductCommand($productId, $tagId)
+        );
     }
 }
