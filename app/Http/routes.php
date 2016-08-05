@@ -37,7 +37,14 @@ Route::get('/t/{slug}-{tagId}', 'TagController@show')
         'tagId' => '[0-9a-f]{32}',
     ]);
 
-Route::get('/s', 'StyleController@serve');
+Route::get('/s', 'StyleController@serve')
+    ->name('style.serve');
+
+Route::get('/a/{theme}/{path}', 'AssetController@serve')
+    ->name('asset.serve')
+    ->where([
+        'path' => '(.*)',
+    ]);
 
 Route::controller('cart', 'CartController');
 Route::controller('checkout', 'CheckoutController');

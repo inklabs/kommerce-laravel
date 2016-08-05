@@ -47,6 +47,7 @@ use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\EasyPostGateway;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\ServiceFactory;
+use inklabs\KommerceTemplates\Lib\AssetLocationService;
 use inklabs\KommerceTemplates\Lib\TwigTemplate;
 use Twig_Environment;
 
@@ -409,5 +410,11 @@ class Controller extends BaseController
         $paginationDTO->isTotalIncluded = true;
 
         return $paginationDTO;
+    }
+
+    protected function getAssetLocationService()
+    {
+        $assetLocationService = new AssetLocationService();
+        return $assetLocationService;
     }
 }
