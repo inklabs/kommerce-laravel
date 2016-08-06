@@ -69,8 +69,8 @@ class CartController extends Controller
     {
         $productId = $request->input('id');
         $quantity = $request->input('quantity');
-        $options = $request->input('option');
-        $textOptions = $request->input('textOption');
+        $options = $request->input('option', []);
+        $textOptions = $request->input('textOption', []);
 
         $optionProductIds = [];
         $optionValueIds = [];
