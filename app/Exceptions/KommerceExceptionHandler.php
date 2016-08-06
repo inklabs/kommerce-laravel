@@ -348,7 +348,20 @@ EOF;
 
         $pstormLink = ' (<a href="phpstorm://open/?file=' . $path . '&line=' . $line . '">pstorm</a>)';
 
+        if ($this->pathIsNotLaravelFramework($path)) {
+            $pstormLink = '<span style="font-weight: bold; font-size: 2em">' . $pstormLink . '</span>';
+        }
+
         return sprintf(' in <a title="%s linex %3$d" ondblclick="var f=this.innerHTML;this.innerHTML=this.title;this.title=f;">%s line %d</a>', $path, $file, $line) . $pstormLink;
+    }
+
+    /**
+     * @param $path
+     * @return bool
+     */
+    private function pathIsNotLaravelFramework($path)
+    {
+        return stristr($path, 'laravel/framework') === false;
     }
 
     /**
