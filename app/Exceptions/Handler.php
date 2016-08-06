@@ -8,6 +8,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\Debug\Exception\FlattenException;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class Handler extends ExceptionHandler
 {
@@ -47,4 +49,16 @@ class Handler extends ExceptionHandler
     {
         return parent::render($request, $e);
     }
+
+    protected function convertExceptionToResponse(Exception $e)
+    {
+        $e = FlattenException::create($e);
+
+        $handler = new KommerceExceptionHandler(config('app.debug'));
+
+        $decorated = $this->decorate($handler->getContent($e), $handler->getStylesheet($e));
+
+        return SymfonyResponse::create($decorated, $e->getStatusCode(), $e->getHeaders());
+    }
+
 }
