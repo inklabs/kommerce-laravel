@@ -143,6 +143,7 @@ HEREDOC;
         $productDTO->unitPrice = $faker->numberBetween(100, 2000);
         $productDTO->isVisible = true;
         $productDTO->isActive = true;
+        $productDTO->rating = $faker->numberBetween(100, 500);
 
         $command = new CreateProductCommand($productDTO);
         $this->dispatch($command);
