@@ -7,6 +7,7 @@ use inklabs\kommerce\Action\Option\CreateOptionProductCommand;
 use inklabs\kommerce\Action\Option\CreateOptionValueCommand;
 use inklabs\kommerce\Action\Product\AddTagToProductCommand;
 use inklabs\kommerce\Action\Product\CreateProductCommand;
+use inklabs\kommerce\Action\Product\CreateProductQuantityDiscountCommand;
 use inklabs\kommerce\Action\Product\GetProductQuery;
 use inklabs\kommerce\Action\Product\Query\GetProductRequest;
 use inklabs\kommerce\Action\Product\Query\GetProductResponse;
@@ -54,6 +55,7 @@ class DummyDataController extends Controller
         $productId = $productDTO->id->getHex();
         $tagId = $tagDTO->id->getHex();
 
+        $this->addProductQuantityDiscounts($productId);
         $this->addTagToProduct($productId, $tagId);
         $this->addOptionToTag($tagId, $optionShirtSizeId);
         $this->addOptionToTag($tagId, $optionStickerId);
@@ -308,6 +310,66 @@ HEREDOC;
     {
         $this->dispatch(
             new AddTextOptionToTagCommand($tagId, $textOptionId)
+        );
+    }
+
+    private function addProductQuantityDiscounts($productId)
+    {
+        $promotionType = PromotionType::PERCENT;
+        $reducesTaxSubtotal = true;
+        $maxRedemptions = null;
+        $startDate = null;
+        $endDate = null;
+        $flagApplyCatalogPromotions = false;
+        $value = 10;
+        $quantity = 10;
+
+        $this->dispatch(
+            new CreateProductQuantityDiscountCommand(
+                $promotionType,
+                $value,
+                $reducesTaxSubtotal,
+                $maxRedemptions,
+                $startDate,
+                $endDate,
+                $productId,
+                $quantity,
+                $flagApplyCatalogPromotions
+            )
+        );
+
+        $value = 20;
+        $quantity = 50;
+
+        $this->dispatch(
+            new CreateProductQuantityDiscountCommand(
+                $promotionType,
+                $value,
+                $reducesTaxSubtotal,
+                $maxRedemptions,
+                $startDate,
+                $endDate,
+                $productId,
+                $quantity,
+                $flagApplyCatalogPromotions
+            )
+        );
+
+        $value = 30;
+        $quantity = 100;
+
+        $this->dispatch(
+            new CreateProductQuantityDiscountCommand(
+                $promotionType,
+                $value,
+                $reducesTaxSubtotal,
+                $maxRedemptions,
+                $startDate,
+                $endDate,
+                $productId,
+                $quantity,
+                $flagApplyCatalogPromotions
+            )
         );
     }
 }
