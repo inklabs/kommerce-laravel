@@ -131,8 +131,8 @@ class Controller extends BaseController
     private function setupKommerce()
     {
         $this->setupDoctrine();
-        $this->setupPricing();
         $this->setupRepositoryFactory();
+        $this->setupPricing();
         $this->setupEventDispatcher();
         $this->setupPaymentGateway();
         $this->setupFileManager();
@@ -165,6 +165,7 @@ class Controller extends BaseController
     private function setupPricing()
     {
         $this->pricing = new Pricing();
+        $this->pricing->loadCatalogPromotions($this->repositoryFactory->getCatalogPromotionRepository());
         $this->cartCalculator = new CartCalculator($this->pricing);
     }
 

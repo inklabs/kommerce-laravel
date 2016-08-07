@@ -18,11 +18,6 @@ Route::get('/api/v1/{model}/{action}/{method?}', [
     'action' => '.*Command'
 ]);
 
-Route::get('/dummyData/createDummyProduct', [
-    'as' => 'dd.createDummyProduct',
-    'uses' => 'DummyDataController@createDummyProduct'
-]);
-
 Route::get('/p/{slug}-{productId}', 'ProductController@show')
     ->name('product.show')
     ->where([
@@ -48,3 +43,9 @@ Route::get('/a/{theme}/{path}', 'AssetController@serve')
 
 Route::controller('cart', 'CartController');
 Route::controller('checkout', 'CheckoutController');
+Route::controller('dummy-data', 'DummyDataController');
+
+//Route::get('/dummyData/createDummyProduct', [
+//    'as' => 'dd.createDummyProduct',
+//    'uses' => 'DummyDataController@createDummyProduct'
+//]);

@@ -48,7 +48,8 @@
     <footer>
         <h3>Demo Data Setup:</h3>
         <ul>
-            <li><a href="/dummyData/createDummyProduct">Create Dummy Product and Tag</a></li>
+            <li><a href="dummy-data/create-dummy-product">Create Dummy Product and Tag</a></li>
+            <li><a href="dummy-data/create-dummy-catalog-price-rule">Create Dummy Catalog Price Rule</a></li>
         </ul>
     </footer>
 

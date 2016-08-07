@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use inklabs\kommerce\Action\CatalogPromotion\CreateCatalogPromotionCommand;
 use inklabs\kommerce\Action\Option\CreateOptionCommand;
 use inklabs\kommerce\Action\Option\CreateOptionProductCommand;
 use inklabs\kommerce\Action\Option\CreateOptionValueCommand;
@@ -16,6 +17,7 @@ use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
 use inklabs\kommerce\Action\Option\CreateTextOptionCommand;
+use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Entity\TextOptionType;
 use inklabs\kommerce\EntityDTO\OptionDTO;
 use inklabs\kommerce\EntityDTO\OptionProductDTO;
@@ -27,7 +29,7 @@ class DummyDataController extends Controller
 {
     const PAGINATION_STRING = 'PaginationDTO[maxResults]=5&PaginationDTO[page]=1';
 
-    public function createDummyProduct()
+    public function getCreateDummyProduct()
     {
         $productDTO = $this->getDummyProduct();
         $tagDTO = $this->getDummyTag();
@@ -122,6 +124,33 @@ class DummyDataController extends Controller
         </ul>
 
 HEREDOC;
+    }
+
+    public function getCreateDummyCatalogPriceRule()
+    {
+        $faker = \Faker\Factory::create();
+
+        $promotionTypeId = PromotionType::PERCENT;
+        $value = $faker->numberBetween(10, 70);
+        $name = $value . '% OFF Everything';
+        $reducesTaxSubtotal = true;
+        $startDate = null;
+        $endDate = null;
+        $maxRedemptions = null;
+        $tagId = null;
+
+        $command = new CreateCatalogPromotionCommand(
+            $name,
+            $promotionTypeId,
+            $value,
+            $reducesTaxSubtotal,
+            $maxRedemptions,
+            $startDate,
+            $endDate,
+            $tagId
+        );
+
+        $this->dispatch($command);
     }
 
     /**
