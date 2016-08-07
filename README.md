@@ -32,6 +32,26 @@ npm run watch
 npm run prod // uglify, autoprefix, no maps
 ```
 
+## Serving Assets   
+
+#### Locally
+
+
+
+#### Nginx
+
+Place your assets in a directory inside your base-theme folder at the same root level of `templates` with the name of `assets`, this will be where your theme's built asset files are located. This directory will probably be .gitignored.
+
+```
+    location ~ ^/(assets)/  {
+        root /path/to/base/theme;
+        gzip_static on;
+        expires max;
+        add_header Cache-Control public;
+       #access_log /dev/null;
+    }
+```
+
 ## Contributing
 
 Thank you for considering contributing to the sample Laravel application! The contribution guide can be found in the [Core Project](https://github.com/inklabs/kommerce-core/blob/master/CONTRIBUTING.md).
