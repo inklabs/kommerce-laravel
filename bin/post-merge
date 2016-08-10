@@ -1,0 +1,4 @@
+#!/bin/bash
+# post-merge
+
+bin/update-composer.sh
