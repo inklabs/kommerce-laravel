@@ -52,6 +52,12 @@ Place your assets in a directory inside your base-theme folder at the same root 
     }
 ```
 
+## EasyPost
+
+You will need a test API key to get shipping rates. https://www.easypost.com/getting-started
+
+Update .env with your EASYPOST-API-KEY
+
 ## Contributing
 
 Thank you for considering contributing to the sample Laravel application! The contribution guide can be found in the [Core Project](https://github.com/inklabs/kommerce-core/blob/master/CONTRIBUTING.md).
