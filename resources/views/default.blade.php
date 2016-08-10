@@ -50,6 +50,7 @@
         <ul>
             <li><a href="dummy-data/create-dummy-product">Create Dummy Product and Tag</a></li>
             <li><a href="dummy-data/create-dummy-catalog-price-rule">Create Dummy Catalog Price Rule</a></li>
+            <li><a href="dummy-data/create-dummy-coupon">Create Dummy Coupon</a></li>
         </ul>
     </footer>
 

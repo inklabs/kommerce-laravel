@@ -182,7 +182,9 @@ class CartController extends Controller
                 $this->getCartId(),
                 $couponCode
             ));
+            $this->flashSuccess($request, 'Coupon code added');
         } catch (KommerceException $e) {
+            throw $e;
             $this->flashError($request, 'Unable to add Coupon.');
         }
 

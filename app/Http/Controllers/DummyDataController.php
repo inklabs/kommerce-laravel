@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
+use DateTime;
 use inklabs\kommerce\Action\CatalogPromotion\CreateCatalogPromotionCommand;
+use inklabs\kommerce\Action\Coupon\CreateCouponCommand;
 use inklabs\kommerce\Action\Option\CreateOptionCommand;
 use inklabs\kommerce\Action\Option\CreateOptionProductCommand;
 use inklabs\kommerce\Action\Option\CreateOptionValueCommand;
@@ -20,6 +22,7 @@ use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
 use inklabs\kommerce\Action\Option\CreateTextOptionCommand;
 use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Entity\TextOptionType;
+use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\EntityDTO\OptionDTO;
 use inklabs\kommerce\EntityDTO\OptionProductDTO;
 use inklabs\kommerce\EntityDTO\OptionValueDTO;
@@ -153,6 +156,44 @@ HEREDOC;
         );
 
         $this->dispatch($command);
+    }
+
+    public function getCreateDummyCoupon()
+    {
+        $faker = \Faker\Factory::create();
+
+        $code = $faker->postcode;
+        $flagFreeShipping = false;
+        $minOrderValue = null;
+        $maxOrderValue = null;
+        $canCombineWithOtherCoupons = true;
+
+        $promotionTypeId = PromotionType::PERCENT;
+        $value = $faker->numberBetween(10, 70);
+        $name = $value . '% OFF';
+        $reducesTaxSubtotal = true;
+        $startDate = null;
+        $endDate = null;
+        $maxRedemptions = 100;
+
+        $command = new CreateCouponCommand(
+            $code,
+            $flagFreeShipping,
+            $minOrderValue,
+            $maxOrderValue,
+            $canCombineWithOtherCoupons,
+            $name,
+            $promotionTypeId,
+            $value,
+            $reducesTaxSubtotal,
+            $maxRedemptions,
+            $startDate,
+            $endDate
+        );
+
+        $this->dispatch($command);
+
+        echo $code;
     }
 
     /**
