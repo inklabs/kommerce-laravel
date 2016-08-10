@@ -75,6 +75,8 @@ class CartController extends Controller
 
     public function getEstimateShipping()
     {
+        // TODO: Update to grab current zip and selected rate
+
         $this->displayTemplate(
             'cart/estimate_shipping.twig'
         );
