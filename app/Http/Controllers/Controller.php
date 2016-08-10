@@ -199,7 +199,7 @@ class Controller extends BaseController
         $storeAddress->zip5 = '90401';
 
         $this->shipmentGateway = new EasyPostGateway(
-            'api-key',
+            env('EASYPOST-API-KEY'),
             $storeAddress
         );
     }
@@ -337,7 +337,7 @@ class Controller extends BaseController
         $this->cartDTO = $response->getCartDTO();
     }
 
-    protected function displayTemplate($name, $context)
+    protected function displayTemplate($name, $context = [])
     {
         $twig = $this->getTwig();
 
@@ -380,6 +380,21 @@ class Controller extends BaseController
     protected function flashError(Request $request, $message = '')
     {
         $this->flashMessage($request, 'danger', $message);
+    }
+
+    /**
+     * @param Request $request
+     * @param $message
+     */
+    protected function flashWarning(Request $request, $message = '')
+    {
+        $this->flashMessage($request, 'warning', $message);
+    }
+
+    public function flashGenericWarning(Request $request, $message = 'Something went wrong.')
+    {
+        $extraMessage = 'Please contact us at store@example.com';
+        $this->flashWarning($request, $message . ' ' . $extraMessage);
     }
 
     /**

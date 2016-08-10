@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Cart\AddCartItemCommand;
 use inklabs\kommerce\Action\Cart\AddCouponToCartCommand;
 use inklabs\kommerce\Action\Cart\DeleteCartItemCommand;
+use inklabs\kommerce\Action\Cart\SetExternalShipmentRateCommand;
 use inklabs\kommerce\Action\Cart\UpdateCartItemQuantityCommand;
 use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
 use inklabs\kommerce\Action\Product\GetRelatedProductsQuery;
@@ -12,8 +13,15 @@ use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
 use inklabs\kommerce\Action\Product\Query\GetRelatedProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRelatedProductsResponse;
+use inklabs\kommerce\Action\Shipment\GetLowestShipmentRatesByDeliveryMethodQuery;
+use inklabs\kommerce\Action\Shipment\Query\GetLowestShipmentRatesByDeliveryMethodRequest;
+use inklabs\kommerce\Action\Shipment\Query\GetLowestShipmentRatesByDeliveryMethodResponse;
+use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\EntityDTO\CartDTO;
+use inklabs\kommerce\EntityDTO\OrderAddressDTO;
+use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
 use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\InputDTO\TextOptionValueDTO;
 
@@ -63,6 +71,54 @@ class CartController extends Controller
                 'recommendedProducts' => $this->getRecommendedProducts($cartProductIds, 12),
             ]
         );
+    }
+
+    public function getEstimateShipping()
+    {
+        $this->displayTemplate(
+            'cart/estimate_shipping.twig'
+        );
+    }
+
+    public function postEstimateShipping(Request $request)
+    {
+        // TODO: Notify when cart is empty
+
+        $shipping = $request->input('shipping');
+        $zip5 = $request->input('shipping.zip5');
+        $isResidential = (bool) $request->input('shipping.isResidential');
+        $shipmentRates = [];
+
+        if (! empty($zip5)) {
+            $cart = $this->getCart();
+            $shipmentRates = $this->getTrimmedShipmentRates($request, $cart, $zip5, $isResidential);
+        }
+
+        $this->displayTemplate(
+            'cart/estimate_shipping.twig',
+            [
+                'shipping' => $shipping,
+                'shipmentRates' => $shipmentRates,
+            ]
+        );
+    }
+
+    public function postApplyShippingMethod(Request $request)
+    {
+        $shipping = $request->input('shipping');
+
+        if (empty($shipping)) {
+            $this->flashError($request, 'Shipping method missing');
+            return redirect('cart');
+        }
+
+        $cart = $this->getCart();
+        $shipmentRateExternalId = $request->input('shipping.shipmentRateExternalId');
+        $zip5 = $request->input('shipping.zip5');
+        $isResidential = (bool) $request->input('shipping.isResidential');
+
+        $this->applyShipment($request, $cart, $zip5, $isResidential, $shipmentRateExternalId);
+        return redirect('cart');
     }
 
     public function postAddItem(Request $request)
@@ -166,6 +222,80 @@ class CartController extends Controller
         }
 
         return redirect('cart');
+    }
+
+    /**
+     * @param Request $parentRequest
+     * @param CartDTO $cart
+     * @param string $zip5
+     * @param bool $isResidential
+     * @return ShipmentRateDTO[]
+     */
+    private function getTrimmedShipmentRates(Request $parentRequest, CartDTO $cart, $zip5, $isResidential)
+    {
+        $toAddress = new OrderAddressDTO;
+        $toAddress->zip5 = $zip5;
+        $toAddress->country = 'US';
+        $toAddress->isResidential = $isResidential;
+
+        $defaultLength = 9;
+        $defaultWidth = 9;
+        $defaultHeight = 9;
+
+        $parcel = new ParcelDTO;
+        $parcel->length = $defaultLength;
+        $parcel->width = $defaultWidth;
+        $parcel->height = $defaultHeight;
+        $parcel->weight = $cart->shippingWeight;
+
+        $request = new GetLowestShipmentRatesByDeliveryMethodRequest($toAddress, $parcel);
+        $response = new GetLowestShipmentRatesByDeliveryMethodResponse();
+        $this->dispatchQuery(new GetLowestShipmentRatesByDeliveryMethodQuery($request, $response));
+
+        $shipmentRateDTOs = $response->getShipmentRateDTOs();
+
+        if (empty($shipmentRateDTOs)) {
+            $this->flashError($parentRequest, 'Unable to estimate shipping.');
+        }
+
+        return $shipmentRateDTOs;
+    }
+
+    /**
+     * @param Request $request
+     * @param CartDTO $cart
+     * @param string $zip5
+     * @param bool $isResidential
+     * @param string $shipmentRateExternalId
+     */
+    private function applyShipment(Request $request, CartDTO $cart, $zip5, $isResidential, $shipmentRateExternalId)
+    {
+        // TODO: Load State from zipcode
+        $state = 'CA';
+//        $state = DB::select('state')
+//            ->from('zipcode')
+//            ->where('zipcode', '=', $zip5)
+//            ->limit(1)
+//            ->execute()
+//            ->get('state');
+
+        $shippingAddressDTO = new OrderAddressDTO;
+        $shippingAddressDTO->zip5 = $zip5;
+        $shippingAddressDTO->state = $state;
+        $shippingAddressDTO->isResidential = $isResidential;
+        $shippingAddressDTO->country = 'US';
+
+        try {
+            $this->dispatch(new SetExternalShipmentRateCommand(
+                $cart->id,
+                $shipmentRateExternalId,
+                $shippingAddressDTO
+            ));
+
+            $this->flashSuccess($request, 'Added Shipping Method.');
+        } catch (EntityValidatorException $e) {
+            $this->flashGenericWarning($request);
+        }
     }
 
     protected function getRelatedProducts(CartDTO $cartDTO, $limit = 4)
