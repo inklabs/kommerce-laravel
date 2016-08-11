@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Cart\AddCartItemCommand;
 use inklabs\kommerce\Action\Cart\AddCouponToCartCommand;
 use inklabs\kommerce\Action\Cart\DeleteCartItemCommand;
+use inklabs\kommerce\Action\Cart\RemoveCouponFromCartCommand;
 use inklabs\kommerce\Action\Cart\SetExternalShipmentRateCommand;
 use inklabs\kommerce\Action\Cart\UpdateCartItemQuantityCommand;
 use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
@@ -184,8 +185,25 @@ class CartController extends Controller
             ));
             $this->flashSuccess($request, 'Coupon code added');
         } catch (KommerceException $e) {
-            throw $e;
             $this->flashError($request, 'Unable to add Coupon.');
+        }
+
+        return redirect('cart');
+    }
+
+    public function postRemoveCoupon(Request $request)
+    {
+        $couponId = $request->input('couponId');
+        $cartId = $this->getCartId();
+
+        try {
+            $this->dispatch(new RemoveCouponFromCartCommand(
+                $cartId,
+                $couponId
+            ));
+            $this->flashSuccess($request, 'Coupon removed');
+        } catch (KommerceException $e) {
+            $this->flashError($request, 'Unable to remove Coupon.');
         }
 
         return redirect('cart');
