@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use DateTime;
 use inklabs\kommerce\Action\CatalogPromotion\CreateCatalogPromotionCommand;
 use inklabs\kommerce\Action\Coupon\CreateCouponCommand;
 use inklabs\kommerce\Action\Option\CreateOptionCommand;
@@ -22,7 +21,6 @@ use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
 use inklabs\kommerce\Action\Option\CreateTextOptionCommand;
 use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\Entity\TextOptionType;
-use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\EntityDTO\OptionDTO;
 use inklabs\kommerce\EntityDTO\OptionProductDTO;
 use inklabs\kommerce\EntityDTO\OptionValueDTO;
