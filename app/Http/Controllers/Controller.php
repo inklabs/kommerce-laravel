@@ -247,7 +247,7 @@ class Controller extends BaseController
     /**
      * @return string
      */
-    private function getRemoteIP4()
+    protected function getRemoteIP4()
     {
         return request()->ip();
     }
