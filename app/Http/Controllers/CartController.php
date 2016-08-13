@@ -60,7 +60,7 @@ class CartController extends Controller
         }
 
         if ($addedCartItem == null) {
-            $this->flashError($request, 'This product is not in your cart.');
+            $this->flashError('This product is not in your cart.');
             return redirect('cart');
         }
 
@@ -111,7 +111,7 @@ class CartController extends Controller
         $shipping = $request->input('shipping');
 
         if (empty($shipping)) {
-            $this->flashError($request, 'Shipping method missing');
+            $this->flashError('Shipping method missing');
             return redirect('cart');
         }
 
@@ -120,7 +120,7 @@ class CartController extends Controller
         $zip5 = $request->input('shipping.zip5');
         $isResidential = (bool) $request->input('shipping.isResidential');
 
-        $this->applyShipment($request, $cart, $zip5, $isResidential, $shipmentRateExternalId);
+        $this->applyShipment($cart, $zip5, $isResidential, $shipmentRateExternalId);
         return redirect('cart');
     }
 
@@ -165,11 +165,11 @@ class CartController extends Controller
             $this->dispatch($addCartItemCommand);
             $cartItemId = $addCartItemCommand->getCartItemId();
 
-            $this->flashSuccess($request, $quantity . ' ' . ngettext('item', 'items', $quantity) . ' added to Cart');
+            $this->flashSuccess($quantity . ' ' . ngettext('item', 'items', $quantity) . ' added to Cart');
 
             return redirect('cart/added/' . $cartItemId->getHex());
         } catch (KommerceException $e) {
-            $this->flashError($request, 'Unable to add item');
+            $this->flashError('Unable to add item');
             return redirect('cart');
         }
     }
@@ -183,9 +183,9 @@ class CartController extends Controller
                 $this->getCartId(),
                 $couponCode
             ));
-            $this->flashSuccess($request, 'Coupon code added');
+            $this->flashSuccess('Coupon code added');
         } catch (KommerceException $e) {
-            $this->flashError($request, 'Unable to add Coupon.');
+            $this->flashError('Unable to add Coupon.');
         }
 
         return redirect('cart');
@@ -201,9 +201,9 @@ class CartController extends Controller
                 $cartId,
                 $couponId
             ));
-            $this->flashSuccess($request, 'Coupon removed');
+            $this->flashSuccess('Coupon removed');
         } catch (KommerceException $e) {
-            $this->flashError($request, 'Unable to remove Coupon.');
+            $this->flashError('Unable to remove Coupon.');
         }
 
         return redirect('cart');
@@ -220,13 +220,13 @@ class CartController extends Controller
                     $cartItemId,
                     $quantity
                 ));
-                $this->flashSuccess($request, 'Quantity updated to ' . $quantity);
+                $this->flashSuccess('Quantity updated to ' . $quantity);
             } else {
                 $this->dispatch(new DeleteCartItemCommand($cartItemId));
-                $this->flashSuccess($request, 'Removed item from Cart');
+                $this->flashSuccess('Removed item from Cart');
             }
         } catch (KommerceException $e) {
-            $this->flashError($request, 'Unable to modify item in Cart');
+            $this->flashError('Unable to modify item in Cart');
         }
 
         return redirect('cart');
@@ -238,9 +238,9 @@ class CartController extends Controller
 
         try {
             $this->dispatch(new DeleteCartItemCommand($cartItemId));
-            $this->flashSuccess($request, 'Removed item from Cart');
+            $this->flashSuccess('Removed item from Cart');
         } catch (KommerceException $e) {
-            $this->flashError($request, 'Unable to remove item');
+            $this->flashError('Unable to remove item');
         }
 
         return redirect('cart');
@@ -277,20 +277,19 @@ class CartController extends Controller
         $shipmentRateDTOs = $response->getShipmentRateDTOs();
 
         if (empty($shipmentRateDTOs)) {
-            $this->flashError($parentRequest, 'Unable to estimate shipping.');
+            $this->flashError('Unable to estimate shipping.');
         }
 
         return $shipmentRateDTOs;
     }
 
     /**
-     * @param Request $request
      * @param CartDTO $cart
      * @param string $zip5
      * @param bool $isResidential
      * @param string $shipmentRateExternalId
      */
-    private function applyShipment(Request $request, CartDTO $cart, $zip5, $isResidential, $shipmentRateExternalId)
+    private function applyShipment(CartDTO $cart, $zip5, $isResidential, $shipmentRateExternalId)
     {
         // TODO: Load State from zipcode
         $state = 'CA';
@@ -314,9 +313,9 @@ class CartController extends Controller
                 $shippingAddressDTO
             ));
 
-            $this->flashSuccess($request, 'Added Shipping Method.');
+            $this->flashSuccess('Added Shipping Method.');
         } catch (EntityValidatorException $e) {
-            $this->flashGenericWarning($request);
+            $this->flashGenericWarning();
         }
     }
 

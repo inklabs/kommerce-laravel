@@ -46,14 +46,14 @@ class CheckoutController extends Controller
         );
     }
 
-    public function getComplete(Request $request, $orderId)
+    public function getComplete($orderId)
     {
         try {
             $request = new GetOrderRequest($orderId);
             $response = new GetOrderResponse();
             $this->dispatchQuery(new GetOrderQuery($request, $response));
         } catch (EntityNotFoundException $e) {
-            $this->flashError($request, 'Order not found.');
+            $this->flashError('Order not found.');
             return redirect('/');
         }
 
@@ -75,7 +75,7 @@ class CheckoutController extends Controller
         $cart = $this->getCart();
 
         if ($cart->cartTotal->shipping === null) {
-            $this->flashError($request, 'A shipping method must be chosen');
+            $this->flashError('A shipping method must be chosen');
             return redirect('checkout/pay');
         }
 
@@ -100,26 +100,24 @@ class CheckoutController extends Controller
 
             if ($cart->cartTotal->total > 0) {
                 $this->flashSuccess(
-                    $request,
                     'Your payment of <strong>' . $cart->cartTotal->total . '</strong> has been made!'
                 );
             } else {
-                $this->flashSuccess($request, 'Your <strong>FREE</strong> order has been placed!');
+                $this->flashSuccess('Your <strong>FREE</strong> order has been placed!');
             }
 
             return redirect('checkout/complete/' . $orderId->getHex());
         } catch (EntityValidatorException $e) {
-            $this->flashError($request, 'Unable to create order!');
+            $this->flashError('Unable to create order!');
             dd($e->errors);
             //$this->data['formErrors'] = $e->errors;
         } catch (InsufficientInventoryException $e) {
             $this->flashError(
-                $request,
                 'We are sorry, we do not have sufficient inventory to complete your order.' .
                 ' Please <a href="/page/contact">contact us</a> if you would like help with your order.'
             );
         } catch (\Stripe\Error\Base $e) {
-            $this->flashError($request, $e->getMessage());
+            $this->flashError($e->getMessage());
         }
 
         // TODO: Clean up payments

@@ -368,48 +368,44 @@ class Controller extends BaseController
     }
 
     /**
-     * @param Request $request
      * @param string $message
      */
-    protected function flashSuccess(Request $request, $message = '')
+    protected function flashSuccess($message = '')
     {
-        $this->flashMessage($request, 'success', $message);
+        $this->flashMessage('success', $message);
     }
 
     /**
-     * @param Request $request
-     * @param $message
+     * @param string $message
      */
-    protected function flashError(Request $request, $message = '')
+    protected function flashError($message = '')
     {
-        $this->flashMessage($request, 'danger', $message);
+        $this->flashMessage('danger', $message);
     }
 
     /**
-     * @param Request $request
-     * @param $message
+     * @param string $message
      */
-    protected function flashWarning(Request $request, $message = '')
+    protected function flashWarning($message = '')
     {
-        $this->flashMessage($request, 'warning', $message);
+        $this->flashMessage('warning', $message);
     }
 
-    public function flashGenericWarning(Request $request, $message = 'Something went wrong.')
+    public function flashGenericWarning($message = 'Something went wrong.')
     {
         $extraMessage = 'Please contact us at store@example.com';
-        $this->flashWarning($request, $message . ' ' . $extraMessage);
+        $this->flashWarning($message . ' ' . $extraMessage);
     }
 
     /**
-     * @param Request $request
      * @param string $type
      * @param string $message
      */
-    private function flashMessage(Request $request, $type, $message = '')
+    private function flashMessage($type, $message = '')
     {
-        $messages = $request->session()->get('flashMessages', []);
+        $messages = session()->get('flashMessages', []);
         $messages[$type][] = $message;
-        $request->session()->flash('flashMessages', $messages);
+        session()->flash('flashMessages', $messages);
     }
 
     /**
