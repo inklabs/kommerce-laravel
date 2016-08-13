@@ -13,6 +13,12 @@ use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
 use inklabs\kommerce\Action\Product\Query\GetRelatedProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRelatedProductsResponse;
 use inklabs\kommerce\Action\User\CreateUserCommand;
+use inklabs\kommerce\Action\User\GetUserByEmailQuery;
+use inklabs\kommerce\Action\User\GetUserQuery;
+use inklabs\kommerce\Action\User\Query\GetUserByEmailRequest;
+use inklabs\kommerce\Action\User\Query\GetUserByEmailResponse;
+use inklabs\kommerce\Action\User\Query\GetUserRequest;
+use inklabs\kommerce\Action\User\Query\GetUserResponse;
 use inklabs\kommerce\Entity\EntityValidatorException;
 use inklabs\kommerce\EntityDTO\CreditCardDTO;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
@@ -68,16 +74,21 @@ class CheckoutController extends Controller
     {
         $cart = $this->getCart();
 
+        if ($cart->cartTotal->shipping === null) {
+            $this->flashError($request, 'A shipping method must be chosen');
+            return redirect('checkout/pay');
+        }
+
         $creditCard = $this->getCreditCardDTOFromArray($request->input('creditCard'));
         $shippingAddress = $this->getOrderAddressDTOFromArray($request->input('shipping'));
         $billingAddress = clone $shippingAddress;
 
-        $userId = $this->createUserFromOrderAddress($billingAddress);
+        $user = $this->getOrCreateUserFromOrderAddress($billingAddress);
 
         try {
             $createOrderCommand = new CreateOrderFromCartCommand(
                 $cart->id->getHex(),
-                $userId->getHex(),
+                $user->id->getHex(),
                 $this->getRemoteIP4(),
                 $creditCard,
                 $shippingAddress,
@@ -99,6 +110,7 @@ class CheckoutController extends Controller
             return redirect('checkout/complete/' . $orderId->getHex());
         } catch (EntityValidatorException $e) {
             $this->flashError($request, 'Unable to create order!');
+            dd($e->errors);
             //$this->data['formErrors'] = $e->errors;
         } catch (InsufficientInventoryException $e) {
             $this->flashError(
@@ -173,19 +185,33 @@ class CheckoutController extends Controller
 
     /**
      * @param OrderAddressDTO $orderAddress
-     * @return UuidInterface
+     * @return UserDTO
      */
-    protected function createUserFromOrderAddress(OrderAddressDTO $orderAddress)
+    protected function getOrCreateUserFromOrderAddress(OrderAddressDTO $orderAddress)
     {
-        $user = new UserDTO();
-        $user->firstName = $orderAddress->firstName;
-        $user->lastName = $orderAddress->lastName;
-        $user->email = $orderAddress->email;
+        try {
+            $request = new GetUserByEmailRequest($orderAddress->email);
+            $response = new GetUserByEmailResponse();
+            $this->dispatchQuery(new GetUserByEmailQuery($request, $response));
 
-        $createUserCommand = new CreateUserCommand($user);
-        $this->dispatch($createUserCommand);
+            return $response->getUserDTO();
+        } catch (EntityNotFoundException $e) {
+            $user = new UserDTO();
+            $user->firstName = $orderAddress->firstName;
+            $user->lastName = $orderAddress->lastName;
+            $user->email = $orderAddress->email;
 
-        return $createUserCommand->getUserId();
+            $createUserCommand = new CreateUserCommand($user);
+            $this->dispatch($createUserCommand);
+
+            $userId = $createUserCommand->getUserId();
+
+            $request = new GetUserRequest($userId);
+            $response = new GetUserResponse();
+            $this->dispatchQuery(new GetUserQuery($request, $response));
+
+            return $response->getUserDTO();
+        }
     }
 
     /**
