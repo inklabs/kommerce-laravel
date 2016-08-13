@@ -40,6 +40,7 @@ use inklabs\kommerce\Lib\Mapper;
 use inklabs\kommerce\Lib\MapperInterface;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
+use inklabs\kommerce\Lib\PaymentGateway\Stripe;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\Query\QueryBus;
 use inklabs\kommerce\Lib\Query\QueryBusInterface;
@@ -184,6 +185,8 @@ class Controller extends BaseController
     private function setupPaymentGateway()
     {
         $this->paymentGateway = new FakePaymentGateway();
+        // TODO: Add Stripe payment gateway
+        //$this->paymentGateway = new Stripe(env('STRIPE-API-KEY'));
     }
 
     private function setupFileManager()
