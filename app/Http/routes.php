@@ -42,6 +42,7 @@ Route::get('/a/{theme}/{path}', 'AssetController@serve')
     ]);
 
 Route::controller('cart', 'CartController');
+Route::controller('user', 'UserController');
 Route::controller('checkout', 'CheckoutController');
 Route::controller('dummy-data', 'DummyDataController');
 
