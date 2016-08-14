@@ -129,6 +129,11 @@ class Controller extends BaseController
         $this->queryBus->execute($query);
     }
 
+    public function getDTOBuilderFactory()
+    {
+        return $this->DTOBuilderFactory;
+    }
+
     private function setupKommerce()
     {
         $this->setupDoctrine();

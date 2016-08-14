@@ -6,9 +6,27 @@ use inklabs\kommerce\Action\Order\GetOrderQuery;
 use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
 use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\tests\Helper\Entity\DummyData;
 
 class UserController extends Controller
 {
+    public function getAccount()
+    {
+        $dummyData = new DummyData();
+        $user = $this->getDTOBuilderFactory()->getUserDTOBuilder($dummyData->getUser())->build();
+        $order = $dummyData->getOrderFull();
+        $order->setReferenceNumber('xxx-xxx-xxxx');
+        $orders[] = $this->getDTOBuilderFactory()->getOrderDTOBuilder($order)->build();
+
+        $this->displayTemplate(
+            'user/account.twig',
+            [
+                'user' => $user,
+                'orders' => $orders,
+            ]
+        );
+    }
+
     /**
      * @param Request $request
      * @param string $orderId
