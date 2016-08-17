@@ -362,10 +362,16 @@ class Controller extends BaseController
      */
     protected function getTwig()
     {
+        $paths = [];
+
         $twigTemplate = new TwigTemplate(
             env('BASE_TEMPLATE'),
             new CSRFTokenGenerator(),
-            new RouteUrl()
+            new RouteUrl(),
+            $paths,
+            env('STORE_TIMEZONE'),
+            env('STORE_DATE_FORMAT'),
+            env('STORE_TIME_FORMAT')
         );
         $twigTemplate->enableDebug();
 
