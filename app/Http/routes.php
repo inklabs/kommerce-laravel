@@ -41,6 +41,10 @@ Route::get('/a/{theme}/{path}', 'AssetController@serve')
         'path' => '(.*)',
     ]);
 
+Route::post('/cart/update-quantity', 'CartController@postUpdateQuantity')->name('cart.update-quantity');
+Route::post('/cart/delete-item', 'CartController@postDeleteItem')->name('cart.delete-item');
+Route::post('/cart/apply-coupon', 'CartController@postApplyCoupon')->name('cart.apply-coupon');
+
 Route::controller('cart', 'CartController');
 Route::controller('user', 'UserController');
 Route::controller('checkout', 'CheckoutController');

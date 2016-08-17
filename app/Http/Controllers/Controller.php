@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Lib\CSRFTokenGenerator;
-use App\Lib\RouteUrl;
+use App\Lib\LaravelRouteUrl;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -367,7 +367,7 @@ class Controller extends BaseController
         $twigTemplate = new TwigTemplate(
             env('BASE_TEMPLATE'),
             new CSRFTokenGenerator(),
-            new RouteUrl(),
+            new LaravelRouteUrl(),
             $paths,
             env('STORE_TIMEZONE'),
             env('STORE_DATE_FORMAT'),

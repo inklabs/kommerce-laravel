@@ -3,7 +3,7 @@ namespace App\Lib;
 
 use inklabs\KommerceTemplates\Lib\RouteUrlInterface;
 
-class RouteUrl implements RouteUrlInterface
+class LaravelRouteUrl implements RouteUrlInterface
 {
     /**
      * Generate a URL to a named route.
