@@ -28,7 +28,7 @@ use inklabs\kommerce\InputDTO\TextOptionValueDTO;
 
 class CartController extends Controller
 {
-    public function getIndex()
+    public function getShow()
     {
         $cart = $this->getCart();
 
