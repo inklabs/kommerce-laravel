@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Cart\ChangePasswordController;
+
 Route::get('/', function () {
     return view('default');
 })->name('home');
@@ -49,7 +51,7 @@ Route::get('/a/{theme}/{path}', 'AssetController@serve')
         'path' => '(.*)',
     ]);
 
-Route::get('/cart', 'CartController@getShow')->name('cart.show');
+Route::get('/cart', 'CartController@getShow')->name('cart.get.show');
 Route::get('/cart/estimate-tax', 'CartController@getEstimateTax')->name('cart.estimate-tax');
 Route::get('/cart/estimate-shipping', 'CartController@getEstimateShipping')->name('cart.estimate-shipping');
 
@@ -63,12 +65,16 @@ Route::post('/cart/update-quantity', 'CartController@postUpdateQuantity')->name(
 
 Route::get('/checkout/pay', 'CheckoutController@getPay')->name('checkout.pay');
 
-Route::get('/user/change-password', 'UserController@getChangePassword')->name('user.change-password');
-Route::post('/user/change-password', 'UserController@postChangePassword');
 
+Route::group(['namespace' => 'User'], function() {
+    Route::get('user/change-password', 'ChangePasswordController@index')->name('user.change-password');
+    Route::post('user/change-password', 'ChangePasswordController@post')->name('user.change-password.post');
+
+    Route::get('user/account', 'AccountController@index')->name('user.account');
+    Route::get('user/account/view-order/{orderId}', 'AccountController@viewOrder')->name('user.account.view-order');
+});
 
 Route::controller('cart', 'CartController');
-Route::controller('user', 'UserController');
 Route::controller('checkout', 'CheckoutController');
 Route::controller('dummy-data', 'DummyDataController');
 
