@@ -6,14 +6,6 @@ Route::get('/', function () {
     return view('default');
 })->name('home');
 
-Route::get('/conditions', function() {
-    echo 'TODO: conditions';
-})->name('page.conditions');
-
-Route::get('/privacy', function() {
-    echo 'TODO: privacy';
-})->name('page.privacy');
-
 Route::get('/api/v1/{model}/{action}/{method}', [
     'as' => 'a.processQuery',
     'uses' => 'ApiController@processQuery'
@@ -73,6 +65,10 @@ Route::group(['namespace' => 'User'], function() {
     Route::get('user/account', 'AccountController@index')->name('user.account');
     Route::get('user/account/view-order/{orderId}', 'AccountController@viewOrder')->name('user.account.view-order');
 });
+
+Route::get('page/privacy', 'PageController@privacy')->name('page.privacy');
+Route::get('page/terms', 'PageController@terms')->name('page.terms');
+Route::get('page/contact', 'PageController@contact')->name('page.contact');
 
 Route::controller('cart', 'CartController');
 Route::controller('checkout', 'CheckoutController');

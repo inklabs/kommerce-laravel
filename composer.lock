@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c8bda5b22b0f813988e7407e6607a87e",
-    "content-hash": "4128c2a580ea3ccfdbff0d7b78fcd96c",
+    "hash": "3080476ec43c1f25a5f5cba9db225b60",
+    "content-hash": "327dfc25bcb3a3d1bf47975d8bbb5add",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -945,12 +945,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-templates.git",
-                "reference": "6840143ac25881988100f233c4acbd9489747770"
+                "reference": "b179c74bfff48760d6f8c9ac6ef5c170fad59803"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/6840143ac25881988100f233c4acbd9489747770",
-                "reference": "6840143ac25881988100f233c4acbd9489747770",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/b179c74bfff48760d6f8c9ac6ef5c170fad59803",
+                "reference": "b179c74bfff48760d6f8c9ac6ef5c170fad59803",
                 "shasum": ""
             },
             "require": {
@@ -979,7 +979,7 @@
                 "store",
                 "templates"
             ],
-            "time": "2016-08-19 00:24:05"
+            "time": "2016-08-19 05:58:26"
         },
         {
             "name": "jakub-onderka/php-console-color",
