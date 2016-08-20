@@ -420,13 +420,12 @@ class Controller extends BaseController
     }
 
     /**
-     * @param Request $request
      * @param int $maxResults
      * @return PaginationDTO
      */
-    protected function getPaginationDTO(Request $request, $maxResults)
+    protected function getPaginationDTO($maxResults)
     {
-        $page = $request->query('page');
+        $page = request()->query('page');
         if (empty($page)) {
             $page = 1;
         }

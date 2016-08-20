@@ -81,6 +81,7 @@ class DummyDataController extends Controller
             <li>OptionValue: {$optionValueId}</li>
             <li><a href="{$productUrl}">View Product</a></li>
             <li><a href="">Create another dummy Product and Tag</a></li>
+            <li><a href="/admin/product">Admin Products</a></li>
         </ul>
 
         <h3>Queries</h3>

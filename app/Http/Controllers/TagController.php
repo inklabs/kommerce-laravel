@@ -38,7 +38,7 @@ class TagController extends Controller
 
         $request = new GetProductsByTagRequest(
             $tagDTO->id->getHex(),
-            $this->getPaginationDTO($httpRequest, 12)
+            $this->getPaginationDTO(12)
         );
         $response = new GetProductsByTagResponse($this->getPricing());
         $this->dispatchQuery(new GetProductsByTagQuery($request, $response));

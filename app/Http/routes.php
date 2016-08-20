@@ -66,6 +66,14 @@ Route::group(['namespace' => 'User'], function() {
     Route::get('user/account/view-order/{orderId}', 'AccountController@viewOrder')->name('user.account.view-order');
 });
 
+Route::group(['namespace' => 'Admin'], function() {
+    Route::group(['namespace' => 'Product'], function() {
+        Route::get('admin/product', 'ListProductsController@index')->name('admin.product');
+        Route::get('admin/product/new', 'NewProductsController@index')->name('admin.product.new');
+        Route::get('admin/product/edit/{productId}', 'NewProductsController@index')->name('admin.product.edit');
+    });
+});
+
 Route::get('page/privacy', 'PageController@privacy')->name('page.privacy');
 Route::get('page/terms', 'PageController@terms')->name('page.terms');
 Route::get('page/contact', 'PageController@contact')->name('page.contact');
