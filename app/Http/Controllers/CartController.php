@@ -345,13 +345,4 @@ class CartController extends Controller
 
         return $response->getProductDTOs();
     }
-
-    protected function getRandomProducts($limit)
-    {
-        $request = new GetRandomProductsRequest($limit);
-        $response = new GetRandomProductsResponse($this->getPricing());
-        $this->dispatchQuery(new GetRandomProductsQuery($request, $response));
-
-        return $response->getProductDTOs();
-    }
 }

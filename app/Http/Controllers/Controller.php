@@ -19,6 +19,9 @@ use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdResponse;
 use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
+use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
+use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
+use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityDTO\CartDTO;
@@ -441,5 +444,14 @@ class Controller extends BaseController
     {
         $assetLocationService = new AssetLocationService();
         return $assetLocationService;
+    }
+
+    protected function getRandomProducts($limit)
+    {
+        $request = new GetRandomProductsRequest($limit);
+        $response = new GetRandomProductsResponse($this->getPricing());
+        $this->dispatchQuery(new GetRandomProductsQuery($request, $response));
+
+        return $response->getProductDTOs();
     }
 }

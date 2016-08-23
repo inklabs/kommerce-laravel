@@ -1,10 +1,6 @@
 <?php
 
-use App\Http\Controllers\Cart\ChangePasswordController;
-
-Route::get('/', function () {
-    return view('default');
-})->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/api/v1/{model}/{action}/{method}', [
     'as' => 'a.processQuery',
