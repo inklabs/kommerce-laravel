@@ -13,7 +13,7 @@ class LaravelRouteUrl implements RouteUrlInterface
      * @param  bool $absolute
      * @return string
      */
-    function getRoute($name, $parameters = [], $absolute = true)
+    public function getRoute($name, $parameters = [], $absolute = true)
     {
         return route($name, $parameters, $absolute);
     }
