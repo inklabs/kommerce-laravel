@@ -52,6 +52,7 @@ Route::post('/cart/remove-coupon', 'CartController@postRemoveCoupon')->name('car
 Route::post('/cart/update-quantity', 'CartController@postUpdateQuantity')->name('cart.update-quantity');
 
 Route::get('/checkout/pay', 'CheckoutController@getPay')->name('checkout.pay');
+Route::get('search', 'SearchController@index')->name('search');
 
 
 Route::group(['namespace' => 'User'], function() {
@@ -65,10 +66,12 @@ Route::group(['namespace' => 'User'], function() {
 Route::group(['namespace' => 'Admin'], function() {
     Route::group(['namespace' => 'Product'], function() {
         Route::get('admin/product', 'ListProductsController@index')->name('admin.product');
-        Route::get('admin/product/new', 'NewProductsController@index')->name('admin.product.new');
-        Route::get('admin/product/edit/{productId}', 'NewProductsController@index')->name('admin.product.edit');
+        Route::get('admin/product/new', 'NewProductController@index')->name('admin.product.new');
+        Route::get('admin/product/edit/{productId}', 'EditProductController@index')->name('admin.product.edit');
     });
 });
+
+Route::get('login', 'LoginController@index')->name('login');
 
 Route::get('page/privacy', 'PageController@privacy')->name('page.privacy');
 Route::get('page/terms', 'PageController@terms')->name('page.terms');
