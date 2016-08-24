@@ -1,4 +1,4 @@
 #!/bin/bash
 # post-update
 
-bin/update-composer.sh
+.git/hooks/update-composer.sh

@@ -1,4 +1,4 @@
 #!/bin/bash
 # post-merge
 
-bin/update-composer.sh
+.git/hooks/update-composer.sh
