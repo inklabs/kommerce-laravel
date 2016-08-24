@@ -10,12 +10,12 @@ class StyleController extends Controller
     {
         $formatter = $request->query('formatter', 'compressed');
         $cacheDir = __DIR__ . '/../../../storage/scss_cache';
-        $mainScssDirectory = __DIR__ . '/../../../resources/assets/scss';
+        $rootScssDirectory = __DIR__ . '/../../../resources/assets/scss';
 
         $server = new SassServer(
-            $mainScssDirectory,
+            $rootScssDirectory,
             env('BASE_TEMPLATE'),
-            env('BOOTSWATCH_THEME'),
+            [],
             $formatter,
             $cacheDir
         );
