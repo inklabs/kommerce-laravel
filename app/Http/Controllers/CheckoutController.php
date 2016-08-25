@@ -36,7 +36,7 @@ class CheckoutController extends Controller
     {
         $cart = $this->getCart();
 
-        $this->displayTemplate(
+        return $this->renderTemplate(
             'checkout/pay.twig',
             [
                 'cart' => $cart,
@@ -61,7 +61,7 @@ class CheckoutController extends Controller
 
         $recommendedProducts = $this->getRecommendedProductsFromOrder($order);
 
-        $this->displayTemplate(
+        return $this->renderTemplate(
             'checkout/complete.twig',
             [
                 'order' => $order,

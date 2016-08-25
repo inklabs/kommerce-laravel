@@ -39,7 +39,7 @@ class ProductController extends Controller
         $this->dispatchQuery(new GetRandomProductsQuery($request, $response));
         $relatedProductDTOs = $response->getProductDTOs();
 
-        $this->displayTemplate(
+        return $this->renderTemplate(
             'product/show.twig',
             [
                 'product' => $productDTO,

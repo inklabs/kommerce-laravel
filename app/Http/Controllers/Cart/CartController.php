@@ -30,7 +30,7 @@ class CartController extends Controller
     {
         $cart = $this->getCart();
 
-        $this->displayTemplate(
+        return $this->renderTemplate(
             'cart/show.twig',
             [
                 'cart' => $cart,
@@ -62,7 +62,7 @@ class CartController extends Controller
             return redirect('cart');
         }
 
-        $this->displayTemplate(
+        return $this->renderTemplate(
             'cart/added.twig',
             [
                 'cart' => $cart,
@@ -76,7 +76,7 @@ class CartController extends Controller
     {
         // TODO: Update to grab current zip and selected rate
 
-        $this->displayTemplate(
+        return $this->renderTemplate(
             'cart/estimate-shipping.twig'
         );
     }
@@ -95,7 +95,7 @@ class CartController extends Controller
             $shipmentRates = $this->getTrimmedShipmentRates($request, $cart, $zip5, $isResidential);
         }
 
-        $this->displayTemplate(
+        return $this->renderTemplate(
             'cart/estimate-shipping.twig',
             [
                 'shipping' => $shipping,

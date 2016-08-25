@@ -9,6 +9,7 @@ use inklabs\kommerce\Action\Product\Query\GetProductsByTagResponse;
 use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
+use inklabs\kommerce\Action\Tag\Query\ListTagsRequest;
 
 class TagController extends Controller
 {
@@ -46,7 +47,7 @@ class TagController extends Controller
         $productDTOs = $response->getProductDTOs();
         $paginationDTO = $response->getPaginationDTO();
 
-        $this->displayTemplate(
+        return $this->renderTemplate(
             'tag/show.twig',
             [
                 'tag' => $tagDTO,
@@ -54,5 +55,10 @@ class TagController extends Controller
                 'pagination' => $paginationDTO,
             ]
         );
+    }
+
+    public function getList()
+    {
+        // TODO
     }
 }

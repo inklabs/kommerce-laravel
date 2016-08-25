@@ -348,7 +348,12 @@ class Controller extends BaseController
         $this->cartDTO = $response->getCartDTO();
     }
 
-    protected function displayTemplate($name, $context = [])
+    /**
+     * @param $name
+     * @param array $context
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    protected function renderTemplate($name, $context = [])
     {
         $twig = $this->getTwig();
 
@@ -357,7 +362,9 @@ class Controller extends BaseController
             $twig->addGlobal('flashMessages', $session->get('flashMessages'));
         }
 
-        $twig->display($name, $context);
+        return response(
+            $twig->render($name, $context)
+        );
     }
 
     /**

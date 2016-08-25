@@ -19,7 +19,7 @@ class AccountController extends Controller
         $order->setReferenceNumber('xxx-xxx-xxxx');
         $orders[] = $this->getDTOBuilderFactory()->getOrderDTOBuilder($order)->build();
 
-        $this->displayTemplate(
+        return $this->renderTemplate(
             'user/account.twig',
             [
                 'user' => $user,
@@ -28,10 +28,6 @@ class AccountController extends Controller
         );
     }
 
-    /**
-     * @param Request $request
-     * @param string $orderId
-     */
     public function viewOrder(Request $request, $orderId)
     {
         try {
@@ -49,7 +45,7 @@ class AccountController extends Controller
 //            abort(403);
 //        }
 
-        $this->displayTemplate(
+        return $this->renderTemplate(
             'user/view-order.twig',
             [
                 'order' => $order,

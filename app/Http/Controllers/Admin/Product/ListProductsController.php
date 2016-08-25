@@ -22,7 +22,7 @@ class ListProductsController extends Controller
         $products = $response->getProductDTOs();
         $pagination = $response->getPaginationDTO();
 
-        $this->displayTemplate(
+        return $this->renderTemplate(
             'admin/product/index.twig',
             [
                 'products' => $products,

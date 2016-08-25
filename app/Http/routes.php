@@ -29,6 +29,7 @@ Route::get('/t/{slug}-{tagId}', 'TagController@show')
         'slug' => '[a-z0-9-]+',
         'tagId' => '[0-9a-f]{32}',
     ]);
+Route::get('/t', 'TagController@getList')->name('tag.list');
 
 Route::get('/s', 'StyleController@serve')
     ->name('style.serve');

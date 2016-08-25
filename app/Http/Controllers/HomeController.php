@@ -5,7 +5,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $this->displayTemplate(
+        return $this->renderTemplate(
             'home/index.twig',
             [
                 'recommendedProducts' => $this->getRandomProducts(12),

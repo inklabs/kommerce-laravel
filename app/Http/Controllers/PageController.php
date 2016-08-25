@@ -5,12 +5,12 @@ class PageController extends Controller
 {
     public function privacy()
     {
-        $this->displayTemplate('page/privacy.twig');
+        return $this->renderTemplate('page/privacy.twig');
     }
 
     public function terms()
     {
-        $this->displayTemplate('page/terms.twig');
+        return $this->renderTemplate('page/terms.twig');
     }
 
     public function contact()
