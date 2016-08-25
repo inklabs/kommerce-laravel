@@ -16,7 +16,7 @@ class ChangePasswordController extends Controller
         $user = $this->getDTOBuilderFactory()->getUserDTOBuilder($dummyData->getUser())->build();
 
         $this->displayTemplate(
-            'user/change_password.twig'
+            'user/change-password.twig'
         );
     }
 

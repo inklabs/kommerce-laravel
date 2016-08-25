@@ -77,7 +77,7 @@ class CartController extends Controller
         // TODO: Update to grab current zip and selected rate
 
         $this->displayTemplate(
-            'cart/estimate_shipping.twig'
+            'cart/estimate-shipping.twig'
         );
     }
 
@@ -96,7 +96,7 @@ class CartController extends Controller
         }
 
         $this->displayTemplate(
-            'cart/estimate_shipping.twig',
+            'cart/estimate-shipping.twig',
             [
                 'shipping' => $shipping,
                 'shipmentRates' => $shipmentRates,

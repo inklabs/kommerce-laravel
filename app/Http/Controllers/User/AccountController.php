@@ -50,7 +50,7 @@ class AccountController extends Controller
 //        }
 
         $this->displayTemplate(
-            'user/view_order.twig',
+            'user/view-order.twig',
             [
                 'order' => $order,
             ]
