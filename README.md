@@ -10,6 +10,11 @@ This is a sample application utilizing [Zen Kommerce Core](https://github.com/in
 ```
 composer create-project
 ```
+## Tests
+
+### Acceptance Tests
+
+`vendor/bin/codecept run -c vendor/inklabs/kommerce-templates/codeception.yml`
 
 ## Serve
 
