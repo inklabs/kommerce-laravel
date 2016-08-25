@@ -39,19 +39,24 @@ Route::get('/a/{theme}/{path}', 'AssetController@serve')
         'path' => '(.*)',
     ]);
 
-Route::get('/cart', 'CartController@getShow')->name('cart.get.show');
-Route::get('/cart/estimate-tax', 'CartController@getEstimateTax')->name('cart.estimate-tax');
-Route::get('/cart/estimate-shipping', 'CartController@getEstimateShipping')->name('cart.estimate-shipping');
+Route::group(['namespace' => 'Cart'], function() {
+    Route::get('cart', 'CartController@getShow')->name('cart.get.show');
+    Route::get('cart/estimate-tax', 'CartController@getEstimateTax')->name('cart.estimate-tax');
+    Route::get('cart/estimate-shipping', 'CartController@getEstimateShipping')->name('cart.estimate-shipping');
+    Route::get('cart/added/{cartItemId}', 'CartController@getAdded')->name('cart.added');
 
-Route::post('/cart/add-item', 'CartController@postAddItem')->name('cart.add-item');
-Route::post('/cart/apply-coupon', 'CartController@postApplyCoupon')->name('cart.apply-coupon');
-Route::post('/cart/apply-shipping-method', 'CartController@postApplyShippingMethod')->name('cart.apply-shipping-method');
-Route::post('/cart/delete-item', 'CartController@postDeleteItem')->name('cart.delete-item');
-Route::post('/cart/estimate-shipping', 'CartController@postEstimateShipping');
-Route::post('/cart/remove-coupon', 'CartController@postRemoveCoupon')->name('cart.remove-coupon');
-Route::post('/cart/update-quantity', 'CartController@postUpdateQuantity')->name('cart.update-quantity');
+    Route::post('cart/add-item', 'CartController@postAddItem')->name('cart.add-item');
+    Route::post('cart/apply-coupon', 'CartController@postApplyCoupon')->name('cart.apply-coupon');
+    Route::post('cart/apply-shipping-method', 'CartController@postApplyShippingMethod')->name('cart.apply-shipping-method');
+    Route::post('cart/delete-item', 'CartController@postDeleteItem')->name('cart.delete-item');
+    Route::post('cart/estimate-shipping', 'CartController@postEstimateShipping');
+    Route::post('cart/remove-coupon', 'CartController@postRemoveCoupon')->name('cart.remove-coupon');
+    Route::post('cart/update-quantity', 'CartController@postUpdateQuantity')->name('cart.update-quantity');
+});
 
 Route::get('/checkout/pay', 'CheckoutController@getPay')->name('checkout.pay');
+Route::get('/checkout/complete/{orderId}', 'CheckoutController@getComplete')->name('checkout.complete');
+Route::post('/checkout/pay', 'CheckoutController@postPay')->name('checkout.pay');
 Route::get('search', 'SearchController@index')->name('search');
 
 
@@ -72,16 +77,10 @@ Route::group(['namespace' => 'Admin'], function() {
 });
 
 Route::get('login', 'LoginController@index')->name('login');
+Route::get('logout', 'LogoutController@index')->name('logout');
 
 Route::get('page/privacy', 'PageController@privacy')->name('page.privacy');
 Route::get('page/terms', 'PageController@terms')->name('page.terms');
 Route::get('page/contact', 'PageController@contact')->name('page.contact');
 
-Route::controller('cart', 'CartController');
-Route::controller('checkout', 'CheckoutController');
 Route::controller('dummy-data', 'DummyDataController');
-
-//Route::get('/dummyData/createDummyProduct', [
-//    'as' => 'dd.createDummyProduct',
-//    'uses' => 'DummyDataController@createDummyProduct'
-//]);

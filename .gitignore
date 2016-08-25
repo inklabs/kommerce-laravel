@@ -7,17 +7,3 @@ Homestead.json
 .env
 /_ide_helper.php
 /storage/scss_cache
-
-# PhpStorm:
-.idea/*.iws
-.idea/*.ids
-.idea/workspace.xml
-.idea/watcherTasks.xml
-.idea/tasks.xml
-.idea/blade.xml
-.idea/vcs.xml
-.idea/dictionaries
-.idea/codeStyleSettings.xml
-
-.idea/dataSources.xml
-.idea/dataSources.local.xml

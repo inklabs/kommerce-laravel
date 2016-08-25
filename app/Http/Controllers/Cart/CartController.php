@@ -1,6 +1,7 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Cart;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Cart\AddCartItemCommand;
 use inklabs\kommerce\Action\Cart\AddCouponToCartCommand;
@@ -8,10 +9,7 @@ use inklabs\kommerce\Action\Cart\DeleteCartItemCommand;
 use inklabs\kommerce\Action\Cart\RemoveCouponFromCartCommand;
 use inklabs\kommerce\Action\Cart\SetExternalShipmentRateCommand;
 use inklabs\kommerce\Action\Cart\UpdateCartItemQuantityCommand;
-use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
 use inklabs\kommerce\Action\Product\GetRelatedProductsQuery;
-use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
-use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
 use inklabs\kommerce\Action\Product\Query\GetRelatedProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRelatedProductsResponse;
 use inklabs\kommerce\Action\Shipment\GetLowestShipmentRatesByDeliveryMethodQuery;
