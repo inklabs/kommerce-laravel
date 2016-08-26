@@ -84,4 +84,7 @@ Route::get('page/privacy', 'PageController@privacy')->name('page.privacy');
 Route::get('page/terms', 'PageController@terms')->name('page.terms');
 Route::get('page/contact', 'PageController@contact')->name('page.contact');
 
+Route::get('data/image/{imagePath}', function() {})->name('product.image');
+Route::get('data/image/{imagePath}', function() {})->name('tag.image');
+
 Route::controller('dummy-data', 'DummyDataController');
