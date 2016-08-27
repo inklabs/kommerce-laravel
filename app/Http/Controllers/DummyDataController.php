@@ -215,6 +215,7 @@ HEREDOC;
         $productDTO->isVisible = true;
         $productDTO->isActive = true;
         $productDTO->rating = $faker->numberBetween(100, 500);
+        $productDTO->shippingWeight = $faker->numberBetween(10, 40);
 
         $command = new CreateProductCommand($productDTO);
         $this->dispatch($command);
@@ -237,6 +238,7 @@ HEREDOC;
 
         $tagDTO = new TagDTO();
         $tagDTO->name = $faker->name;
+        $tagDTO->defaultImage = $faker->imageUrl();
         $tagDTO->description = $faker->paragraph(5);
         $tagDTO->isVisible = true;
         $tagDTO->isActive = true;
