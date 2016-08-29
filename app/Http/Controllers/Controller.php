@@ -358,8 +358,14 @@ class Controller extends BaseController
         $twig = $this->getTwig();
 
         $session = $this->getSession();
-        if ($session->isStarted() && $session->has('flashMessages')) {
-            $twig->addGlobal('flashMessages', $session->get('flashMessages'));
+        if ($session->isStarted()) {
+            if ($session->has('flashMessages')) {
+                $twig->addGlobal('flashMessages', $session->get('flashMessages'));
+            }
+
+            if ($session->has('templateFlashMessages')) {
+                $twig->addGlobal('templateFlashMessages', $session->get('templateFlashMessages'));
+            }
         }
 
         return response(
@@ -397,6 +403,15 @@ class Controller extends BaseController
     }
 
     /**
+     * @param string $flashTemplate
+     * @param array $data
+     */
+    protected function flashTemplateSuccess($flashTemplate, array $data)
+    {
+        $this->flashTemplateMessage('success', $flashTemplate, $data);
+    }
+
+    /**
      * @param string $message
      */
     protected function flashError($message = '')
@@ -427,6 +442,21 @@ class Controller extends BaseController
         $messages = session()->get('flashMessages', []);
         $messages[$type][] = $message;
         session()->flash('flashMessages', $messages);
+    }
+
+    /**
+     * @param string $type
+     * @param string $flashTemplate
+     * @param array $data
+     */
+    private function flashTemplateMessage($type, $flashTemplate, array $data)
+    {
+        $messages = session()->get('templateFlashMessages', []);
+        $messages[$type][] = [
+            'flashTemplate' => $flashTemplate,
+            'data' => $data,
+        ];
+        session()->flash('templateFlashMessages', $messages);
     }
 
     /**

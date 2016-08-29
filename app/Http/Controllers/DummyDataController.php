@@ -40,8 +40,8 @@ class DummyDataController extends Controller
         $optionValueId = $this->getDummyOptionValueId($optionShirtSizeId);
 
         $optionStickerId = $this->getDummyOptionId('Heat Transfer Sticker');
-        $productDTOSticker1 = $this->getDummyProduct('Chicago Bears');
-        $productDTOSticker2 = $this->getDummyProduct('Green Bay Packers');
+        $productDTOSticker1 = $this->getDummyProduct('Chicago Bears', false);
+        $productDTOSticker2 = $this->getDummyProduct('Green Bay Packers', false);
         $this->createDummyOptionProduct(
             $optionStickerId,
             $productDTOSticker1->id->getHex()
@@ -198,7 +198,7 @@ HEREDOC;
     /**
      * @return $productDTO
      */
-    protected function getDummyProduct($name = null)
+    protected function getDummyProduct($name = null, $isVisible = true)
     {
         $faker = \Faker\Factory::create();
 
@@ -212,7 +212,7 @@ HEREDOC;
         $productDTO->defaultImage = $faker->imageUrl();
         $productDTO->sku = $faker->randomNumber(5);
         $productDTO->unitPrice = $faker->numberBetween(100, 2000);
-        $productDTO->isVisible = true;
+        $productDTO->isVisible = $isVisible;
         $productDTO->isActive = true;
         $productDTO->rating = $faker->numberBetween(100, 500);
         $productDTO->shippingWeight = $faker->numberBetween(10, 40);

@@ -7,11 +7,8 @@ use inklabs\kommerce\Action\Order\GetOrderQuery;
 use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
 use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
 use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
-use inklabs\kommerce\Action\Product\GetRelatedProductsQuery;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
-use inklabs\kommerce\Action\Product\Query\GetRelatedProductsRequest;
-use inklabs\kommerce\Action\Product\Query\GetRelatedProductsResponse;
 use inklabs\kommerce\Action\User\CreateUserCommand;
 use inklabs\kommerce\Action\User\GetUserByEmailQuery;
 use inklabs\kommerce\Action\User\GetUserQuery;
@@ -27,8 +24,6 @@ use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\InsufficientInventoryException;
-use inklabs\kommerce\Exception\KommerceException;
-use inklabs\kommerce\Lib\UuidInterface;
 
 class CheckoutController extends Controller
 {
@@ -99,11 +94,19 @@ class CheckoutController extends Controller
             $orderId = $createOrderCommand->getOrderId();
 
             if ($cart->cartTotal->total > 0) {
-                $this->flashSuccess(
-                    'Your payment of <strong>' . $cart->cartTotal->total . '</strong> has been made!'
+                $this->flashTemplateSuccess(
+                    'order-placed.twig',
+                    [
+                        'cartTotal' => $cart->cartTotal,
+                    ]
                 );
             } else {
-                $this->flashSuccess('Your <strong>FREE</strong> order has been placed!');
+                $this->flashTemplateSuccess(
+                    'order-placed-free.twig',
+                    [
+                        'cartTotal' => $cart->cartTotal,
+                    ]
+                );
             }
 
             return redirect('checkout/complete/' . $orderId->getHex());
