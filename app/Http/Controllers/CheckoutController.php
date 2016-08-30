@@ -74,8 +74,11 @@ class CheckoutController extends Controller
             return redirect('checkout/pay');
         }
 
-        $creditCard = $this->getCreditCardDTOFromArray($request->input('creditCard'));
-        $shippingAddress = $this->getOrderAddressDTOFromArray($request->input('shipping'));
+        $inputCreditCard = $request->input('creditCard');
+        $inputShipping = $request->input('shipping');
+
+        $creditCard = $this->getCreditCardDTOFromArray($inputCreditCard);
+        $shippingAddress = $this->getOrderAddressDTOFromArray($inputShipping);
         $billingAddress = clone $shippingAddress;
 
         $user = $this->getOrCreateUserFromOrderAddress($billingAddress);
@@ -112,8 +115,7 @@ class CheckoutController extends Controller
             return redirect('checkout/complete/' . $orderId->getHex());
         } catch (EntityValidatorException $e) {
             $this->flashError('Unable to create order!');
-            dd($e->errors);
-            //$this->data['formErrors'] = $e->errors;
+            $this->flashFormErrors($e->getErrors());
         } catch (InsufficientInventoryException $e) {
             $this->flashError(
                 'We are sorry, we do not have sufficient inventory to complete your order.' .
@@ -124,7 +126,16 @@ class CheckoutController extends Controller
         }
 
         // TODO: Clean up payments
-        // dd($request->input());
+        return $this->renderTemplate(
+            'checkout/pay.twig',
+            [
+                'cart' => $cart,
+                'shipping' => $inputShipping,
+                'creditCard' => $inputCreditCard,
+                'months' => $this->getMonths(),
+                'years' => $this->getYears(),
+            ]
+        );
     }
 
     private function getMonths()
