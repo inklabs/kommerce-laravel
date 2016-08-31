@@ -1,0 +1,17 @@
+language: php
+
+php:
+  - 7.0
+
+sudo: false
+
+before_script:
+  - composer self-update
+  - composer install
+  - composer create-project
+  - php artisan serve --quiet &> /dev/null &
+  - sleep 3
+  - curl http://localhost:8000/dummy-data/create-dummy-product
+
+script:
+  - vendor/bin/codecept -c vendor/inklabs/kommerce-templates/codeception.yml run
