@@ -7,7 +7,6 @@ use App\Lib\LaravelRouteUrl;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -43,7 +42,6 @@ use inklabs\kommerce\Lib\Mapper;
 use inklabs\kommerce\Lib\MapperInterface;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
 use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
-use inklabs\kommerce\Lib\PaymentGateway\Stripe;
 use inklabs\kommerce\Lib\Pricing;
 use inklabs\kommerce\Lib\Query\QueryBus;
 use inklabs\kommerce\Lib\Query\QueryBusInterface;
@@ -51,6 +49,7 @@ use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\EasyPostGateway;
 use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
 use inklabs\kommerce\Service\ServiceFactory;
+use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 use inklabs\KommerceTemplates\Lib\AssetLocationService;
 use inklabs\KommerceTemplates\Lib\TwigTemplate;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -211,10 +210,16 @@ class Controller extends BaseController
         $storeAddress = new OrderAddressDTO();
         $storeAddress->zip5 = '90401';
 
-        $this->shipmentGateway = new EasyPostGateway(
-            env('EASYPOST-API-KEY'),
-            $storeAddress
-        );
+        $easypostApiKey = env('EASYPOST-API-KEY');
+        if ($easypostApiKey === 'your-key-here') {
+            // TODO: This is crossing the kommerce-core/test namespace boundary
+            $this->shipmentGateway = new FakeShipmentGateway($storeAddress);
+        } else {
+            $this->shipmentGateway = new EasyPostGateway(
+                env('EASYPOST-API-KEY'),
+                $storeAddress
+            );
+        }
     }
 
     private function setupServiceFactory()

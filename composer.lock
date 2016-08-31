@@ -1261,12 +1261,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-core.git",
-                "reference": "d9f9847ec8c7972855d1e0d5499a69ff99586610"
+                "reference": "81c6c899db2038c4569d07e1b8340d65dcef30fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/d9f9847ec8c7972855d1e0d5499a69ff99586610",
-                "reference": "d9f9847ec8c7972855d1e0d5499a69ff99586610",
+                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/81c6c899db2038c4569d07e1b8340d65dcef30fc",
+                "reference": "81c6c899db2038c4569d07e1b8340d65dcef30fc",
                 "shasum": ""
             },
             "require": {
@@ -1303,7 +1303,7 @@
                 "kommerce",
                 "zen"
             ],
-            "time": "2016-08-30 08:57:56"
+            "time": "2016-08-31 08:37:03"
         },
         {
             "name": "inklabs/kommerce-templates",
@@ -1311,12 +1311,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-templates.git",
-                "reference": "e9a45a63399847977ffb6bdb888914125d438945"
+                "reference": "03de94f7076ba6b095fa5a7cb5bf52f8318c9cc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/e9a45a63399847977ffb6bdb888914125d438945",
-                "reference": "e9a45a63399847977ffb6bdb888914125d438945",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/03de94f7076ba6b095fa5a7cb5bf52f8318c9cc7",
+                "reference": "03de94f7076ba6b095fa5a7cb5bf52f8318c9cc7",
                 "shasum": ""
             },
             "require": {
@@ -1345,7 +1345,7 @@
                 "store",
                 "templates"
             ],
-            "time": "2016-08-31 08:18:08"
+            "time": "2016-08-31 08:23:33"
         },
         {
             "name": "jakub-onderka/php-console-color",
