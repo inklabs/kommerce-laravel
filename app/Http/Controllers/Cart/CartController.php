@@ -15,7 +15,7 @@ use inklabs\kommerce\Action\Product\Query\GetRelatedProductsResponse;
 use inklabs\kommerce\Action\Shipment\GetLowestShipmentRatesByDeliveryMethodQuery;
 use inklabs\kommerce\Action\Shipment\Query\GetLowestShipmentRatesByDeliveryMethodRequest;
 use inklabs\kommerce\Action\Shipment\Query\GetLowestShipmentRatesByDeliveryMethodResponse;
-use inklabs\kommerce\Entity\EntityValidatorException;
+use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;

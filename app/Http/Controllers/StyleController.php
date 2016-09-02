@@ -14,8 +14,7 @@ class StyleController extends Controller
 
         $server = new SassServer(
             $rootScssDirectory,
-            env('BASE_TEMPLATE'),
-            [],
+            $this->getThemeConfig(),
             $formatter,
             $cacheDir
         );

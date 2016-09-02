@@ -52,6 +52,8 @@ use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 use inklabs\KommerceTemplates\Lib\AssetLocationService;
 use inklabs\KommerceTemplates\Lib\TwigTemplate;
+use inklabs\KommerceTemplates\Lib\TwigThemeConfig;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Twig_Environment;
@@ -362,7 +364,7 @@ class Controller extends BaseController
      */
     protected function renderTemplate($name, $context = [])
     {
-        $twig = $this->getTwig();
+        $twig = $this->getTwigTemplate();
 
         $this->setGlobalFlashVariables($twig);
 
@@ -371,7 +373,7 @@ class Controller extends BaseController
         );
     }
 
-    private function setGlobalFlashVariables(Twig_Environment $twig)
+    private function setGlobalFlashVariables(TwigTemplate $twig)
     {
         $session = $this->getSession();
         if ($session->isStarted()) {
@@ -391,24 +393,21 @@ class Controller extends BaseController
     }
 
     /**
-     * @return Twig_Environment
+     * @return TwigTemplate
      */
-    protected function getTwig()
+    protected function getTwigTemplate()
     {
-        $paths = [];
-
         $twigTemplate = new TwigTemplate(
-            env('BASE_TEMPLATE'),
+            $this->getThemeConfig(),
             new CSRFTokenGenerator(),
             new LaravelRouteUrl(),
-            $paths,
             env('STORE_TIMEZONE'),
             env('STORE_DATE_FORMAT'),
             env('STORE_TIME_FORMAT')
         );
         $twigTemplate->enableDebug();
 
-        return $twigTemplate->getTwigEnvironment();
+        return $twigTemplate;
     }
 
     /**
@@ -463,7 +462,7 @@ class Controller extends BaseController
 
     protected function flashFormErrors(ConstraintViolationListInterface $newFormErrors)
     {
-        /** @var ConstraintViolationListInterface $formErrors */
+        /** @var ConstraintViolationListInterface | ConstraintViolationInterface[] $formErrors */
         $formErrors = session()->get('flashFormErrors', new ConstraintViolationList());
         $formErrors->addAll($newFormErrors);
         session()->flash('flashFormErrors', $formErrors);
@@ -515,5 +514,15 @@ class Controller extends BaseController
         $this->dispatchQuery(new GetRandomProductsQuery($request, $response));
 
         return $response->getProductDTOs();
+    }
+
+    /**
+     * @return TwigThemeConfig
+     */
+    protected function getThemeConfig()
+    {
+        $themePath = TwigThemeConfig::getThemePath(env('THEME'));
+        $themeConfig = TwigThemeConfig::loadConfig($themePath);
+        return $themeConfig;
     }
 }

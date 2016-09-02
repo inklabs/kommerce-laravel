@@ -16,7 +16,7 @@ use inklabs\kommerce\Action\User\Query\GetUserByEmailRequest;
 use inklabs\kommerce\Action\User\Query\GetUserByEmailResponse;
 use inklabs\kommerce\Action\User\Query\GetUserRequest;
 use inklabs\kommerce\Action\User\Query\GetUserResponse;
-use inklabs\kommerce\Entity\EntityValidatorException;
+use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\EntityDTO\CreditCardDTO;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\OrderDTO;
@@ -81,9 +81,9 @@ class CheckoutController extends Controller
         $shippingAddress = $this->getOrderAddressDTOFromArray($inputShipping);
         $billingAddress = clone $shippingAddress;
 
-        $user = $this->getOrCreateUserFromOrderAddress($billingAddress);
-
         try {
+            $user = $this->getOrCreateUserFromOrderAddress($billingAddress);
+
             $createOrderCommand = new CreateOrderFromCartCommand(
                 $cart->id->getHex(),
                 $user->id->getHex(),
