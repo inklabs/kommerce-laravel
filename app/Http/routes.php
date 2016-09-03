@@ -80,6 +80,11 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::get('admin/tag/new', 'NewTagController@index')->name('admin.tag.new');
         Route::get('admin/tag/edit/{tagId}', 'EditTagController@index')->name('admin.tag.edit');
     });
+    Route::group(['namespace' => 'Coupon'], function() {
+        Route::get('admin/coupon', 'ListCouponsController@index')->name('admin.coupon');
+        Route::get('admin/coupon/new', 'NewCouponController@index')->name('admin.coupon.new');
+        Route::get('admin/coupon/edit/{couponId}', 'EditCouponController@index')->name('admin.coupon.edit');
+    });
 });
 
 Route::get('login', 'LoginController@index')->name('login');
