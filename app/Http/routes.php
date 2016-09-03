@@ -75,6 +75,11 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::get('admin/product/new', 'NewProductController@index')->name('admin.product.new');
         Route::get('admin/product/edit/{productId}', 'EditProductController@index')->name('admin.product.edit');
     });
+    Route::group(['namespace' => 'Tag'], function() {
+        Route::get('admin/tag', 'ListTagsController@index')->name('admin.tag');
+        Route::get('admin/tag/new', 'NewTagController@index')->name('admin.tag.new');
+        Route::get('admin/tag/edit/{tagId}', 'EditTagController@index')->name('admin.tag.edit');
+    });
 });
 
 Route::get('login', 'LoginController@index')->name('login');
