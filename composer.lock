@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0daabb64a05952b2b5f6574a63ba8f0a",
-    "content-hash": "75c0ebb2c6b727effb95c1d7b38fcac5",
+    "hash": "c65bb9bfec69cbc8d7a8fb311aaa5b9f",
+    "content-hash": "2cb27f454c25502112d16cc9556bf746",
     "packages": [
         {
             "name": "behat/gherkin",
@@ -1316,12 +1316,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-templates.git",
-                "reference": "9a57f1605b99a088bdad48a8f41485c5bad9b89f"
+                "reference": "10455a424cf4073743795084951bf9cc48f54055"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/9a57f1605b99a088bdad48a8f41485c5bad9b89f",
-                "reference": "9a57f1605b99a088bdad48a8f41485c5bad9b89f",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/10455a424cf4073743795084951bf9cc48f54055",
+                "reference": "10455a424cf4073743795084951bf9cc48f54055",
                 "shasum": ""
             },
             "require": {
@@ -1339,7 +1339,6 @@
                     "inklabs\\KommerceTemplates\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1350,7 +1349,11 @@
                 "store",
                 "templates"
             ],
-            "time": "2016-09-02 06:23:28"
+            "support": {
+                "source": "https://github.com/inklabs/kommerce-templates",
+                "issues": "https://github.com/inklabs/kommerce-templates/issues"
+            },
+            "time": "2016-09-03 05:51:05"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -4754,16 +4757,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.24.1",
+            "version": "v1.24.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "3566d311a92aae4deec6e48682dc5a4528c4a512"
+                "reference": "33093f6e310e6976baeac7b14f3a6ec02f2d79b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3566d311a92aae4deec6e48682dc5a4528c4a512",
-                "reference": "3566d311a92aae4deec6e48682dc5a4528c4a512",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/33093f6e310e6976baeac7b14f3a6ec02f2d79b7",
+                "reference": "33093f6e310e6976baeac7b14f3a6ec02f2d79b7",
                 "shasum": ""
             },
             "require": {
@@ -4811,20 +4814,20 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-05-30 09:11:59"
+            "time": "2016-09-01 17:50:53"
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v2.3.0",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "9ca5644c536654e9509b9d257f53c58630eb2a6a"
+                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/9ca5644c536654e9509b9d257f53c58630eb2a6a",
-                "reference": "9ca5644c536654e9509b9d257f53c58630eb2a6a",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
                 "shasum": ""
             },
             "require": {
@@ -4836,7 +4839,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -4861,7 +4864,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2016-06-14 14:14:52"
+            "time": "2016-09-01 10:05:43"
         },
         {
             "name": "webmozart/assert",
