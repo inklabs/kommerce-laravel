@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Lib\CSRFTokenGenerator;
+use App\Lib\KommerceConfiguration;
 use App\Lib\LaravelRouteUrl;
-use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\ORM\EntityManager;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -21,88 +19,22 @@ use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
 use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
-use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
-use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityDTO\CartDTO;
-use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
-use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Exception\EntityNotFoundException;
-use inklabs\kommerce\Lib\CartCalculator;
-use inklabs\kommerce\Lib\Command\CommandBus;
-use inklabs\kommerce\Lib\Command\CommandBusInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
-use inklabs\kommerce\Lib\DoctrineHelper;
-use inklabs\kommerce\Lib\Event\EventDispatcher;
-use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
-use inklabs\kommerce\Lib\FileManagerInterface;
-use inklabs\kommerce\Lib\LocalFileManager;
-use inklabs\kommerce\Lib\Mapper;
-use inklabs\kommerce\Lib\MapperInterface;
-use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
-use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
-use inklabs\kommerce\Lib\Pricing;
-use inklabs\kommerce\Lib\Query\QueryBus;
-use inklabs\kommerce\Lib\Query\QueryBusInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
-use inklabs\kommerce\Lib\ShipmentGateway\EasyPostGateway;
-use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
-use inklabs\kommerce\Service\ServiceFactory;
-use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 use inklabs\KommerceTemplates\Lib\AssetLocationService;
 use inklabs\KommerceTemplates\Lib\TwigTemplate;
 use inklabs\KommerceTemplates\Lib\TwigThemeConfig;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Twig_Environment;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
-
-    /** @var DoctrineHelper */
-    private $doctrineHelper;
-
-    /** @var Pricing */
-    private $pricing;
-
-    /** @var CartCalculator */
-    private $cartCalculator;
-
-    /** @var EntityManager */
-    private $entityManager;
-
-    /** @var CommandBusInterface */
-    private $commandBus;
-
-    /** @var QueryBusInterface */
-    private $queryBus;
-
-    /** @var MapperInterface */
-    private $mapper;
-
-    /** @var RepositoryFactory */
-    private $repositoryFactory;
-
-    /** @var ServiceFactory */
-    private $serviceFactory;
-
-    /** @var DTOBuilderFactoryInterface */
-    private $DTOBuilderFactory;
-
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
-
-    /** @var PaymentGatewayInterface */
-    private $paymentGateway;
-
-    /** @var  ShipmentGatewayInterface */
-    private $shipmentGateway;
-
-    /** @var FileManagerInterface */
-    private $fileManager;
 
     /** @var CartDTO */
     private $cartDTO;
@@ -110,158 +42,37 @@ class Controller extends BaseController
     /** @var UserDTO */
     private $userDTO;
 
+    /** @var KommerceConfiguration */
+    private $kommerceConfiguration;
+
     public function __construct()
     {
-        $this->setupKommerce();
+        $this->kommerceConfiguration = new KommerceConfiguration();
     }
 
     protected function getPricing()
     {
-        return $this->pricing;
+        return $this->kommerceConfiguration->getPricing();
     }
 
     protected function getCartCalculator()
     {
-        return $this->cartCalculator;
-    }
-
-    protected function dispatch(CommandInterface $command)
-    {
-        $this->commandBus->execute($command);
-    }
-
-    protected function dispatchQuery(QueryInterface $query)
-    {
-        $this->queryBus->execute($query);
+        return $this->kommerceConfiguration->getCartCalculator();
     }
 
     public function getDTOBuilderFactory()
     {
-        return $this->DTOBuilderFactory;
+        return $this->kommerceConfiguration->getDTOBuilderFactory();
     }
 
-    private function setupKommerce()
+    protected function dispatch(CommandInterface $command)
     {
-        $this->setupDoctrine();
-        $this->setupRepositoryFactory();
-        $this->setupPricing();
-        $this->setupEventDispatcher();
-        $this->setupPaymentGateway();
-        $this->setupFileManager();
-        $this->setupShipmentGateway();
-        $this->setupServiceFactory();
-        $this->setupDTOBuilderFactory();
-        $this->setupMapper();
-        $this->setupCommandBus();
-        $this->setupQueryBus();
+        $this->kommerceConfiguration->dispatch($command);
     }
 
-    private function setupDoctrine()
+    protected function dispatchQuery(QueryInterface $query)
     {
-        $cacheDriver = $this->getCacheDriver();
-        $this->doctrineHelper = new DoctrineHelper($cacheDriver);
-        $this->doctrineHelper->setup([
-            'driver' => 'pdo_sqlite',
-            'path' => storage_path() . '/db.sqlite',
-        ]);
-        $this->doctrineHelper->addSqliteFunctions();
-
-        $this->entityManager = $this->doctrineHelper->getEntityManager();
-    }
-
-    private function getCacheDriver()
-    {
-        return new ArrayCache();
-    }
-
-    private function setupPricing()
-    {
-        $this->pricing = new Pricing();
-        $this->pricing->loadCatalogPromotions($this->repositoryFactory->getCatalogPromotionRepository());
-        $this->cartCalculator = new CartCalculator($this->pricing);
-    }
-
-    private function setupRepositoryFactory()
-    {
-        $this->repositoryFactory = new RepositoryFactory(
-            $this->entityManager
-        );
-    }
-
-    private function setupEventDispatcher()
-    {
-        $this->eventDispatcher = new EventDispatcher();
-    }
-
-    private function setupPaymentGateway()
-    {
-        $this->paymentGateway = new FakePaymentGateway();
-        // TODO: Add Stripe payment gateway
-        //$this->paymentGateway = new Stripe(env('STRIPE-API-KEY'));
-    }
-
-    private function setupFileManager()
-    {
-        $this->fileManager = new LocalFileManager(
-            storage_path() . '/files'
-        );
-    }
-
-    private function setupShipmentGateway()
-    {
-        $storeAddress = new OrderAddressDTO();
-        $storeAddress->zip5 = '90401';
-
-        $easypostApiKey = env('EASYPOST-API-KEY');
-        if ($easypostApiKey === 'your-key-here') {
-            // TODO: This is crossing the kommerce-core/test namespace boundary
-            $this->shipmentGateway = new FakeShipmentGateway($storeAddress);
-        } else {
-            $this->shipmentGateway = new EasyPostGateway(
-                env('EASYPOST-API-KEY'),
-                $storeAddress
-            );
-        }
-    }
-
-    private function setupServiceFactory()
-    {
-        $this->serviceFactory = new ServiceFactory(
-            $this->repositoryFactory,
-            $this->cartCalculator,
-            $this->eventDispatcher,
-            $this->paymentGateway,
-            $this->shipmentGateway,
-            $this->fileManager
-        );
-    }
-
-    private function setupDTOBuilderFactory()
-    {
-        $this->DTOBuilderFactory = new DTOBuilderFactory();
-    }
-
-    private function setupMapper()
-    {
-        $this->mapper = new Mapper(
-            $this->serviceFactory,
-            $this->pricing,
-            $this->DTOBuilderFactory
-        );
-    }
-
-    private function setupCommandBus()
-    {
-        $this->commandBus = new CommandBus(
-            $this->mapper
-        );
-    }
-
-    private function setupQueryBus()
-    {
-        $this->queryBus = new QueryBus(
-            $this->mapper
-        );
+        $this->kommerceConfiguration->dispatchQuery($query);
     }
 
     /**
@@ -329,7 +140,7 @@ class Controller extends BaseController
     private function getCartFromSession()
     {
         $request = new GetCartBySessionIdRequest($this->getSessionId());
-        $response = new GetCartBySessionIdResponse($this->cartCalculator);
+        $response = new GetCartBySessionIdResponse($this->getCartCalculator());
         $this->dispatchQuery(new GetCartBySessionIdQuery($request, $response));
 
         return $response->getCartDTO();
