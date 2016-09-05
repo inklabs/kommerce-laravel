@@ -9,24 +9,25 @@
     "packages": [
         {
             "name": "behat/gherkin",
-            "version": "v4.4.1",
+            "version": "v4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Gherkin.git",
-                "reference": "1576b485c0f92ef6d27da9c4bbfc57ee30cf6911"
+                "reference": "d26757dc970e67b50ed0ee47b95273daeb84fea6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Gherkin/zipball/1576b485c0f92ef6d27da9c4bbfc57ee30cf6911",
-                "reference": "1576b485c0f92ef6d27da9c4bbfc57ee30cf6911",
+                "url": "https://api.github.com/repos/Behat/Gherkin/zipball/d26757dc970e67b50ed0ee47b95273daeb84fea6",
+                "reference": "d26757dc970e67b50ed0ee47b95273daeb84fea6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0",
-                "symfony/yaml": "~2.1"
+                "phpunit/phpunit": "~4.5|~5",
+                "symfony/phpunit-bridge": "~2.7|~3",
+                "symfony/yaml": "~2.3|~3"
             },
             "suggest": {
                 "symfony/yaml": "If you want to parse features, represented in YAML files"
@@ -63,7 +64,7 @@
                 "gherkin",
                 "parser"
             ],
-            "time": "2015-12-30 14:47:00"
+            "time": "2016-09-03 07:28:57"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -1316,12 +1317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-templates.git",
-                "reference": "ed014967e3d3ae99680e34bff3c445ab69869031"
+                "reference": "e2339b03586d1753ba6ad71d62c4dbc6996a0d8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/ed014967e3d3ae99680e34bff3c445ab69869031",
-                "reference": "ed014967e3d3ae99680e34bff3c445ab69869031",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/e2339b03586d1753ba6ad71d62c4dbc6996a0d8f",
+                "reference": "e2339b03586d1753ba6ad71d62c4dbc6996a0d8f",
                 "shasum": ""
             },
             "require": {
@@ -1353,7 +1354,7 @@
                 "source": "https://github.com/inklabs/kommerce-templates",
                 "issues": "https://github.com/inklabs/kommerce-templates/issues"
             },
-            "time": "2016-09-03 22:00:40"
+            "time": "2016-09-05 00:50:03"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -3584,7 +3585,7 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v3.1.3",
+            "version": "v3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
@@ -3867,7 +3868,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.1.3",
+            "version": "v3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -4466,16 +4467,16 @@
         },
         {
             "name": "symfony/validator",
-            "version": "v3.1.3",
+            "version": "v3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "998b8598d0f6f7a61a73983616efb50c11eb5ad4"
+                "reference": "96cad1c2230696ee7016753d7a3d3ba1c201d5d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/998b8598d0f6f7a61a73983616efb50c11eb5ad4",
-                "reference": "998b8598d0f6f7a61a73983616efb50c11eb5ad4",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/96cad1c2230696ee7016753d7a3d3ba1c201d5d2",
+                "reference": "96cad1c2230696ee7016753d7a3d3ba1c201d5d2",
                 "shasum": ""
             },
             "require": {
@@ -4536,7 +4537,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
-            "time": "2016-07-26 08:04:17"
+            "time": "2016-08-26 12:04:02"
         },
         {
             "name": "symfony/var-dumper",
@@ -4603,16 +4604,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.1.3",
+            "version": "v3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "1819adf2066880c7967df7180f4f662b6f0567ac"
+                "reference": "f291ed25eb1435bddbe8a96caaef16469c2a092d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/1819adf2066880c7967df7180f4f662b6f0567ac",
-                "reference": "1819adf2066880c7967df7180f4f662b6f0567ac",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/f291ed25eb1435bddbe8a96caaef16469c2a092d",
+                "reference": "f291ed25eb1435bddbe8a96caaef16469c2a092d",
                 "shasum": ""
             },
             "require": {
@@ -4648,7 +4649,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-07-17 14:02:08"
+            "time": "2016-09-02 02:12:52"
         },
         {
             "name": "twbs/bootstrap-sass",
@@ -5149,16 +5150,16 @@
         },
         {
             "name": "symfony/class-loader",
-            "version": "v3.1.3",
+            "version": "v3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/class-loader.git",
-                "reference": "817f09b4c37b7688fa4342cb4642d8f2d81c1097"
+                "reference": "2d0ba77c46ecc96a6641009a98f72632216811ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/class-loader/zipball/817f09b4c37b7688fa4342cb4642d8f2d81c1097",
-                "reference": "817f09b4c37b7688fa4342cb4642d8f2d81c1097",
+                "url": "https://api.github.com/repos/symfony/class-loader/zipball/2d0ba77c46ecc96a6641009a98f72632216811ba",
+                "reference": "2d0ba77c46ecc96a6641009a98f72632216811ba",
                 "shasum": ""
             },
             "require": {
@@ -5201,7 +5202,7 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "https://symfony.com",
-            "time": "2016-07-10 08:05:47"
+            "time": "2016-08-23 13:39:15"
         }
     ],
     "aliases": [],

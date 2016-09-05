@@ -80,10 +80,27 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::get('admin/tag/new', 'NewTagController@index')->name('admin.tag.new');
         Route::get('admin/tag/edit/{tagId}', 'EditTagController@index')->name('admin.tag.edit');
     });
-    Route::group(['namespace' => 'Coupon'], function() {
-        Route::get('admin/coupon', 'ListCouponsController@index')->name('admin.coupon');
-        Route::get('admin/coupon/new', 'NewCouponController@index')->name('admin.coupon.new');
-        Route::get('admin/coupon/edit/{couponId}', 'EditCouponController@index')->name('admin.coupon.edit');
+    Route::group(['namespace' => 'Promotion'], function() {
+        Route::group(['namespace' => 'Coupon'], function () {
+            Route::get('admin/promotion/coupon', 'ListCouponsController@index')->name('admin.coupon');
+            Route::get('admin/promotion/coupon/new', 'NewCouponController@index')->name('admin.coupon.new');
+            Route::get('admin/promotion/coupon/edit/{couponId}', 'EditCouponController@index')->name('admin.coupon.edit');
+        });
+        Route::group(['namespace' => 'CartPriceRule'], function () {
+            Route::get('admin/promotion/cart-price-rule', 'ListCartPriceRulesController@index')->name('admin.cart-price-rule');
+        });
+        Route::group(['namespace' => 'CatalogPromotion'], function () {
+            Route::get('admin/promotion/catalog-promotion', 'ListCatalogPromotionsController@index')->name('admin.catalog-promotion');
+        });
+    });
+    Route::group(['namespace' => 'Order'], function() {
+        Route::get('admin/order', 'ListOrdersController@index')->name('admin.order');
+    });
+    Route::group(['namespace' => 'User'], function() {
+        Route::get('admin/user', 'ListUsersController@index')->name('admin.user');
+    });
+    Route::group(['namespace' => 'Setting'], function() {
+        Route::get('admin/settings', 'ListSettingsController@index')->name('admin.settings');
     });
 });
 

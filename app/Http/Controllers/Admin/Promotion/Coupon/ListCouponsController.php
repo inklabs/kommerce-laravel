@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Admin\Coupon;
+namespace App\Http\Controllers\Admin\Promotion\Coupon;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
