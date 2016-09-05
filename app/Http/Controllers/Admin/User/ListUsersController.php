@@ -3,13 +3,24 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use inklabs\kommerce\Action\User\ListUsersQuery;
+use inklabs\kommerce\Action\User\Query\ListUsersRequest;
+use inklabs\kommerce\Action\User\Query\ListUsersResponse;
 
 class ListUsersController extends Controller
 {
     public function index(Request $httpRequest)
     {
-        $users = [];
-        $pagination = null;
+        $request = new ListUsersRequest(
+            $httpRequest->query('q'),
+            $this->getPaginationDTO(20)
+        );
+
+        $response = new ListUsersResponse();
+        $this->dispatchQuery(new ListUsersQuery($request, $response));
+
+        $users = $response->getUserDTOs();
+        $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
             'admin/user/index.twig',
