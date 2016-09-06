@@ -100,6 +100,10 @@ Route::group(['namespace' => 'Admin'], function() {
     Route::group(['namespace' => 'User'], function() {
         Route::get('admin/user', 'ListUsersController@index')->name('admin.user');
     });
+    Route::group(['namespace' => 'Option'], function() {
+        Route::get('admin/option', 'ListOptionsController@index')->name('admin.option');
+        Route::get('admin/option/edit/{optionId}', 'EditOptionController@index')->name('admin.option.edit');
+    });
     Route::group(['namespace' => 'Setting'], function() {
         Route::get('admin/settings', 'ListSettingsController@index')->name('admin.settings');
     });
