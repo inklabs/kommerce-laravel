@@ -7,7 +7,7 @@ use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
 use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 
-class EditOrderController extends Controller
+class ViewOrderController extends Controller
 {
     public function index($orderId)
     {
@@ -20,7 +20,7 @@ class EditOrderController extends Controller
         }
 
         return $this->renderTemplate(
-            'admin/order/edit.twig',
+            'admin/order/view.twig',
             [
                 'order' => $response->getOrderDTOWithAllData(),
             ]

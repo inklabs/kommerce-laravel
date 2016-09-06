@@ -95,7 +95,9 @@ Route::group(['namespace' => 'Admin'], function() {
     });
     Route::group(['namespace' => 'Order'], function() {
         Route::get('admin/order', 'ListOrdersController@index')->name('admin.order');
-        Route::get('admin/order/edit/{orderId}', 'EditOrderController@index')->name('admin.order.edit');
+        Route::get('admin/order/view/{orderId}', 'ViewOrderController@index')->name('admin.order.view');
+        Route::get('admin/order/shipments/{orderId}', 'ViewOrderShipmentsController@index')->name('admin.order.shipments');
+        Route::get('admin/order/invoice/{orderId}', 'ViewOrderInvoiceController@index')->name('admin.order.invoice');
     });
     Route::group(['namespace' => 'User'], function() {
         Route::get('admin/user', 'ListUsersController@index')->name('admin.user');
