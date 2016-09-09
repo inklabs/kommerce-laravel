@@ -98,8 +98,9 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::get('admin/order/view/{orderId}', 'ViewOrderController@index')->name('admin.order.view');
         Route::get('admin/order/shipments/{orderId}', 'ViewOrderShipmentsController@index')->name('admin.order.shipments');
         Route::get('admin/order/invoice/{orderId}', 'ViewOrderInvoiceController@index')->name('admin.order.invoice');
-        Route::get('admin/order/add-shipment/{orderId}', 'AddShipmentController@index')->name('admin.order.add-shipment');
+        Route::get('admin/order/add-shipment/{orderId}', 'AddShipmentController@get')->name('admin.order.add-shipment');
 
+        Route::post('admin/order/add-shipment', 'AddShipmentController@post')->name('admin.order.add-shipment.post');
         Route::post('admin/order/set-status', 'SetOrderStatusController@index')->name('admin.order.set-status');
     });
     Route::group(['namespace' => 'User'], function() {
