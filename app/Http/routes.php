@@ -101,6 +101,7 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::get('admin/order/add-shipment/{orderId}', 'AddShipmentController@get')->name('admin.order.add-shipment');
 
         Route::post('admin/order/add-shipment', 'AddShipmentController@post')->name('admin.order.add-shipment.post');
+        Route::post('admin/order/add-shipment-with-tracking-code', 'AddShipmentController@postAddShipmentWithTrackingCode')->name('admin.order.add-shipment-with-tracking-code');
         Route::post('admin/order/set-status', 'SetOrderStatusController@index')->name('admin.order.set-status');
     });
     Route::group(['namespace' => 'User'], function() {
