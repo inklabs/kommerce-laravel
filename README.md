@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/packagist/l/inklabs/kommerce-laravel.svg)](https://github.com/inklabs/kommerce-laravel/blob/master/LICENSE.txt)
 
 This is a sample application utilizing [Zen Kommerce Core](https://github.com/inklabs/kommerce-core)
+
 Docs: [Github Pages](https://inklabs.github.io/kommerce-laravel)
 
 ## Initialize project
