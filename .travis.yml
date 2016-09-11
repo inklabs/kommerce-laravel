@@ -15,4 +15,4 @@ before_script:
   - curl -s http://localhost:8000/dummy-data/create-dummy-coupon > /dev/null
 
 script:
-  - vendor/bin/codecept -c vendor/inklabs/kommerce-templates/codeception.yml run
+  - vendor/bin/codecept -c vendor/inklabs/kommerce-templates/codeception.yml run acceptance

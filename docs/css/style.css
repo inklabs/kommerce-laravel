@@ -1,0 +1,8 @@
+#screenshots img {
+    margin-left: 50px;
+    max-width: 80%;
+}
+
+#screenshots .row:not(:first-child) {
+    margin-bottom: 50px;
+}
