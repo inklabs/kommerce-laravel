@@ -11,18 +11,12 @@ class ViewOrderShipmentsController extends Controller
 {
     public function index($orderId)
     {
-        try {
-            $request = new GetOrderRequest($orderId);
-            $response = new GetOrderResponse();
-            $this->dispatchQuery(new GetOrderQuery($request, $response));
-        } catch (EntityNotFoundException $e) {
-            return abort(404);
-        }
+        $order = $this->getOrderWithAllData($orderId);
 
         return $this->renderTemplate(
             'admin/order/shipments.twig',
             [
-                'order' => $response->getOrderDTOWithAllData(),
+                'order' => $order,
             ]
         );
     }

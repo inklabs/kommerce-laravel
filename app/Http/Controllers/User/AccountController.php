@@ -3,10 +3,6 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use inklabs\kommerce\Action\Order\GetOrderQuery;
-use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
-use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
-use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\tests\Helper\Entity\DummyData;
 
 class AccountController extends Controller
@@ -30,15 +26,7 @@ class AccountController extends Controller
 
     public function viewOrder(Request $request, $orderId)
     {
-        try {
-            $request = new GetOrderRequest($orderId);
-            $response = new GetOrderResponse();
-            $this->dispatchQuery(new GetOrderQuery($request, $response));
-        } catch (EntityNotFoundException $e) {
-            return abort(404);
-        }
-
-        $order = $response->getOrderDTOWithAllData();
+        $order = $this->getOrderWithAllData($orderId);
 
         // TODO: Check order ownership
 //        if ($order->user === null || ! $order->user->id->equals($this->user->id)) {

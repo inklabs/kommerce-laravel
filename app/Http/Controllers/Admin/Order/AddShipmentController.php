@@ -3,13 +3,9 @@ namespace App\Http\Controllers\Admin\Order;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use inklabs\kommerce\Action\Order\GetOrderQuery;
-use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
-use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
 use inklabs\kommerce\Action\Shipment\AddShipmentTrackingCodeCommand;
 use inklabs\kommerce\Entity\ShipmentCarrierType;
 use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
-use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\Lib\Uuid;
 
@@ -17,18 +13,12 @@ class AddShipmentController extends Controller
 {
     public function get($orderId)
     {
-        try {
-            $request = new GetOrderRequest($orderId);
-            $response = new GetOrderResponse();
-            $this->dispatchQuery(new GetOrderQuery($request, $response));
-        } catch (EntityNotFoundException $e) {
-            return abort(404);
-        }
+        $order = $this->getOrderWithAllData($orderId);
 
         return $this->renderTemplate(
             'admin/order/add-shipment.twig',
             [
-                'order' => $response->getOrderDTOWithAllData(),
+                'order' => $order,
             ]
         );
     }
@@ -40,7 +30,7 @@ class AddShipmentController extends Controller
         if ($action === 'create-with-tracking-code') {
             return $this->createWithTrackingCode($request);
         } elseif ($action === 'create-shipping-label') {
-            return $this->createShippingLabel($request);
+            return $this->createWithShippingLabel($request);
         }
     }
 
@@ -77,25 +67,19 @@ class AddShipmentController extends Controller
         $orderId = $request->input('orderId');
         $orderItemQty = $request->input('orderItemQty');
 
-        try {
-            $request = new GetOrderRequest($orderId);
-            $response = new GetOrderResponse();
-            $this->dispatchQuery(new GetOrderQuery($request, $response));
-        } catch (EntityNotFoundException $e) {
-            return abort(404);
-        }
+        $order = $this->getOrderWithAllData($orderId);
 
         return $this->renderTemplate(
             'admin/order/add-shipment-tracking.twig',
             [
-                'order' => $response->getOrderDTOWithAllData(),
+                'order' => $order,
                 'orderItemQty' => $orderItemQty,
                 'shipmentCarrierTypes' => ShipmentCarrierType::getNameMap(),
             ]
         );
     }
 
-    private function createShippingLabel(Request $request)
+    private function createWithShippingLabel(Request $request)
     {
         echo 'TODO:';
         dd($request->input());

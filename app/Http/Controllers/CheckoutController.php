@@ -3,9 +3,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Order\CreateOrderFromCartCommand;
-use inklabs\kommerce\Action\Order\GetOrderQuery;
-use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
-use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
 use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
@@ -24,6 +21,7 @@ use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\InsufficientInventoryException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CheckoutController extends Controller
 {
@@ -44,15 +42,11 @@ class CheckoutController extends Controller
     public function getComplete($orderId)
     {
         try {
-            $request = new GetOrderRequest($orderId);
-            $response = new GetOrderResponse();
-            $this->dispatchQuery(new GetOrderQuery($request, $response));
-        } catch (EntityNotFoundException $e) {
+            $order = $this->getOrderWithAllData($orderId);
+        } catch (NotFoundHttpException $e) {
             $this->flashError('Order not found.');
             return redirect('/');
         }
-
-        $order = $response->getOrderDTOWithAllData();
 
         $recommendedProducts = $this->getRecommendedProductsFromOrder($order);
 

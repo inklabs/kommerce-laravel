@@ -16,10 +16,14 @@ use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdResponse;
 use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
+use inklabs\kommerce\Action\Order\GetOrderQuery;
+use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
+use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
 use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
 use inklabs\kommerce\EntityDTO\CartDTO;
+use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
@@ -28,6 +32,7 @@ use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\KommerceTemplates\Lib\AssetLocationService;
 use inklabs\KommerceTemplates\Lib\TwigTemplate;
 use inklabs\KommerceTemplates\Lib\TwigThemeConfig;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
@@ -335,5 +340,34 @@ class Controller extends BaseController
         $themePath = TwigThemeConfig::getThemePath(env('THEME'));
         $themeConfig = TwigThemeConfig::loadConfig($themePath);
         return $themeConfig;
+    }
+
+    /**
+     * @param $orderId
+     * @return OrderDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getOrderWithAllData($orderId)
+    {
+        return $this->getOrderById($orderId)
+            ->getOrderDTOWithAllData();
+    }
+
+    /**
+     * @param string $orderId
+     * @return GetOrderResponse
+     * @throws NotFoundHttpException
+     */
+    private function getOrderById($orderId)
+    {
+        try {
+            $request = new GetOrderRequest($orderId);
+            $response = new GetOrderResponse();
+            $this->dispatchQuery(new GetOrderQuery($request, $response));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
+
+        return $response;
     }
 }
