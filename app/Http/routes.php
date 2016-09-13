@@ -102,6 +102,8 @@ Route::group(['namespace' => 'Admin'], function() {
 
         Route::post('admin/order/add-shipment', 'AddShipmentController@post')->name('admin.order.add-shipment.post');
         Route::post('admin/order/add-shipment-with-tracking-code', 'AddShipmentController@postAddShipmentWithTrackingCode')->name('admin.order.add-shipment-with-tracking-code');
+        Route::post('admin/order/add-shipment-label', 'AddShipmentController@postAddShipmentLabel')->name('admin.order.add-shipment-label');
+        Route::post('admin/order/buy-shipment-label', 'AddShipmentController@postBuyShipmentLabel')->name('admin.order.buy-shipment-label');
         Route::post('admin/order/set-status', 'SetOrderStatusController@index')->name('admin.order.set-status');
     });
     Route::group(['namespace' => 'User'], function() {

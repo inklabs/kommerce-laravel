@@ -4,8 +4,13 @@ namespace App\Http\Controllers\Admin\Order;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Shipment\AddShipmentTrackingCodeCommand;
+use inklabs\kommerce\Action\Shipment\BuyShipmentLabelCommand;
+use inklabs\kommerce\Action\Shipment\GetShipmentRatesQuery;
+use inklabs\kommerce\Action\Shipment\Query\GetShipmentRatesRequest;
+use inklabs\kommerce\Action\Shipment\Query\GetShipmentRatesResponse;
 use inklabs\kommerce\Entity\ShipmentCarrierType;
 use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
+use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\Lib\Uuid;
 
@@ -62,6 +67,75 @@ class AddShipmentController extends Controller
         return redirect()->route('admin.order.shipments', ['orderId' => $orderId]);
     }
 
+    public function postBuyShipmentLabel(Request $httpRequest)
+    {
+        $orderId = $httpRequest->input('orderId');
+        $orderItemQty = $httpRequest->input('orderItemQty');
+        $comment = $httpRequest->input('comment');
+        $notifyCustomer = $httpRequest->input('notifyCustomer');
+        $shipmentExternalId = $httpRequest->input('shipmentExternalId');
+        $shipmentRateExternalId = $httpRequest->input('shipmentRateExternalId');
+
+        $orderItemQtyDTO = $this->getOrderItemQtyDTO($orderItemQty);
+
+        try {
+            $this->dispatch(new BuyShipmentLabelCommand(
+                $orderId,
+                $orderItemQtyDTO,
+                $comment,
+                $shipmentExternalId,
+                $shipmentRateExternalId
+            ));
+
+            $this->flashSuccess('Added Shipping Label.');
+        } catch (EntityValidatorException $e) {
+            $this->flashGenericWarning();
+        }
+        return redirect()->route('admin.order.shipments', ['orderId' => $orderId]);
+    }
+
+    public function postAddShipmentLabel(Request $httpRequest)
+    {
+        $orderId = $httpRequest->input('orderId');
+        $orderItemQty = $httpRequest->input('orderItemQty');
+        $comment = $httpRequest->input('comment');
+        $notifyCustomer = $httpRequest->input('notifyCustomer');
+        $shipment = $httpRequest->input('shipment');
+        $weight = $httpRequest->input('shipment.weight');
+        $length = $httpRequest->input('shipment.length');
+        $width = $httpRequest->input('shipment.width');
+        $height = $httpRequest->input('shipment.height');
+
+        $order = $this->getOrderWithAllData($orderId);
+
+        $toAddress = $order->shippingAddress;
+
+        $parcel = new ParcelDTO;
+        $parcel->length = $length;
+        $parcel->width = $width;
+        $parcel->height = $height;
+        $parcel->weight = $weight * 16;
+
+        $request = new GetShipmentRatesRequest($toAddress, $parcel);
+        $response = new GetShipmentRatesResponse();
+        $this->dispatchQuery(new GetShipmentRatesQuery($request, $response));
+
+        $shipmentRates = $response->getShipmentRateDTOs();
+        $shipment['shipmentRateExternalId'] = $shipmentRates[0]->externalId;
+
+        return $this->renderTemplate(
+            'admin/order/add-shipment-label.twig',
+            [
+                'order' => $order,
+                'orderItemQty' => $orderItemQty,
+                'shipment' => $shipment,
+                'comment' => $comment,
+                'notifyCustomer' => $notifyCustomer,
+                'shipmentRates' => $shipmentRates,
+            ]
+        );
+    }
+
     private function createWithTrackingCode(Request $request)
     {
         $orderId = $request->input('orderId');
@@ -81,8 +155,34 @@ class AddShipmentController extends Controller
 
     private function createWithShippingLabel(Request $request)
     {
-        echo 'TODO:';
-        dd($request->input());
+        $orderId = $request->input('orderId');
+        $orderItemQty = $request->input('orderItemQty');
+        $comment = $request->input('comment');
+        $notifyCustomer = $request->input('notifyCustomer');
+
+        $order = $this->getOrderWithAllData($orderId);
+
+        $weightOz = 0;
+        foreach ($order->orderItems as $orderItem) {
+            if (array_key_exists($orderItem->id->getHex(), $orderItemQty)) {
+                $weightOz += ($orderItem->shippingWeight * $orderItemQty[$orderItem->id->getHex()]);
+            }
+        }
+
+        $shipment = [
+            'weightLbs' => $weightOz / 16,
+        ];
+
+        return $this->renderTemplate(
+            'admin/order/add-shipment-label.twig',
+            [
+                'order' => $order,
+                'orderItemQty' => $orderItemQty,
+                'shipment' => $shipment,
+                'comment' => $comment,
+                'notifyCustomer' => $notifyCustomer,
+            ]
+        );
     }
 
         /**
