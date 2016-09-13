@@ -7,3 +7,4 @@ Homestead.json
 .env
 /_ide_helper.php
 /storage/scss_cache
+.DS_Store
