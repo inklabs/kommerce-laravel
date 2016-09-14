@@ -72,7 +72,6 @@ class AddShipmentController extends Controller
         $orderId = $httpRequest->input('orderId');
         $orderItemQty = $httpRequest->input('orderItemQty');
         $comment = $httpRequest->input('comment');
-        $notifyCustomer = $httpRequest->input('notifyCustomer');
         $shipmentExternalId = $httpRequest->input('shipmentExternalId');
         $shipmentRateExternalId = $httpRequest->input('shipmentRateExternalId');
 
@@ -99,7 +98,6 @@ class AddShipmentController extends Controller
         $orderId = $httpRequest->input('orderId');
         $orderItemQty = $httpRequest->input('orderItemQty');
         $comment = $httpRequest->input('comment');
-        $notifyCustomer = $httpRequest->input('notifyCustomer');
         $shipment = $httpRequest->input('shipment');
         $weight = $httpRequest->input('shipment.weight');
         $length = $httpRequest->input('shipment.length');
@@ -130,7 +128,6 @@ class AddShipmentController extends Controller
                 'orderItemQty' => $orderItemQty,
                 'shipment' => $shipment,
                 'comment' => $comment,
-                'notifyCustomer' => $notifyCustomer,
                 'shipmentRates' => $shipmentRates,
             ]
         );
@@ -158,7 +155,6 @@ class AddShipmentController extends Controller
         $orderId = $request->input('orderId');
         $orderItemQty = $request->input('orderItemQty');
         $comment = $request->input('comment');
-        $notifyCustomer = $request->input('notifyCustomer');
 
         $order = $this->getOrderWithAllData($orderId);
 
@@ -180,7 +176,6 @@ class AddShipmentController extends Controller
                 'orderItemQty' => $orderItemQty,
                 'shipment' => $shipment,
                 'comment' => $comment,
-                'notifyCustomer' => $notifyCustomer,
             ]
         );
     }
