@@ -219,9 +219,10 @@ class Controller extends BaseController
             new LaravelRouteUrl(),
             env('STORE_TIMEZONE'),
             env('STORE_DATE_FORMAT'),
-            env('STORE_TIME_FORMAT')
+            env('STORE_TIME_FORMAT'),
+            env('TWIG_PROFILER_ENABLED'),
+            env('TWIG_DEBUG_ENABLED')
         );
-        $twigTemplate->enableDebug();
 
         return $twigTemplate;
     }
