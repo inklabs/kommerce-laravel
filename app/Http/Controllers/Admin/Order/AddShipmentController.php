@@ -137,6 +137,7 @@ class AddShipmentController extends Controller
     {
         $orderId = $request->input('orderId');
         $orderItemQty = $request->input('orderItemQty');
+        $comment = $request->input('comment');
 
         $order = $this->getOrderWithAllData($orderId);
 
@@ -145,6 +146,7 @@ class AddShipmentController extends Controller
             [
                 'order' => $order,
                 'orderItemQty' => $orderItemQty,
+                'comment' => $comment,
                 'shipmentCarrierTypes' => ShipmentCarrierType::getNameMap(),
             ]
         );

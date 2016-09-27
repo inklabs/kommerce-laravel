@@ -19,12 +19,16 @@ use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
 use inklabs\kommerce\Action\Order\GetOrderQuery;
 use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
 use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
+use inklabs\kommerce\Action\Product\GetProductQuery;
 use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
+use inklabs\kommerce\Action\Product\Query\GetProductRequest;
+use inklabs\kommerce\Action\Product\Query\GetProductResponse;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
 use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
+use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\Command\CommandInterface;
@@ -365,6 +369,35 @@ class Controller extends BaseController
             $request = new GetOrderRequest($orderId);
             $response = new GetOrderResponse();
             $this->dispatchQuery(new GetOrderQuery($request, $response));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $productId
+     * @return ProductDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getProductWithAllData($productId)
+    {
+        return $this->getProductById($productId)
+            ->getProductDTOWithAllData();
+    }
+
+    /**
+     * @param string $productId
+     * @return GetProductResponse
+     * @throws NotFoundHttpException
+     */
+    private function getProductById($productId)
+    {
+        try {
+            $request = new GetProductRequest($productId);
+            $response = new GetProductResponse($this->getPricing());
+            $this->dispatchQuery(new GetProductQuery($request, $response));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }

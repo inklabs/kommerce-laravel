@@ -6,8 +6,15 @@ use Illuminate\Http\Request;
 
 class EditProductController extends Controller
 {
-    public function index(Request $httpRequest)
+    public function index($productId)
     {
-        // TODO
+        $product = $this->getProductWithAllData($productId);
+
+        return $this->renderTemplate(
+            'admin/product/edit.twig',
+            [
+                'product' => $product,
+            ]
+        );
     }
 }
