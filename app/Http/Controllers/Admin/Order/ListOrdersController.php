@@ -22,7 +22,7 @@ class ListOrdersController extends Controller
         return $this->renderTemplate(
             'admin/order/index.twig',
             [
-                'orders' => $response->getOrderDTOs(),
+                'orders' => $response->getOrderWithUserDTOs(),
                 'pagination' => $response->getPaginationDTO(),
             ]
         );
