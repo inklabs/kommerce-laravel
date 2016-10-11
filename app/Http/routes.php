@@ -70,13 +70,18 @@ Route::group(['namespace' => 'User'], function() {
 });
 
 Route::group(['namespace' => 'Admin'], function() {
+    Route::group(['namespace' => 'Attachment'], function() {
+        Route::get('admin/attachment/createForOrderItem', 'CreateAttachmentForOrderItemController@get')->name('admin.attachment.createForOrderItem');
+
+        Route::post('admin/attachment/deleteAttachment', 'DeleteAttachmentController@post')->name('admin.attachment.deleteAttachment');
+    });
     Route::group(['namespace' => 'Product'], function() {
         Route::get('admin/product', 'ListProductsController@index')->name('admin.product');
         Route::get('admin/product/new', 'NewProductController@index')->name('admin.product.new');
         Route::get('admin/product/edit/{productId}', 'EditProductController@get')->name('admin.product.edit');
 
         Route::post('admin/product/edit', 'EditProductController@post')->name('admin.product.edit.post');
-        Route::post('admin/product/delete', 'DeleteProductController@index')->name('admin.product.delete');
+        Route::post('admin/product/delete', 'DeleteProductController@post')->name('admin.product.delete');
     });
     Route::group(['namespace' => 'Tag'], function() {
         Route::get('admin/tag', 'ListTagsController@index')->name('admin.tag');
