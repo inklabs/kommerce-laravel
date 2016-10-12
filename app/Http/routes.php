@@ -71,8 +71,9 @@ Route::group(['namespace' => 'User'], function() {
 
 Route::group(['namespace' => 'Admin'], function() {
     Route::group(['namespace' => 'Attachment'], function() {
-        Route::get('admin/attachment/createForOrderItem', 'CreateAttachmentForOrderItemController@get')->name('admin.attachment.createForOrderItem');
+        Route::get('admin/attachment/createForOrderItem/{orderItemId}', 'CreateAttachmentForOrderItemController@get')->name('admin.attachment.createForOrderItem');
 
+        Route::post('admin/attachment/createForOrderItem', 'CreateAttachmentForOrderItemController@post')->name('admin.attachment.createForOrderItem.post');
         Route::post('admin/attachment/deleteAttachment', 'DeleteAttachmentController@post')->name('admin.attachment.deleteAttachment');
     });
     Route::group(['namespace' => 'Product'], function() {
@@ -133,7 +134,8 @@ Route::get('page/privacy', 'PageController@privacy')->name('page.privacy');
 Route::get('page/terms', 'PageController@terms')->name('page.terms');
 Route::get('page/contact', 'PageController@contact')->name('page.contact');
 
-Route::get('data/image/{imagePath}', function() {})->name('product.image');
-Route::get('data/image/{imagePath}', function() {})->name('tag.image');
+Route::get('data/image/{imagePath}', 'ImageController@get')
+    ->name('image.path')
+    ->where('imagePath', '(.*)');
 
 Route::controller('dummy-data', 'DummyDataController');

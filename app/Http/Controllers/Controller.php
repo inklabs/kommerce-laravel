@@ -16,7 +16,10 @@ use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdResponse;
 use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
+use inklabs\kommerce\Action\Order\GetOrderItemQuery;
 use inklabs\kommerce\Action\Order\GetOrderQuery;
+use inklabs\kommerce\Action\Order\Query\GetOrderItemRequest;
+use inklabs\kommerce\Action\Order\Query\GetOrderItemResponse;
 use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
 use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
 use inklabs\kommerce\Action\Product\GetProductQuery;
@@ -27,6 +30,7 @@ use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
 use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\OrderDTO;
+use inklabs\kommerce\EntityDTO\OrderItemDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
@@ -377,6 +381,46 @@ class Controller extends BaseController
     }
 
     /**
+     * @param $orderItemId
+     * @return OrderItemDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getOrderItem($orderItemId)
+    {
+        return $this->getOrderItemById($orderItemId)
+            ->getOrderItemDTO();
+    }
+
+    /**
+     * @param $orderItemId
+     * @return OrderItemDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getOrderItemWithAllData($orderItemId)
+    {
+        return $this->getOrderItemById($orderItemId)
+            ->getOrderItemDTOWithAllData();
+    }
+
+    /**
+     * @param string $orderItemId
+     * @return GetOrderItemResponse
+     * @throws NotFoundHttpException
+     */
+    private function getOrderItemById($orderItemId)
+    {
+        try {
+            $request = new GetOrderItemRequest($orderItemId);
+            $response = new GetOrderItemResponse();
+            $this->dispatchQuery(new GetOrderItemQuery($request, $response));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
+
+        return $response;
+    }
+
+    /**
      * @param $productId
      * @return ProductDTO
      * @throws NotFoundHttpException
@@ -403,5 +447,26 @@ class Controller extends BaseController
         }
 
         return $response;
+    }
+
+    /**
+     * @param string $filePath
+     */
+    protected function serveFile($filePath)
+    {
+        if (!file_exists($filePath)) {
+            abort(404);
+        }
+
+        header('Content-Length: ' . filesize($filePath));
+        header('Content-Type: ' . mime_content_type($filePath));
+        header('Expires: ' . date('r', strtotime('now +1 week')));
+        header('Last-Modified: ' . date('r', filemtime($filePath)));
+        header('Cache-Control: max-age=604800');
+        ob_clean();
+        flush();
+
+        readfile($filePath);
+        exit;
     }
 }
