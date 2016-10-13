@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User\Attachment;
 use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
+use inklabs\kommerce\Action\Attachment\CreateAttachmentForOrderItemCommand;
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
+use inklabs\kommerce\Exception\KommerceException;
 
 class CreateAttachmentForOrderItemController extends Controller
 {
@@ -12,13 +14,12 @@ class CreateAttachmentForOrderItemController extends Controller
     {
         $orderItem = $this->getOrderItem($orderItemId);
 
-        // TODO
-//        return $this->renderTemplate(
-//            'user/attachment/create-for-order-item.twig',
-//            [
-//                'orderItem' => $orderItem,
-//            ]
-//        );
+        return $this->renderTemplate(
+            'user/attachment/create-for-order-item.twig',
+            [
+                'orderItem' => $orderItem,
+            ]
+        );
     }
 
     public function post(Request $request)
@@ -39,17 +40,16 @@ class CreateAttachmentForOrderItemController extends Controller
             abort(400);
         }
 
-        // TODO
-//        try {
-//            $this->dispatch(new CreateAttachmentForOrderItemCommand(
-//                $uploadFileDTO,
-//                $orderItem->id->getHex()
-//            ));
-//
-//            return redirect()->route('user.order.view', ['orderId' => $orderItem->order->id->getHex()]);
-//        } catch (KommerceException $e) {
-//            $this->flashError('Unable to upload Attachment.');
-//            return redirect()->route('user.attachment.createForOrderItem', ['orderItemId' => $orderItem->id->getHex()]);
-//        }
+        try {
+            $this->dispatch(new CreateAttachmentForOrderItemCommand(
+                $uploadFileDTO,
+                $orderItem->id->getHex()
+            ));
+
+            return redirect()->route('user.account.view-order', ['orderId' => $orderItem->order->id->getHex()]);
+        } catch (KommerceException $e) {
+            $this->flashError('Unable to upload Attachment.');
+            return redirect()->route('user.attachment.createForOrderItem', ['orderItemId' => $orderItem->id->getHex()]);
+        }
     }
 }
