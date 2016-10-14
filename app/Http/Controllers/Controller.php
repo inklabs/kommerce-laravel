@@ -425,6 +425,17 @@ class Controller extends BaseController
      * @return ProductDTO
      * @throws NotFoundHttpException
      */
+    protected function getProduct($productId)
+    {
+        return $this->getProductById($productId)
+            ->getProductDTO();
+    }
+
+    /**
+     * @param $productId
+     * @return ProductDTO
+     * @throws NotFoundHttpException
+     */
     protected function getProductWithAllData($productId)
     {
         return $this->getProductById($productId)

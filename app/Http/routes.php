@@ -64,8 +64,10 @@ Route::get('search', 'SearchController@index')->name('search');
 Route::group(['namespace' => 'User'], function() {
     Route::group(['namespace' => 'Attachment'], function() {
         Route::get('user/attachment/createForOrderItem/{orderItemId}', 'CreateAttachmentForOrderItemController@get')->name('user.attachment.createForOrderItem');
+        Route::get('user/attachment/createForProduct/{productId}', 'CreateAttachmentForProductController@get')->name('user.attachment.createForProduct');
 
         Route::post('user/attachment/createForOrderItem', 'CreateAttachmentForOrderItemController@post')->name('user.attachment.createForOrderItem.post');
+        Route::post('user/attachment/createForProduct', 'CreateAttachmentForProductController@post')->name('user.attachment.createForProduct.post');
     });
 
     Route::get('user/change-password', 'ChangePasswordController@index')->name('user.change-password');
