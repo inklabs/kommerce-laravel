@@ -6,6 +6,7 @@ use App\Lib\Arr;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Image\CreateImageForProductCommand;
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
+use inklabs\kommerce\Exception\KommerceException;
 
 class UploadProductImageController extends Controller
 {
@@ -27,17 +28,15 @@ class UploadProductImageController extends Controller
             abort(400);
         }
 
-        dd(get_defined_vars());
         try {
             $this->dispatch(new CreateImageForProductCommand(
-                $product->id->getHex(),
-                $uploadFileDTO
+                $uploadFileDTO,
+                $product->id->getHex()
             ));
-
-            return redirect()->route('admin.product.images', ['productId' => $product->id->getHex()]);
+            $this->flashSuccess('Image uploaded.');
         } catch (KommerceException $e) {
-            $this->flashError('Unable to upload Attachment.');
-            return redirect()->route('admin.attachment.createForOrderItem', ['orderItemId' => $orderItem->id->getHex()]);
+            $this->flashError('Unable to upload image.');
         }
+        return redirect()->route('admin.product.images', ['productId' => $product->id->getHex()]);
     }
 }

@@ -46,9 +46,11 @@ class CreateAttachmentForOrderItemController extends Controller
                 $orderItem->id->getHex()
             ));
 
+            $this->flashSuccess('Attachment uploaded.');
+
             return redirect()->route('admin.order.view', ['orderId' => $orderItem->order->id->getHex()]);
         } catch (KommerceException $e) {
-            $this->flashError('Unable to upload Attachment.');
+            $this->flashError('Unable to upload attachment.');
             return redirect()->route('admin.attachment.createForOrderItem', ['orderItemId' => $orderItem->id->getHex()]);
         }
     }

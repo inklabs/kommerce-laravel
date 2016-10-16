@@ -50,9 +50,11 @@ class CreateAttachmentForProductController extends Controller
                 $product->id->getHex()
             ));
 
+            $this->flashSuccess('Attachment uploaded.');
+
             return redirect()->route('product.show', ['slug' => $product->slug, 'productId' => $product->id->getHex()]);
         } catch (KommerceException $e) {
-            $this->flashError('Unable to upload Attachment.');
+            $this->flashError('Unable to upload attachment.');
             return redirect()->route('user.attachment.createForProduct', ['productId' => $product->id->getHex()]);
         }
     }

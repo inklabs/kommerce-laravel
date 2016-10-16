@@ -4,9 +4,9 @@ namespace App\Http\Controllers\User\Attachment;
 use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
+use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Action\Attachment\CreateAttachmentForOrderItemCommand;
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
-use inklabs\kommerce\Exception\KommerceException;
 
 class CreateAttachmentForOrderItemController extends Controller
 {
@@ -46,9 +46,11 @@ class CreateAttachmentForOrderItemController extends Controller
                 $orderItem->id->getHex()
             ));
 
+            $this->flashSuccess('Attachment uploaded.');
+
             return redirect()->route('user.account.view-order', ['orderId' => $orderItem->order->id->getHex()]);
         } catch (KommerceException $e) {
-            $this->flashError('Unable to upload Attachment.');
+            $this->flashError('Unable to upload attachment.');
             return redirect()->route('user.attachment.createForOrderItem', ['orderItemId' => $orderItem->id->getHex()]);
         }
     }

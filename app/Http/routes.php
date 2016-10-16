@@ -92,6 +92,9 @@ Route::group(['namespace' => 'Admin'], function() {
 
         Route::post('admin/product/edit', 'EditProductController@post')->name('admin.product.edit.post');
         Route::post('admin/product/upload-image', 'UploadProductImageController@post')->name('admin.product.upload-image');
+        Route::post('admin/product/delete-image', 'DeleteProductImageController@post')->name('admin.product.delete-image');
+        Route::post('admin/product/set-default-image', 'SetDefaultProductImageController@post')->name('admin.product.set-default-image');
+        Route::post('admin/product/unset-default-image', 'UnsetDefaultProductImageController@post')->name('admin.product.unset-default-image');
         Route::post('admin/product/delete', 'DeleteProductController@post')->name('admin.product.delete');
     });
     Route::group(['namespace' => 'Tag'], function() {
