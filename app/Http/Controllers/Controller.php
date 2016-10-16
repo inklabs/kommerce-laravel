@@ -28,11 +28,15 @@ use inklabs\kommerce\Action\Product\Query\GetProductRequest;
 use inklabs\kommerce\Action\Product\Query\GetProductResponse;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
+use inklabs\kommerce\Action\Tag\GetTagQuery;
+use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
+use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
 use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\EntityDTO\OrderItemDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Lib\Command\CommandInterface;
@@ -453,6 +457,46 @@ class Controller extends BaseController
             $request = new GetProductRequest($productId);
             $response = new GetProductResponse($this->getPricing());
             $this->dispatchQuery(new GetProductQuery($request, $response));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $tagId
+     * @return TagDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getTag($tagId)
+    {
+        return $this->getTagById($tagId)
+            ->getTagDTO();
+    }
+
+    /**
+     * @param $tagId
+     * @return TagDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getTagWithAllData($tagId)
+    {
+        return $this->getTagById($tagId)
+            ->getTagDTOWithAllData();
+    }
+
+    /**
+     * @param string $tagId
+     * @return GetTagResponse
+     * @throws NotFoundHttpException
+     */
+    private function getTagById($tagId)
+    {
+        try {
+            $request = new GetTagRequest($tagId);
+            $response = new GetTagResponse($this->getPricing());
+            $this->dispatchQuery(new GetTagQuery($request, $response));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }

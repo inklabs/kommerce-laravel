@@ -6,8 +6,15 @@ use Illuminate\Http\Request;
 
 class EditTagController extends Controller
 {
-    public function index(Request $httpRequest)
+    public function get($tagId)
     {
-        // TODO
+        $tag = $this->getTagWithAllData($tagId);
+
+        return $this->renderTemplate(
+            'admin/tag/edit.twig',
+            [
+                'tag' => $tag,
+            ]
+        );
     }
 }

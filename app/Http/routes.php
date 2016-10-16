@@ -100,7 +100,11 @@ Route::group(['namespace' => 'Admin'], function() {
     Route::group(['namespace' => 'Tag'], function() {
         Route::get('admin/tag', 'ListTagsController@index')->name('admin.tag');
         Route::get('admin/tag/new', 'NewTagController@index')->name('admin.tag.new');
-        Route::get('admin/tag/edit/{tagId}', 'EditTagController@index')->name('admin.tag.edit');
+        Route::get('admin/tag/edit/{tagId}', 'EditTagController@get')->name('admin.tag.edit');
+        Route::get('admin/tag/images/{tagId}', 'ListTagImagesController@index')->name('admin.tag.images');
+
+        Route::post('admin/tag/edit', 'EditTagController@post')->name('admin.tag.edit.post');
+        Route::post('admin/tag/delete', 'DeleteTagController@post')->name('admin.tag.delete');
     });
     Route::group(['namespace' => 'Promotion'], function() {
         Route::group(['namespace' => 'Coupon'], function () {
