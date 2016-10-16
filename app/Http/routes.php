@@ -104,6 +104,10 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::get('admin/tag/images/{tagId}', 'ListTagImagesController@index')->name('admin.tag.images');
 
         Route::post('admin/tag/edit', 'EditTagController@post')->name('admin.tag.edit.post');
+        Route::post('admin/tag/upload-image', 'UploadTagImageController@post')->name('admin.tag.upload-image');
+        Route::post('admin/tag/delete-image', 'DeleteTagImageController@post')->name('admin.tag.delete-image');
+        Route::post('admin/tag/set-default-image', 'SetDefaultTagImageController@post')->name('admin.tag.set-default-image');
+        Route::post('admin/tag/unset-default-image', 'UnsetDefaultTagImageController@post')->name('admin.tag.unset-default-image');
         Route::post('admin/tag/delete', 'DeleteTagController@post')->name('admin.tag.delete');
     });
     Route::group(['namespace' => 'Promotion'], function() {
