@@ -11,8 +11,10 @@ class ListOrdersController extends Controller
 {
     public function index(Request $httpRequest)
     {
+        $queryString = $httpRequest->query('q');
+
         $request = new ListOrdersRequest(
-            $httpRequest->query('q'), // TODO: Implement in kommerce-core
+            $queryString, // TODO: Implement in kommerce-core
             $this->getPaginationDTO(20)
         );
 
@@ -24,6 +26,7 @@ class ListOrdersController extends Controller
             [
                 'orders' => $response->getOrderWithUserDTOs(),
                 'pagination' => $response->getPaginationDTO(),
+                'queryString' => $queryString,
             ]
         );
     }

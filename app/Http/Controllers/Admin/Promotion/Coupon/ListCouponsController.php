@@ -11,8 +11,10 @@ class ListCouponsController extends Controller
 {
     public function index(Request $httpRequest)
     {
+        $queryString = $httpRequest->query('q');
+
         $request = new ListCouponsRequest(
-            $httpRequest->query('q'),
+            $queryString,
             $this->getPaginationDTO(20)
         );
 
@@ -27,6 +29,7 @@ class ListCouponsController extends Controller
             [
                 'coupons' => $coupons,
                 'pagination' => $pagination,
+                'queryString' => $queryString,
             ]
         );
     }

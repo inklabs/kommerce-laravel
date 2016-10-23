@@ -11,8 +11,10 @@ class ListUsersController extends Controller
 {
     public function index(Request $httpRequest)
     {
+        $queryString = $httpRequest->query('q');
+
         $request = new ListUsersRequest(
-            $httpRequest->query('q'),
+            $queryString,
             $this->getPaginationDTO(20)
         );
 
@@ -27,6 +29,7 @@ class ListUsersController extends Controller
             [
                 'users' => $users,
                 'pagination' => $pagination,
+                'queryString' => $queryString,
             ]
         );
     }

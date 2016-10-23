@@ -11,8 +11,10 @@ class ListTagsController extends Controller
 {
     public function index(Request $httpRequest)
     {
+        $queryString = $httpRequest->query('q');
+
         $request = new ListTagsRequest(
-            $httpRequest->query('q'),
+            $queryString,
             $this->getPaginationDTO(20)
         );
 
@@ -27,6 +29,7 @@ class ListTagsController extends Controller
             [
                 'tags' => $tags,
                 'pagination' => $pagination,
+                'queryString' => $queryString,
             ]
         );
     }

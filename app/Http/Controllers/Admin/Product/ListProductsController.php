@@ -11,8 +11,10 @@ class ListProductsController extends Controller
 {
     public function index(Request $httpRequest)
     {
+        $queryString = $httpRequest->query('q');
+
         $request = new ListProductsRequest(
-            $httpRequest->query('q'),
+            $queryString,
             $this->getPaginationDTO(20)
         );
 
@@ -27,6 +29,7 @@ class ListProductsController extends Controller
             [
                 'products' => $products,
                 'pagination' => $pagination,
+                'queryString' => $queryString,
             ]
         );
     }

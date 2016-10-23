@@ -11,8 +11,10 @@ class ListOptionsController extends Controller
 {
     public function index(Request $httpRequest)
     {
+        $queryString = $httpRequest->query('q');
+
         $request = new ListOptionsRequest(
-            $httpRequest->query('q'),
+            $queryString,
             $this->getPaginationDTO(20)
         );
 
@@ -27,6 +29,7 @@ class ListOptionsController extends Controller
             [
                 'options' => $options,
                 'pagination' => $pagination,
+                'queryString' => $queryString,
             ]
         );
     }
