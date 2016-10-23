@@ -79,8 +79,6 @@ Route::group(['namespace' => 'User'], function() {
 
 Route::group(['namespace' => 'Admin'], function() {
     Route::group(['namespace' => 'Attachment'], function() {
-        Route::get('admin/attachment/createForOrderItem/{orderItemId}', 'CreateAttachmentForOrderItemController@get')->name('admin.attachment.createForOrderItem');
-
         Route::post('admin/attachment/createForOrderItem', 'CreateAttachmentForOrderItemController@post')->name('admin.attachment.createForOrderItem.post');
         Route::post('admin/attachment/deleteAttachment', 'DeleteAttachmentController@post')->name('admin.attachment.deleteAttachment');
     });

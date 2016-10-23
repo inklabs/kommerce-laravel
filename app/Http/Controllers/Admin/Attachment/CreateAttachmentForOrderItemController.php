@@ -6,22 +6,11 @@ use App\Lib\Arr;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Attachment\CreateAttachmentForOrderItemCommand;
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
+use inklabs\kommerce\Exception\Kommerce400Exception;
 use inklabs\kommerce\Exception\KommerceException;
 
 class CreateAttachmentForOrderItemController extends Controller
 {
-    public function get($orderItemId)
-    {
-        $orderItem = $this->getOrderItem($orderItemId);
-
-        return $this->renderTemplate(
-            'admin/attachment/create-for-order-item.twig',
-            [
-                'orderItem' => $orderItem,
-            ]
-        );
-    }
-
     public function post(Request $request)
     {
         $orderItemId = $request->input('orderItemId');
@@ -47,11 +36,10 @@ class CreateAttachmentForOrderItemController extends Controller
             ));
 
             $this->flashSuccess('Attachment uploaded.');
-
-            return redirect()->route('admin.order.view', ['orderId' => $orderItem->order->id->getHex()]);
         } catch (KommerceException $e) {
             $this->flashError('Unable to upload attachment.');
-            return redirect()->route('admin.attachment.createForOrderItem', ['orderItemId' => $orderItem->id->getHex()]);
         }
+
+        return redirect()->route('admin.order.view', ['orderId' => $orderItem->order->id->getHex()]);
     }
 }
