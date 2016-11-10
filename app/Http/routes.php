@@ -87,10 +87,13 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::get('admin/product/new', 'NewProductController@index')->name('admin.product.new');
         Route::get('admin/product/edit/{productId}', 'EditProductController@get')->name('admin.product.edit');
         Route::get('admin/product/images/{productId}', 'ListProductImagesController@index')->name('admin.product.images');
+        Route::get('admin/product/tags/{productId}', 'ListProductTagsController@index')->name('admin.product.tags');
 
         Route::post('admin/product/edit', 'EditProductController@post')->name('admin.product.edit.post');
         Route::post('admin/product/upload-image', 'UploadProductImageController@post')->name('admin.product.upload-image');
         Route::post('admin/product/delete-image', 'DeleteProductImageController@post')->name('admin.product.delete-image');
+        Route::post('admin/product/add-tag', 'AddTagToProductController@post')->name('admin.product.add-tag');
+        Route::post('admin/product/remove-tag', 'RemoveTagFromProductController@post')->name('admin.product.remove-tag');
         Route::post('admin/product/set-default-image', 'SetDefaultImageForProductController@post')->name('admin.product.set-default-image');
         Route::post('admin/product/unset-default-image', 'UnsetDefaultImageForProductController@post')->name('admin.product.unset-default-image');
         Route::post('admin/product/delete', 'DeleteProductController@post')->name('admin.product.delete');
