@@ -88,6 +88,7 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::get('admin/product/edit/{productId}', 'EditProductController@get')->name('admin.product.edit');
         Route::get('admin/product/images/{productId}', 'ListProductImagesController@index')->name('admin.product.images');
         Route::get('admin/product/tags/{productId}', 'ListProductTagsController@index')->name('admin.product.tags');
+        Route::get('admin/product/options/{productId}', 'ListProductOptionsController@index')->name('admin.product.options');
 
         Route::post('admin/product/edit', 'EditProductController@post')->name('admin.product.edit.post');
         Route::post('admin/product/upload-image', 'UploadProductImageController@post')->name('admin.product.upload-image');
