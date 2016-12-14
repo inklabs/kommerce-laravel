@@ -15,7 +15,6 @@ class AddOptionToTagController extends Controller
     {
         $tagId = $request->input('tagId');
         $optionId = $request->input('optionId');
-        $tag = $this->getTagWithAllData($tagId);
 
         try {
             $this->dispatch(new AddOptionToTagCommand(
@@ -27,6 +26,6 @@ class AddOptionToTagController extends Controller
             $this->flashError('Unable to add option.');
         }
 
-        return redirect()->route('admin.tag.options', ['tagId' => $tag->id->getHex()]);
+        return redirect()->route('admin.tag.options', ['tagId' => $tagId]);
     }
 }
