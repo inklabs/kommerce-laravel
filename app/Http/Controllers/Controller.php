@@ -16,6 +16,9 @@ use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdResponse;
 use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
+use inklabs\kommerce\Action\Coupon\GetCouponQuery;
+use inklabs\kommerce\Action\Coupon\Query\GetCouponRequest;
+use inklabs\kommerce\Action\Coupon\Query\GetCouponResponse;
 use inklabs\kommerce\Action\Order\GetOrderItemQuery;
 use inklabs\kommerce\Action\Order\GetOrderQuery;
 use inklabs\kommerce\Action\Order\Query\GetOrderItemRequest;
@@ -32,6 +35,7 @@ use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
 use inklabs\kommerce\EntityDTO\CartDTO;
+use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\EntityDTO\OrderItemDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
@@ -457,6 +461,35 @@ class Controller extends BaseController
             $request = new GetProductRequest($productId);
             $response = new GetProductResponse($this->getPricing());
             $this->dispatchQuery(new GetProductQuery($request, $response));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $couponId
+     * @return CouponDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getCoupon($couponId)
+    {
+        return $this->getCouponById($couponId)
+            ->getCouponDTO();
+    }
+
+    /**
+     * @param string $couponId
+     * @return GetCouponResponse
+     * @throws NotFoundHttpException
+     */
+    private function getCouponById($couponId)
+    {
+        try {
+            $request = new GetCouponRequest($couponId);
+            $response = new GetCouponResponse($this->getPricing());
+            $this->dispatchQuery(new GetCouponQuery($request, $response));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }

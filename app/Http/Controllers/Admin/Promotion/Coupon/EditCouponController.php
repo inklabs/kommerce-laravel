@@ -6,8 +6,15 @@ use Illuminate\Http\Request;
 
 class EditCouponController extends Controller
 {
-    public function index(Request $httpRequest)
+    public function get($couponId)
     {
-        // TODO
+        $coupon = $this->getCoupon($couponId);
+
+        return $this->renderTemplate(
+            'admin/coupon/edit.twig',
+            [
+                'coupon' => $coupon,
+            ]
+        );
     }
 }

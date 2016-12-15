@@ -120,7 +120,11 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::group(['namespace' => 'Coupon'], function () {
             Route::get('admin/promotion/coupon', 'ListCouponsController@index')->name('admin.coupon');
             Route::get('admin/promotion/coupon/new', 'NewCouponController@index')->name('admin.coupon.new');
-            Route::get('admin/promotion/coupon/edit/{couponId}', 'EditCouponController@index')->name('admin.coupon.edit');
+            Route::get('admin/promotion/coupon/edit/{couponId}', 'EditCouponController@get')->name('admin.coupon.edit');
+
+            Route::post('admin/promotion/coupon/edit', 'EditCouponController@post')->name('admin.coupon.edit.post');
+            Route::post('admin/promotion/coupon/delete', 'DeleteCouponController@post')->name('admin.coupon.delete');
+
         });
         Route::group(['namespace' => 'CartPriceRule'], function () {
             Route::get('admin/promotion/cart-price-rule', 'ListCartPriceRulesController@index')->name('admin.cart-price-rule');
