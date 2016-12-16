@@ -3,13 +3,26 @@ namespace App\Http\Controllers\Admin\Promotion\CatalogPromotion;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use inklabs\kommerce\Action\CatalogPromotion\ListCatalogPromotionsQuery;
+use inklabs\kommerce\Action\CatalogPromotion\Query\ListCatalogPromotionsRequest;
+use inklabs\kommerce\Action\CatalogPromotion\Query\ListCatalogPromotionsResponse;
 
 class ListCatalogPromotionsController extends Controller
 {
     public function index(Request $httpRequest)
     {
-        $catalogPromotions = [];
-        $pagination = null;
+        $queryString = $httpRequest->query('q');
+
+        $request = new ListCatalogPromotionsRequest(
+            $queryString,
+            $this->getPaginationDTO(20)
+        );
+
+        $response = new ListCatalogPromotionsResponse();
+        $this->dispatchQuery(new ListCatalogPromotionsQuery($request, $response));
+
+        $catalogPromotions = $response->getCatalogPromotionDTOs();
+        $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
             'admin/promotion/catalog-promotion/index.twig',

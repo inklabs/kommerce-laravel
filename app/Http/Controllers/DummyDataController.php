@@ -31,6 +31,18 @@ class DummyDataController extends Controller
 {
     const PAGINATION_STRING = 'PaginationDTO[maxResults]=5&PaginationDTO[page]=1';
 
+    public function getIndex()
+    {
+        echo <<<HEREDOC
+            <h3>Demo Data Setup:</h3>
+            <ul>
+                <li><a href="/dummy-data/create-dummy-product">Create Dummy Product and Tag</a></li>
+                <li><a href="/dummy-data/create-dummy-catalog-price-rule">Create Dummy Catalog Price Rule</a></li>
+                <li><a href="/dummy-data/create-dummy-coupon">Create Dummy Coupon</a></li>
+            </ul>
+HEREDOC;
+    }
+
     public function getCreateDummyProduct()
     {
         $productDTO = $this->getDummyProduct();
