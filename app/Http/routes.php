@@ -93,7 +93,7 @@ Route::group(['namespace' => 'Admin'], function() {
 
         Route::post('admin/product/edit', 'EditProductController@post')->name('admin.product.edit.post');
         Route::post('admin/product/upload-image', 'UploadProductImageController@post')->name('admin.product.upload-image');
-        Route::post('admin/product/delete-image', 'DeleteProductImageController@post')->name('admin.product.delete-image');
+        Route::post('admin/product/remove-image', 'RemoveImageFromProductController@post')->name('admin.product.remove-image');
         Route::post('admin/product/add-tag', 'AddTagToProductController@post')->name('admin.product.add-tag');
         Route::post('admin/product/remove-tag', 'RemoveTagFromProductController@post')->name('admin.product.remove-tag');
         Route::post('admin/product/set-default-image', 'SetDefaultImageForProductController@post')->name('admin.product.set-default-image');
@@ -110,8 +110,8 @@ Route::group(['namespace' => 'Admin'], function() {
 
         Route::post('admin/tag/edit', 'EditTagController@post')->name('admin.tag.edit.post');
         Route::post('admin/tag/upload-image', 'UploadTagImageController@post')->name('admin.tag.upload-image');
-        Route::post('admin/tag/delete-image', 'DeleteTagImageController@post')->name('admin.tag.delete-image');
-        Route::post('admin/tag/set-default-image', 'SetDefaultTagImageController@post')->name('admin.tag.set-default-image');
+        Route::post('admin/tag/remove-image', 'RemoveImageFromTagController@post')->name('admin.tag.remove-image');
+        Route::post('admin/tag/set-default-image', 'SetDefaultImageForTagController@post')->name('admin.tag.set-default-image');
         Route::post('admin/tag/unset-default-image', 'UnsetDefaultImageForTagController@post')->name('admin.tag.unset-default-image');
         Route::post('admin/tag/add-option', 'AddOptionToTagController@post')->name('admin.tag.add-option');
         Route::post('admin/tag/delete', 'DeleteTagController@post')->name('admin.tag.delete');
