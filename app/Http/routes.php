@@ -111,6 +111,7 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::post('admin/tag/edit', 'EditTagController@post')->name('admin.tag.edit.post');
         Route::post('admin/tag/upload-image', 'UploadTagImageController@post')->name('admin.tag.upload-image');
         Route::post('admin/tag/remove-image', 'RemoveImageFromTagController@post')->name('admin.tag.remove-image');
+        Route::post('admin/tag/remove-option', 'RemoveOptionFromTagController@post')->name('admin.tag.remove-option');
         Route::post('admin/tag/set-default-image', 'SetDefaultImageForTagController@post')->name('admin.tag.set-default-image');
         Route::post('admin/tag/unset-default-image', 'UnsetDefaultImageForTagController@post')->name('admin.tag.unset-default-image');
         Route::post('admin/tag/add-option', 'AddOptionToTagController@post')->name('admin.tag.add-option');
