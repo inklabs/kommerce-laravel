@@ -30,7 +30,7 @@ class CheckoutController extends Controller
         $cart = $this->getCart();
 
         return $this->renderTemplate(
-            'checkout/pay.twig',
+            '@theme/checkout/pay.twig',
             [
                 'cart' => $cart,
                 'months' => $this->getMonths(),
@@ -51,7 +51,7 @@ class CheckoutController extends Controller
         $recommendedProducts = $this->getRecommendedProductsFromOrder($order);
 
         return $this->renderTemplate(
-            'checkout/complete.twig',
+            '@theme/checkout/complete.twig',
             [
                 'order' => $order,
                 'recommendedProducts' => $recommendedProducts,
@@ -92,14 +92,14 @@ class CheckoutController extends Controller
 
             if ($cart->cartTotal->total > 0) {
                 $this->flashTemplateSuccess(
-                    'order-placed.twig',
+                    '@theme/flash/order-placed.twig',
                     [
                         'cartTotal' => $cart->cartTotal,
                     ]
                 );
             } else {
                 $this->flashTemplateSuccess(
-                    'order-placed-free.twig',
+                    '@theme/flash/order-placed-free.twig',
                     [
                         'cartTotal' => $cart->cartTotal,
                     ]
@@ -121,7 +121,7 @@ class CheckoutController extends Controller
 
         // TODO: Clean up payments
         return $this->renderTemplate(
-            'checkout/pay.twig',
+            '@theme/checkout/pay.twig',
             [
                 'cart' => $cart,
                 'shipping' => $inputShipping,

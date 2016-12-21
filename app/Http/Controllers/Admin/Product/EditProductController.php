@@ -15,7 +15,7 @@ class EditProductController extends Controller
         $product = $this->getProductWithAllData($productId);
 
         return $this->renderTemplate(
-            'admin/product/edit.twig',
+            '@theme/admin/product/edit.twig',
             [
                 'product' => $product,
             ]

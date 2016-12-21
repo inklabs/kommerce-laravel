@@ -43,6 +43,7 @@ use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
+use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\KommerceTemplates\Lib\AssetLocationService;
@@ -254,9 +255,13 @@ class Controller extends BaseController
     /**
      * @param string $flashTemplate
      * @param array $data
+     * @throws InvalidArgumentException
      */
     protected function flashTemplateSuccess($flashTemplate, array $data)
     {
+        if (strpos($flashTemplate, '@theme/flash/') === false) {
+            throw new InvalidArgumentException('Can only flash from @theme/flash/');
+        }
         $this->flashTemplateMessage('success', $flashTemplate, $data);
     }
 

@@ -15,7 +15,7 @@ class EditTagController extends Controller
         $tag = $this->getTagWithAllData($tagId);
 
         return $this->renderTemplate(
-            'admin/tag/edit.twig',
+            '@theme/admin/tag/edit.twig',
             [
                 'tag' => $tag,
             ]

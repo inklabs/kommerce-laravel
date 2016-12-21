@@ -10,7 +10,7 @@ class ListTagOptionsController extends Controller
         $tag = $this->getTagWithAllData($tagId);
 
         return $this->renderTemplate(
-            'admin/tag/options.twig',
+            '@theme/admin/tag/options.twig',
             [
                 'tag' => $tag,
             ]

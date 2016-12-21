@@ -25,7 +25,7 @@ class ListTagsController extends Controller
         $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            'admin/tag/index.twig',
+            '@theme/admin/tag/index.twig',
             [
                 'tags' => $tags,
                 'pagination' => $pagination,

@@ -1,8 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Product\GetProductsByTagQuery;
 use inklabs\kommerce\Action\Product\Query\GetProductsByTagRequest;
 use inklabs\kommerce\Action\Product\Query\GetProductsByTagResponse;
@@ -15,13 +13,7 @@ use inklabs\kommerce\Action\Tag\Query\ListTagsResponse;
 
 class TagController extends Controller
 {
-    /**
-     * @param Request $httpRequest
-     * @param string $slug
-     * @param string $tagId
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function show(Request $httpRequest, $slug, $tagId)
+    public function show($slug, $tagId)
     {
         $request = new GetTagRequest($tagId);
         $response = new GetTagResponse($this->getPricing());
@@ -50,7 +42,7 @@ class TagController extends Controller
         $paginationDTO = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            'tag/show.twig',
+            '@theme/tag/show.twig',
             [
                 'tag' => $tagDTO,
                 'products' => $productDTOs,
@@ -72,7 +64,7 @@ class TagController extends Controller
         $paginationDTO = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            'tag/list.twig',
+            '@theme/tag/list.twig',
             [
                 'tags' => $tagDTOs,
                 'pagination' => $paginationDTO,

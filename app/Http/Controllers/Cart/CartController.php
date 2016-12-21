@@ -31,7 +31,7 @@ class CartController extends Controller
         $cart = $this->getCart();
 
         return $this->renderTemplate(
-            'cart/show.twig',
+            '@theme/cart/show.twig',
             [
                 'cart' => $cart,
                 'recommendedProducts' => $this->getRelatedProducts($cart, 4),
@@ -63,7 +63,7 @@ class CartController extends Controller
         }
 
         return $this->renderTemplate(
-            'cart/added.twig',
+            '@theme/cart/added.twig',
             [
                 'cart' => $cart,
                 'cartItem' => $addedCartItem,
@@ -77,7 +77,7 @@ class CartController extends Controller
         // TODO: Update to grab current zip and selected rate
 
         return $this->renderTemplate(
-            'cart/estimate-shipping.twig'
+            '@theme/cart/estimate-shipping.twig'
         );
     }
 
@@ -96,7 +96,7 @@ class CartController extends Controller
         }
 
         return $this->renderTemplate(
-            'cart/estimate-shipping.twig',
+            '@theme/cart/estimate-shipping.twig',
             [
                 'shipping' => $shipping,
                 'shipmentRates' => $shipmentRates,

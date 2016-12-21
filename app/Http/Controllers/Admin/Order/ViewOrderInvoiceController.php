@@ -10,7 +10,7 @@ class ViewOrderInvoiceController extends Controller
         $order = $this->getOrderWithAllData($orderId);
 
         return $this->renderTemplate(
-            'admin/order/invoice.twig',
+            '@theme/admin/order/invoice.twig',
             [
                 'order' => $order,
             ]

@@ -10,7 +10,7 @@ class ListTagProductsController extends Controller
         $tag = $this->getTagWithAllData($tagId);
 
         return $this->renderTemplate(
-            'admin/tag/products.twig',
+            '@theme/admin/tag/products.twig',
             [
                 'tag' => $tag,
             ]

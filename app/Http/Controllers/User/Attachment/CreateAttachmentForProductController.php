@@ -15,7 +15,7 @@ class CreateAttachmentForProductController extends Controller
         $product = $this->getProduct($productId);
 
         return $this->renderTemplate(
-            'user/attachment/create-for-product.twig',
+            '@theme/user/attachment/create-for-product.twig',
             [
                 'product' => $product,
             ]

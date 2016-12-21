@@ -25,7 +25,7 @@ class ListUsersController extends Controller
         $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            'admin/user/index.twig',
+            '@theme/admin/user/index.twig',
             [
                 'users' => $users,
                 'pagination' => $pagination,

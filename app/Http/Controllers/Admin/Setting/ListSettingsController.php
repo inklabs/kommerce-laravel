@@ -8,6 +8,6 @@ class ListSettingsController extends Controller
 {
     public function index(Request $httpRequest)
     {
-        return $this->renderTemplate('admin/setting/index.twig');
+        return $this->renderTemplate('@theme/admin/setting/index.twig');
     }
 }

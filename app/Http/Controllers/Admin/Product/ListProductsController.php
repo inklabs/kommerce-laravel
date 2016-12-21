@@ -25,7 +25,7 @@ class ListProductsController extends Controller
         $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            'admin/product/index.twig',
+            '@theme/admin/product/index.twig',
             [
                 'products' => $products,
                 'pagination' => $pagination,

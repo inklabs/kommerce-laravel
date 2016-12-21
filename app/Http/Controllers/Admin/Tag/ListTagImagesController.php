@@ -10,7 +10,7 @@ class ListTagImagesController extends Controller
         $tag = $this->getTagWithAllData($tagId);
 
         return $this->renderTemplate(
-            'admin/tag/images.twig',
+            '@theme/admin/tag/images.twig',
             [
                 'tag' => $tag,
             ]

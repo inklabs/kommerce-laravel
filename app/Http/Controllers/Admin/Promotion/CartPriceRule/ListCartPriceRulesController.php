@@ -12,7 +12,7 @@ class ListCartPriceRulesController extends Controller
         $pagination = null;
 
         return $this->renderTemplate(
-            'admin/promotion/cart-price-rule/index.twig',
+            '@theme/admin/promotion/cart-price-rule/index.twig',
             [
                 'cartPriceRules' => $cartPriceRules,
                 'pagination' => $pagination,

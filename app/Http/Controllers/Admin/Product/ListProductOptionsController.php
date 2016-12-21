@@ -10,7 +10,7 @@ class ListProductOptionsController extends Controller
         $product = $this->getProductWithAllData($productId);
 
         return $this->renderTemplate(
-            'admin/product/options.twig',
+            '@theme/admin/product/options.twig',
             [
                 'product' => $product,
             ]

@@ -16,7 +16,7 @@ class AccountController extends Controller
         $orders[] = $this->getDTOBuilderFactory()->getOrderDTOBuilder($order)->build();
 
         return $this->renderTemplate(
-            'user/account.twig',
+            '@theme/user/account.twig',
             [
                 'user' => $user,
                 'orders' => $orders,
@@ -34,7 +34,7 @@ class AccountController extends Controller
 //        }
 
         return $this->renderTemplate(
-            'user/view-order.twig',
+            '@theme/user/view-order.twig',
             [
                 'order' => $order,
             ]

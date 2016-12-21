@@ -11,11 +11,6 @@ use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
 
 class ProductController extends Controller
 {
-    /**
-     * @param string $slug
-     * @param string $productId
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function show($slug, $productId)
     {
         $request = new GetProductRequest($productId);
@@ -26,7 +21,7 @@ class ProductController extends Controller
 
         if ($slug !== $productDTO->slug) {
             return redirect()->route(
-                'product.show',
+                '@theme/product.show',
                 [
                     'slug' => $productDTO->slug,
                     'productId' => $productDTO->id->getHex(),
@@ -40,7 +35,7 @@ class ProductController extends Controller
         $relatedProductDTOs = $response->getProductDTOs();
 
         return $this->renderTemplate(
-            'product/show.twig',
+            '@theme/product/show.twig',
             [
                 'product' => $productDTO,
                 'relatedProducts' => $relatedProductDTOs,
