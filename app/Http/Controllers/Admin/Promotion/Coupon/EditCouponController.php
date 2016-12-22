@@ -75,17 +75,4 @@ class EditCouponController extends Controller
         //$couponDTO->start =
         //$couponDTO->end =
     }
-
-    /**
-     * @param string $value
-     * @return null|int
-     */
-    private function getCentsOrNull($value)
-    {
-        if ($value === '') {
-            return null;
-        }
-
-        return (int) ($value * 100);
-    }
 }

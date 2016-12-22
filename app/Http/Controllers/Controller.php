@@ -16,6 +16,9 @@ use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdResponse;
 use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
+use inklabs\kommerce\Action\CatalogPromotion\GetCatalogPromotionQuery;
+use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionRequest;
+use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionResponse;
 use inklabs\kommerce\Action\Coupon\GetCouponQuery;
 use inklabs\kommerce\Action\Coupon\Query\GetCouponRequest;
 use inklabs\kommerce\Action\Coupon\Query\GetCouponResponse;
@@ -35,6 +38,7 @@ use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
 use inklabs\kommerce\EntityDTO\CartDTO;
+use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
 use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\EntityDTO\OrderItemDTO;
@@ -503,6 +507,35 @@ class Controller extends BaseController
     }
 
     /**
+     * @param $catalogPromotionId
+     * @return CatalogPromotionDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getCatalogPromotion($catalogPromotionId)
+    {
+        return $this->getCatalogPromotionById($catalogPromotionId)
+            ->getCatalogPromotionDTO();
+    }
+
+    /**
+     * @param string $catalogPromotionId
+     * @return GetCatalogPromotionResponse
+     * @throws NotFoundHttpException
+     */
+    private function getCatalogPromotionById($catalogPromotionId)
+    {
+        try {
+            $request = new GetCatalogPromotionRequest($catalogPromotionId);
+            $response = new GetCatalogPromotionResponse($this->getPricing());
+            $this->dispatchQuery(new GetCatalogPromotionQuery($request, $response));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
+
+        return $response;
+    }
+
+    /**
      * @param $tagId
      * @return TagDTO
      * @throws NotFoundHttpException
@@ -561,5 +594,18 @@ class Controller extends BaseController
 
         readfile($filePath);
         exit;
+    }
+
+    /**
+     * @param string $value
+     * @return null|int
+     */
+    protected function getCentsOrNull($value)
+    {
+        if ($value === '') {
+            return null;
+        }
+
+        return (int)($value * 100);
     }
 }

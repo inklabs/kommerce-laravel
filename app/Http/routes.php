@@ -137,6 +137,9 @@ Route::group(['namespace' => 'Admin'], function() {
             Route::get('admin/promotion/catalog-promotion', 'ListCatalogPromotionsController@index')->name('admin.catalog-promotion');
             Route::get('admin/promotion/catalog-promotion/new', 'NewCatalogPromotionController@index')->name('admin.catalog-promotion.new');
             Route::get('admin/promotion/catalog-promotion/edit/{catalogPromotionId}', 'EditCatalogPromotionController@get')->name('admin.catalog-promotion.edit');
+
+            Route::post('admin/promotion/catalog-promotion/edit', 'EditCatalogPromotionController@post')->name('admin.catalog-promotion.edit.post');
+            Route::post('admin/promotion/catalog-promotion/delete', 'DeleteCatalogPromotionController@post')->name('admin.catalog-promotion.delete');
 });
     });
     Route::group(['namespace' => 'Order'], function() {
