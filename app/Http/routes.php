@@ -160,7 +160,13 @@ Route::group(['namespace' => 'Admin'], function() {
     });
     Route::group(['namespace' => 'Option'], function() {
         Route::get('admin/option', 'ListOptionsController@index')->name('admin.option');
-        Route::get('admin/option/edit/{optionId}', 'EditOptionController@index')->name('admin.option.edit');
+        Route::get('admin/option/edit/{optionId}', 'EditOptionController@get')->name('admin.option.edit');
+        Route::get('admin/option/values/{optionId}', 'EditOptionValuesController@get')->name('admin.option.values');
+        Route::get('admin/option/products/{optionId}', 'EditOptionProductsController@get')->name('admin.option.products');
+        Route::get('admin/option/tags/{optionId}', 'EditOptionTagsController@get')->name('admin.option.tags');
+
+        Route::post('admin/option/edit', 'EditOptionController@post')->name('admin.option.edit.post');
+        Route::post('admin/option/delete', 'DeleteOptionController@post')->name('admin.option.delete');
     });
     Route::group(['namespace' => 'Setting'], function() {
         Route::get('admin/settings', 'ListSettingsController@index')->name('admin.settings');

@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 use App\Lib\CSRFTokenGenerator;
 use App\Lib\KommerceConfiguration;
 use App\Lib\LaravelRouteUrl;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 use inklabs\kommerce\Action\Cart\CreateCartCommand;
 use inklabs\kommerce\Action\Cart\GetCartBySessionIdQuery;
 use inklabs\kommerce\Action\Cart\GetCartQuery;
@@ -22,6 +22,9 @@ use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionResponse;
 use inklabs\kommerce\Action\Coupon\GetCouponQuery;
 use inklabs\kommerce\Action\Coupon\Query\GetCouponRequest;
 use inklabs\kommerce\Action\Coupon\Query\GetCouponResponse;
+use inklabs\kommerce\Action\Option\GetOptionQuery;
+use inklabs\kommerce\Action\Option\Query\GetOptionRequest;
+use inklabs\kommerce\Action\Option\Query\GetOptionResponse;
 use inklabs\kommerce\Action\Order\GetOrderItemQuery;
 use inklabs\kommerce\Action\Order\GetOrderQuery;
 use inklabs\kommerce\Action\Order\Query\GetOrderItemRequest;
@@ -40,6 +43,7 @@ use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
 use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
 use inklabs\kommerce\EntityDTO\CouponDTO;
+use inklabs\kommerce\EntityDTO\OptionDTO;
 use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\EntityDTO\OrderItemDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
@@ -366,6 +370,35 @@ class Controller extends BaseController
         $themePath = TwigThemeConfig::getThemePath(env('THEME'));
         $themeConfig = TwigThemeConfig::loadConfig($themePath);
         return $themeConfig;
+    }
+
+    /**
+     * @param $optionId
+     * @return OptionDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getOptionWithAllData($optionId)
+    {
+        return $this->getOptionById($optionId)
+            ->getOptionDTOWithAllData();
+    }
+
+    /**
+     * @param string $optionId
+     * @return GetOptionResponse
+     * @throws NotFoundHttpException
+     */
+    private function getOptionById($optionId)
+    {
+        try {
+            $request = new GetOptionRequest($optionId);
+            $response = new GetOptionResponse($this->getPricing());
+            $this->dispatchQuery(new GetOptionQuery($request, $response));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
+
+        return $response;
     }
 
     /**
