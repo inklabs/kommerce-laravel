@@ -4,13 +4,48 @@ namespace App\Http\Controllers\Admin\Option;
 use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
+use inklabs\kommerce\Action\Option\CreateOptionCommand;
 use inklabs\kommerce\Action\Option\UpdateOptionCommand;
 use inklabs\kommerce\EntityDTO\OptionDTO;
 use inklabs\kommerce\Exception\EntityValidatorException;
 
 class EditOptionController extends Controller
 {
-    public function get($optionId)
+    public function getNew()
+    {
+        return $this->renderTemplate('@theme/admin/option/new.twig');
+    }
+
+    public function postNew(Request $request)
+    {
+        $option = new OptionDTO();
+        $this->updateOptionDTOFromPost($option, $request->input('option'));
+
+        try {
+            $command = new CreateOptionCommand($option);
+            $this->dispatch($command);
+
+            $this->flashSuccess('Option has been created.');
+            return redirect()->route(
+                'admin.option.edit',
+                [
+                    'optionId' => $command->getOptionId(),
+                ]
+            );
+        } catch (EntityValidatorException $e) {
+            $this->flashError('Unable to create option!');
+            $this->flashFormErrors($e->getErrors());
+        }
+
+        return $this->renderTemplate(
+            '@theme/admin/option/new.twig',
+            [
+                'option' => $option,
+            ]
+        );
+    }
+
+    public function getEdit($optionId)
     {
         $option = $this->getOptionWithAllData($optionId);
 
@@ -22,7 +57,7 @@ class EditOptionController extends Controller
         );
     }
 
-    public function post(Request $request)
+    public function postEdit(Request $request)
     {
         $optionId = $request->input('optionId');
         $option = $this->getOptionWithAllData($optionId);
