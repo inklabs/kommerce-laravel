@@ -160,6 +160,7 @@ Route::group(['namespace' => 'Admin'], function() {
     });
     Route::group(['namespace' => 'Option'], function() {
         Route::get('admin/option', 'ListOptionsController@index')->name('admin.option');
+        Route::get('admin/option/new', 'NewOptionController@get')->name('admin.option.new');
         Route::get('admin/option/edit/{optionId}', 'EditOptionController@get')->name('admin.option.edit');
         Route::get('admin/option/values/{optionId}', 'ListOptionValuesController@index')->name('admin.option.values');
         Route::get('admin/option/option-products/{optionId}', 'ListOptionProductsController@index')->name('admin.option.option-products');
