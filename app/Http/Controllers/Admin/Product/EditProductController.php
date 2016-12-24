@@ -4,13 +4,48 @@ namespace App\Http\Controllers\Admin\Product;
 use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
+use inklabs\kommerce\Action\Product\CreateProductCommand;
 use inklabs\kommerce\Action\Product\UpdateProductCommand;
 use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\Exception\EntityValidatorException;
 
 class EditProductController extends Controller
 {
-    public function get($productId)
+    public function getNew()
+    {
+        return $this->renderTemplate('@theme/admin/product/new.twig');
+    }
+
+    public function postNew(Request $request)
+    {
+        $product = new ProductDTO();
+        $this->updateProductDTOFromPost($product, $request->input('product'));
+
+        try {
+            $command = new CreateProductCommand($product);
+            $this->dispatch($command);
+
+            $this->flashSuccess('Product has been created.');
+            return redirect()->route(
+                'admin.product.edit',
+                [
+                    'productId' => $command->getProductId()->gethex(),
+                ]
+            );
+        } catch (EntityValidatorException $e) {
+            $this->flashError('Unable to create product!');
+            $this->flashFormErrors($e->getErrors());
+        }
+
+        return $this->renderTemplate(
+            '@theme/admin/product/new.twig',
+            [
+                'product' => $product,
+            ]
+        );
+    }
+
+    public function getEdit($productId)
     {
         $product = $this->getProductWithAllData($productId);
 
@@ -22,7 +57,7 @@ class EditProductController extends Controller
         );
     }
 
-    public function post(Request $request)
+    public function postEdit(Request $request)
     {
         $productId = $request->input('productId');
         $product = $this->getProductWithAllData($productId);
@@ -43,6 +78,13 @@ class EditProductController extends Controller
             $this->flashError('Unable to save product!');
             $this->flashFormErrors($e->getErrors());
         }
+
+        return $this->renderTemplate(
+            '@theme/admin/product/edit.twig',
+            [
+                'product' => $product,
+            ]
+        );
     }
 
     private function updateProductDTOFromPost(ProductDTO & $productDTO, array $productValues)
@@ -54,7 +96,7 @@ class EditProductController extends Controller
         $productDTO->description = trim(Arr::get($productValues, 'description'));
         $productDTO->unitPrice = $unitPrice;
         $productDTO->quantity = Arr::get($productValues, 'quantity');
-        $productDTO->shippingWeight = Arr::get($productValues, 'shippingWeight');
+        $productDTO->shippingWeight = (int) Arr::get($productValues, 'shippingWeight');
         $productDTO->isInventoryRequired = Arr::get($productValues, 'isInventoryRequired', false);
         $productDTO->isPriceVisible = Arr::get($productValues, 'isPriceVisible', false);
         $productDTO->isActive = Arr::get($productValues, 'isActive', false);

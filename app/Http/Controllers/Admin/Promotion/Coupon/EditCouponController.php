@@ -44,6 +44,13 @@ class EditCouponController extends Controller
             $this->flashError('Unable to save coupon!');
             $this->flashFormErrors($e->getErrors());
         }
+
+        return $this->renderTemplate(
+            '@theme/admin/coupon/edit.twig',
+            [
+                'coupon' => $coupon,
+            ]
+        );
     }
 
     private function updateCouponDTOFromPost(CouponDTO & $couponDTO, array $couponValues)

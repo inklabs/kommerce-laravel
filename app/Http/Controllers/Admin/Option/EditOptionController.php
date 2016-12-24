@@ -78,6 +78,13 @@ class EditOptionController extends Controller
             $this->flashError('Unable to save option!');
             $this->flashFormErrors($e->getErrors());
         }
+
+        return $this->renderTemplate(
+            '@theme/admin/option/edit.twig',
+            [
+                'option' => $option,
+            ]
+        );
     }
 
     private function updateOptionDTOFromPost(OptionDTO & $optionDTO, array $optionValues)

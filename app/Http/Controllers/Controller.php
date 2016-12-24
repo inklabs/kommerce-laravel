@@ -639,6 +639,6 @@ class Controller extends BaseController
             return null;
         }
 
-        return (int)($value * 100);
+        return (int) ($value * 100);
     }
 }

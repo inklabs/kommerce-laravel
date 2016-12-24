@@ -78,6 +78,13 @@ class EditTagController extends Controller
             $this->flashError('Unable to save tag!');
             $this->flashFormErrors($e->getErrors());
         }
+
+        return $this->renderTemplate(
+            '@theme/admin/tag/edit.twig',
+            [
+                'tag' => $tag,
+            ]
+        );
     }
 
     private function updateTagDTOFromPost(TagDTO & $tagDTO, array $tagValues)
