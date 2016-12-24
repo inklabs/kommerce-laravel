@@ -179,8 +179,8 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::post('admin/option/add-tag', 'AddTagToOptionController@post')->name('admin.option.add-tag');
         Route::post('admin/option/remove-tag', 'RemoveTagFromOptionController@post')->name('admin.option.remove-tag');
     });
-    Route::group(['namespace' => 'Setting'], function() {
-        Route::get('admin/settings', 'ListSettingsController@index')->name('admin.settings');
+    Route::group(['namespace' => 'Settings'], function() {
+        Route::get('admin/settings/sales-tax', 'ListSalesTaxRulesController@index')->name('admin.settings.sales-tax');
     });
 });
 
