@@ -29,7 +29,7 @@ class EditOptionController extends Controller
             return redirect()->route(
                 'admin.option.edit',
                 [
-                    'optionId' => $command->getOptionId(),
+                    'optionId' => $command->getOptionId()->getHex(),
                 ]
             );
         } catch (EntityValidatorException $e) {
