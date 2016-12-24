@@ -103,13 +103,14 @@ Route::group(['namespace' => 'Admin'], function() {
     });
     Route::group(['namespace' => 'Tag'], function() {
         Route::get('admin/tag', 'ListTagsController@index')->name('admin.tag');
-        Route::get('admin/tag/new', 'NewTagController@index')->name('admin.tag.new');
-        Route::get('admin/tag/edit/{tagId}', 'EditTagController@get')->name('admin.tag.edit');
+        Route::get('admin/tag/new', 'EditTagController@getNew')->name('admin.tag.new');
+        Route::get('admin/tag/edit/{tagId}', 'EditTagController@getEdit')->name('admin.tag.edit');
         Route::get('admin/tag/images/{tagId}', 'ListTagImagesController@index')->name('admin.tag.images');
         Route::get('admin/tag/options/{tagId}', 'ListTagOptionsController@index')->name('admin.tag.options');
         Route::get('admin/tag/products/{tagId}', 'ListTagProductsController@index')->name('admin.tag.products');
 
-        Route::post('admin/tag/edit', 'EditTagController@post')->name('admin.tag.edit.post');
+        Route::post('admin/tag/new', 'EditTagController@postNew')->name('admin.tag.new.post');
+        Route::post('admin/tag/edit', 'EditTagController@postEdit')->name('admin.tag.edit.post');
         Route::post('admin/tag/upload-image', 'UploadTagImageController@post')->name('admin.tag.upload-image');
         Route::post('admin/tag/remove-image', 'RemoveImageFromTagController@post')->name('admin.tag.remove-image');
         Route::post('admin/tag/remove-option', 'RemoveOptionFromTagController@post')->name('admin.tag.remove-option');

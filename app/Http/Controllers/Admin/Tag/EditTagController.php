@@ -4,13 +4,48 @@ namespace App\Http\Controllers\Admin\Tag;
 use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
+use inklabs\kommerce\Action\Tag\CreateTagCommand;
 use inklabs\kommerce\Action\Tag\UpdateTagCommand;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\Exception\EntityValidatorException;
 
 class EditTagController extends Controller
 {
-    public function get($tagId)
+    public function getNew()
+    {
+        return $this->renderTemplate('@theme/admin/tag/new.twig');
+    }
+
+    public function postNew(Request $request)
+    {
+        $tag = new TagDTO();
+        $this->updateTagDTOFromPost($tag, $request->input('tag'));
+
+        try {
+            $command = new CreateTagCommand($tag);
+            $this->dispatch($command);
+
+            $this->flashSuccess('Tag has been created.');
+            return redirect()->route(
+                'admin.tag.edit',
+                [
+                    'tagId' => $command->getTagId(),
+                ]
+            );
+        } catch (EntityValidatorException $e) {
+            $this->flashError('Unable to create tag!');
+            $this->flashFormErrors($e->getErrors());
+        }
+
+        return $this->renderTemplate(
+            '@theme/admin/tag/new.twig',
+            [
+                'tag' => $tag,
+            ]
+        );
+    }
+
+    public function getEdit($tagId)
     {
         $tag = $this->getTagWithAllData($tagId);
 
@@ -22,7 +57,7 @@ class EditTagController extends Controller
         );
     }
 
-    public function post(Request $request)
+    public function postEdit(Request $request)
     {
         $tagId = $request->input('tagId');
         $tag = $this->getTag($tagId);
