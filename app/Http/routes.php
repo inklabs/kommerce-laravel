@@ -182,7 +182,8 @@ Route::group(['namespace' => 'Admin'], function() {
     Route::group(['namespace' => 'Settings'], function() {
         Route::get('admin/settings/sales-tax', 'ListSalesTaxRulesController@index')->name('admin.settings.sales-tax');
 
-        Route::post('admin/settings/sales-tax/edit', 'EditTaxRateController@post')->name('admin.settings.sales-tax.edit');
+        Route::post('admin/settings/sales-tax/new', 'EditTaxRateController@postNew')->name('admin.settings.sales-tax.new');
+        Route::post('admin/settings/sales-tax/edit', 'EditTaxRateController@postEdit')->name('admin.settings.sales-tax.edit');
     });
 });
 
