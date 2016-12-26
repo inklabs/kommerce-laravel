@@ -181,9 +181,17 @@ Route::group(['namespace' => 'Admin'], function() {
     });
     Route::group(['namespace' => 'Settings'], function() {
         Route::get('admin/settings/sales-tax', 'ListSalesTaxRulesController@index')->name('admin.settings.sales-tax');
+        Route::get('admin/settings/sales-tax/zipcode', 'ListZipcodeSalesTaxRulesController@index')->name('admin.settings.sales-tax.zipcode');
+        Route::get('admin/settings/sales-tax/zipcode-range', 'ListZipcodeRangeSalesTaxRulesController@index')->name('admin.settings.sales-tax.zipcode-range');
+        Route::get('admin/settings/sales-tax/state', 'ListStateSalesTaxRulesController@index')->name('admin.settings.sales-tax.state');
 
-        Route::post('admin/settings/sales-tax/new', 'EditTaxRateController@postNew')->name('admin.settings.sales-tax.new');
-        Route::post('admin/settings/sales-tax/edit', 'EditTaxRateController@postEdit')->name('admin.settings.sales-tax.edit');
+        Route::post('admin/settings/sales-tax/zipcode/new', 'CreateZipcodeSalesTaxRulesController@post')->name('admin.settings.sales-tax.zipcode.new');
+        Route::post('admin/settings/sales-tax/zipcode/edit', 'UpdateZipcodeSalesTaxRulesController@post')->name('admin.settings.sales-tax.zipcode.edit');
+        Route::post('admin/settings/sales-tax/zipcode-range/new', 'CreateZipcodeRangeSalesTaxRulesController@post')->name('admin.settings.sales-tax.zipcode-range.new');
+        Route::post('admin/settings/sales-tax/zipcode-range/edit', 'UpdateZipcodeRangeSalesTaxRulesController@post')->name('admin.settings.sales-tax.zipcode-range.edit');
+        Route::post('admin/settings/sales-tax/state/new', 'CreateStateSalesTaxRulesController@post')->name('admin.settings.sales-tax.state.new');
+        Route::post('admin/settings/sales-tax/state/edit', 'UpdateStateSalesTaxRulesController@post')->name('admin.settings.sales-tax.state.edit');
+        Route::post('admin/settings/sales-tax/delete', 'DeleteSalesTaxRateController@post')->name('admin.settings.sales-tax.delete');
     });
 });
 
