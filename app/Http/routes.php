@@ -135,6 +135,10 @@ Route::group(['namespace' => 'Admin'], function() {
         });
         Route::group(['namespace' => 'CartPriceRule'], function () {
             Route::get('admin/promotion/cart-price-rule', 'ListCartPriceRulesController@index')->name('admin.cart-price-rule');
+            Route::get('admin/promotion/cart-price-rule/edit/{cartPriceRuleId}', 'EditCartPriceRulesController@getEdit')->name('admin.cart-price-rule.edit');
+
+            Route::post('admin/promotion/cart-price-rule/new', 'EditCartPriceRulesController@postNew')->name('admin.cart-price-rule.new');
+            Route::post('admin/promotion/cart-price-rule/edit', 'EditCartPriceRulesController@postEdit')->name('admin.cart-price-rule.edit.post');
         });
         Route::group(['namespace' => 'CatalogPromotion'], function () {
             Route::get('admin/promotion/catalog-promotion', 'ListCatalogPromotionsController@index')->name('admin.catalog-promotion');
