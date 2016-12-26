@@ -135,10 +135,12 @@ Route::group(['namespace' => 'Admin'], function() {
         });
         Route::group(['namespace' => 'CartPriceRule'], function () {
             Route::get('admin/promotion/cart-price-rule', 'ListCartPriceRulesController@index')->name('admin.cart-price-rule');
-            Route::get('admin/promotion/cart-price-rule/edit/{cartPriceRuleId}', 'EditCartPriceRulesController@getEdit')->name('admin.cart-price-rule.edit');
+            Route::get('admin/promotion/cart-price-rule/new', 'EditCartPriceRuleController@getNew')->name('admin.cart-price-rule.new');
+            Route::get('admin/promotion/cart-price-rule/edit/{cartPriceRuleId}', 'EditCartPriceRuleController@getEdit')->name('admin.cart-price-rule.edit');
 
-            Route::post('admin/promotion/cart-price-rule/new', 'EditCartPriceRulesController@postNew')->name('admin.cart-price-rule.new');
-            Route::post('admin/promotion/cart-price-rule/edit', 'EditCartPriceRulesController@postEdit')->name('admin.cart-price-rule.edit.post');
+            Route::post('admin/promotion/cart-price-rule/new', 'EditCartPriceRuleController@postNew')->name('admin.cart-price-rule.new.post');
+            Route::post('admin/promotion/cart-price-rule/edit', 'EditCartPriceRuleController@postEdit')->name('admin.cart-price-rule.edit.post');
+            Route::post('admin/promotion/cart-price-rule/delete', 'DeleteCartPriceRuleController@post')->name('admin.cart-price-rule.delete');
         });
         Route::group(['namespace' => 'CatalogPromotion'], function () {
             Route::get('admin/promotion/catalog-promotion', 'ListCatalogPromotionsController@index')->name('admin.catalog-promotion');

@@ -16,6 +16,9 @@ use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdResponse;
 use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
+use inklabs\kommerce\Action\CartPriceRule\GetCartPriceRuleQuery;
+use inklabs\kommerce\Action\CartPriceRule\Query\GetCartPriceRuleRequest;
+use inklabs\kommerce\Action\CartPriceRule\Query\GetCartPriceRuleResponse;
 use inklabs\kommerce\Action\CatalogPromotion\GetCatalogPromotionQuery;
 use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionRequest;
 use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionResponse;
@@ -41,6 +44,7 @@ use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
 use inklabs\kommerce\EntityDTO\CartDTO;
+use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
 use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\EntityDTO\OptionDTO;
@@ -511,6 +515,35 @@ class Controller extends BaseController
     }
 
     /**
+     * @param $cartPriceRuleId
+     * @return CartPriceRuleDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getCartPriceRule($cartPriceRuleId)
+    {
+        return $this->getCartPriceRuleById($cartPriceRuleId)
+            ->getCartPriceRuleDTO();
+    }
+
+    /**
+     * @param string $cartPriceRuleId
+     * @return GetCartPriceRuleResponse
+     * @throws NotFoundHttpException
+     */
+    private function getCartPriceRuleById($cartPriceRuleId)
+    {
+        try {
+            $request = new GetCartPriceRuleRequest($cartPriceRuleId);
+            $response = new GetCartPriceRuleResponse();
+            $this->dispatchQuery(new GetCartPriceRuleQuery($request, $response));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
+
+        return $response;
+    }
+
+    /**
      * @param $couponId
      * @return CouponDTO
      * @throws NotFoundHttpException
@@ -530,7 +563,7 @@ class Controller extends BaseController
     {
         try {
             $request = new GetCouponRequest($couponId);
-            $response = new GetCouponResponse($this->getPricing());
+            $response = new GetCouponResponse();
             $this->dispatchQuery(new GetCouponQuery($request, $response));
         } catch (EntityNotFoundException $e) {
             return abort(404);
@@ -640,5 +673,18 @@ class Controller extends BaseController
         }
 
         return (int) ($value * 100);
+    }
+
+    /**
+     * @param string $value
+     * @return null|int
+     */
+    protected function getIntOrNull($value)
+    {
+        if ($value === '') {
+            return null;
+        }
+
+        return (int) $value;
     }
 }
