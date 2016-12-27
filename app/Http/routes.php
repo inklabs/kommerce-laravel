@@ -147,6 +147,8 @@ Route::group(['namespace' => 'Admin'], function() {
             Route::post('admin/promotion/cart-price-rule/item/new-tag', 'CreateCartPriceRuleTagItemController@post')->name('admin.cart-price-rule.item.new-tag');
             Route::post('admin/promotion/cart-price-rule/item/edit-tag', 'UpdateCartPriceRuleTagItemController@post')->name('admin.cart-price-rule.item.edit-tag');
             Route::post('admin/promotion/cart-price-rule/item/delete', 'DeleteCartPriceRuleItemController@post')->name('admin.cart-price-rule.item.delete');
+            Route::post('admin/promotion/cart-price-rule/discount/new', 'CreateCartPriceRuleDiscountController@post')->name('admin.cart-price-rule.discount.new');
+            Route::post('admin/promotion/cart-price-rule/discount/delete', 'DeleteCartPriceRuleDiscountController@post')->name('admin.cart-price-rule.discount.delete');
         });
         Route::group(['namespace' => 'CatalogPromotion'], function () {
             Route::get('admin/promotion/catalog-promotion', 'ListCatalogPromotionsController@index')->name('admin.catalog-promotion');
