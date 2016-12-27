@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Promotion\CatalogPromotion;
 use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
+use inklabs\kommerce\Action\CatalogPromotion\CreateCatalogPromotionCommand;
 use inklabs\kommerce\Action\CatalogPromotion\UpdateCatalogPromotionCommand;
 use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
@@ -11,7 +12,55 @@ use inklabs\kommerce\Exception\EntityValidatorException;
 
 class EditCatalogPromotionController extends Controller
 {
-    public function get($catalogPromotionId)
+    public function getNew()
+    {
+        return $this->renderTemplate(
+            '@theme/admin/promotion/catalog-promotion/new.twig',
+            [
+                'promotionTypes' => PromotionType::getNameMap(),
+            ]
+        );
+    }
+
+    public function postNew(Request $request)
+    {
+        $catalogPromotion = new CatalogPromotionDTO();
+        $this->updateCatalogPromotionDTOFromPost($catalogPromotion, $request->input('catalogPromotion'));
+
+        try {
+            $command = new CreateCatalogPromotionCommand(
+                $catalogPromotion->name,
+                $catalogPromotion->type->id,
+                $catalogPromotion->value,
+                $catalogPromotion->reducesTaxSubtotal,
+                $catalogPromotion->maxRedemptions,
+                $catalogPromotion->start,
+                $catalogPromotion->end
+            );
+            $this->dispatch($command);
+
+            $this->flashSuccess('Catalog Promotion has been created.');
+            return redirect()->route(
+                'admin.catalog-promotion.edit',
+                [
+                    'catalogPromotionId' => $command->getCatalogPromotionId()->gethex(),
+                ]
+            );
+        } catch (EntityValidatorException $e) {
+            $this->flashError('Unable to create catalogPromotion!');
+            $this->flashFormErrors($e->getErrors());
+        }
+
+        return $this->renderTemplate(
+            '@theme/admin/catalogPromotion/new.twig',
+            [
+                'catalogPromotion' => $catalogPromotion,
+                'promotionTypes' => PromotionType::getNameMap(),
+            ]
+        );
+    }
+
+    public function getEdit($catalogPromotionId)
     {
         $catalogPromotion = $this->getCatalogPromotion($catalogPromotionId);
 
@@ -19,11 +68,12 @@ class EditCatalogPromotionController extends Controller
             '@theme/admin/promotion/catalog-promotion/edit.twig',
             [
                 'catalogPromotion' => $catalogPromotion,
+                'promotionTypes' => PromotionType::getNameMap(),
             ]
         );
     }
 
-    public function post(Request $request)
+    public function postEdit(Request $request)
     {
         $catalogPromotionId = $request->input('catalogPromotionId');
         $catalogPromotion = $this->getCatalogPromotion($catalogPromotionId);
