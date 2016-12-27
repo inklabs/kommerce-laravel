@@ -526,6 +526,17 @@ class Controller extends BaseController
     }
 
     /**
+     * @param $cartPriceRuleId
+     * @return CartPriceRuleDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getCartPriceRuleWithAllData($cartPriceRuleId)
+    {
+        return $this->getCartPriceRuleById($cartPriceRuleId)
+            ->getCartPriceRuleDTOWithAllData();
+    }
+
+    /**
      * @param string $cartPriceRuleId
      * @return GetCartPriceRuleResponse
      * @throws NotFoundHttpException

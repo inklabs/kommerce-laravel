@@ -48,20 +48,18 @@ class EditCartPriceRuleController extends Controller
             '@theme/admin/promotion/cart-price-rule/new.twig',
             [
                 'cartPriceRule' => $cartPriceRule,
-                'promotionTypes' => PromotionType::getNameMap(),
             ]
         );
     }
 
     public function getEdit($cartPriceRuleId)
     {
-        $cartPriceRule = $this->getCartPriceRule($cartPriceRuleId);
+        $cartPriceRule = $this->getCartPriceRuleWithAllData($cartPriceRuleId);
 
         return $this->renderTemplate(
             '@theme/admin/promotion/cart-price-rule/edit.twig',
             [
                 'cartPriceRule' => $cartPriceRule,
-                'promotionTypes' => PromotionType::getNameMap(),
             ]
         );
     }
@@ -92,7 +90,6 @@ class EditCartPriceRuleController extends Controller
             '@theme/admin/promotion/cart-price-rule/edit.twig',
             [
                 'cartPriceRule' => $cartPriceRule,
-                'promotionTypes' => PromotionType::getNameMap(),
             ]
         );
     }

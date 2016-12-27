@@ -117,6 +117,7 @@ class KommerceConfiguration
         static $mapper = null;
         if ($mapper === null) {
             $mapper = new Mapper(
+                $this->getRepositoryFactory(),
                 $this->getServiceFactory(),
                 $this->getPricing(),
                 $this->getDTOBuilderFactory()
