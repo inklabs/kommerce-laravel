@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\Promotion\Coupon;
 use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
-use inklabs\kommerce\Action\Coupon\CreateCouponCommand;
 use inklabs\kommerce\Action\Coupon\UpdateCouponCommand;
 use inklabs\kommerce\Entity\PromotionType;
 use inklabs\kommerce\EntityDTO\CouponDTO;
@@ -12,60 +11,7 @@ use inklabs\kommerce\Exception\EntityValidatorException;
 
 class EditCouponController extends Controller
 {
-    public function getNew()
-    {
-        return $this->renderTemplate(
-            '@theme/admin/coupon/new.twig',
-            [
-                'promotionTypes' => PromotionType::getNameMap(),
-            ]
-        );
-    }
-
-    public function postNew(Request $request)
-    {
-        $coupon = new CouponDTO();
-        $this->updateCouponDTOFromPost($coupon, $request->input('coupon'));
-
-        try {
-            $command = new CreateCouponCommand(
-                $coupon->code,
-                $coupon->flagFreeShipping,
-                $coupon->minOrderValue,
-                $coupon->maxOrderValue,
-                $coupon->canCombineWithOtherCoupons,
-                $coupon->name,
-                $coupon->type->id,
-                $coupon->value,
-                $coupon->reducesTaxSubtotal,
-                $coupon->maxRedemptions,
-                $coupon->start,
-                $coupon->end
-            );
-            $this->dispatch($command);
-
-            $this->flashSuccess('Coupon has been created.');
-            return redirect()->route(
-                'admin.coupon.edit',
-                [
-                    'couponId' => $command->getCouponId()->gethex(),
-                ]
-            );
-        } catch (EntityValidatorException $e) {
-            $this->flashError('Unable to create coupon!');
-            $this->flashFormErrors($e->getErrors());
-        }
-
-        return $this->renderTemplate(
-            '@theme/admin/coupon/new.twig',
-            [
-                'coupon' => $coupon,
-                'promotionTypes' => PromotionType::getNameMap(),
-            ]
-        );
-    }
-
-    public function getEdit($couponId)
+    public function get($couponId)
     {
         $coupon = $this->getCoupon($couponId);
 
@@ -78,7 +24,7 @@ class EditCouponController extends Controller
         );
     }
 
-    public function postEdit(Request $request)
+    public function post(Request $request)
     {
         $couponId = $request->input('couponId');
         $coupon = $this->getCoupon($couponId);

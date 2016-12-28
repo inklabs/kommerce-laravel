@@ -1,9 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Lib\Arr;
 use App\Lib\CSRFTokenGenerator;
 use App\Lib\KommerceConfiguration;
 use App\Lib\LaravelRouteUrl;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -697,5 +700,23 @@ class Controller extends BaseController
         }
 
         return (int) $value;
+    }
+
+    /**
+     * @param array $dateTime
+     * @return int|null
+     */
+    protected function getTimestampFromDateTimeTimezoneInput(array $dateTime)
+    {
+        $date = Arr::get($dateTime, 'date');
+        $time = Arr::get($dateTime, 'time');
+        $timezone = Arr::get($dateTime, 'timezone');
+
+        if (trim($date . $time) !== '') {
+            $startDateTime = new DateTime($date . ' ' . $time, new DateTimeZone($timezone));
+            return $startDateTime->getTimestamp();
+        }
+
+        return null;
     }
 }
