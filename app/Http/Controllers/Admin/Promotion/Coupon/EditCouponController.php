@@ -6,7 +6,6 @@ use App\Lib\Arr;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Coupon\UpdateCouponCommand;
 use inklabs\kommerce\Entity\PromotionType;
-use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\Exception\EntityValidatorException;
 
 class EditCouponController extends Controller
@@ -19,7 +18,7 @@ class EditCouponController extends Controller
             '@theme/admin/coupon/edit.twig',
             [
                 'coupon' => $coupon,
-                'promotionTypes' => PromotionType::getNameMap(),
+                'promotionTypes' => PromotionType::getSlugNameMap(),
             ]
         );
     }
@@ -27,12 +26,42 @@ class EditCouponController extends Controller
     public function post(Request $request)
     {
         $couponId = $request->input('couponId');
-        $coupon = $this->getCoupon($couponId);
+        $couponValues = $request->input('coupon');
+        $promotionTypeSlug = Arr::get($couponValues, 'type');
+        $value = Arr::get($couponValues, 'value');
 
-        $this->updateCouponDTOFromPost($coupon, $request->input('coupon'));
+        if ($promotionTypeSlug === 'fixed' || $promotionTypeSlug === 'exact') {
+            $value = (int) ($value * 100);
+        }
+
+        $name = trim(Arr::get($couponValues, 'name'));
+        $code = trim(Arr::get($couponValues, 'code'));
+        $minOrderValue = $this->getCentsOrNull(Arr::get($couponValues, 'minOrderValue'));
+        $maxOrderValue = $this->getCentsOrNull(Arr::get($couponValues, 'maxOrderValue'));
+        $maxRedemptions = (int) Arr::get($couponValues, 'maxRedemptions');
+        $flagFreeShipping = (bool) Arr::get($couponValues, 'flagFreeShipping', false);
+        $reducesTaxSubtotal = (bool) Arr::get($couponValues, 'reducesTaxSubtotal', false);
+        $canCombineWithOtherCoupons = (bool) Arr::get($couponValues, 'canCombineWithOtherCoupons', false);
+
+        $startAt = $this->getTimestampFromDateTimeTimezoneInput($couponValues['start']);
+        $endAt = $this->getTimestampFromDateTimeTimezoneInput($couponValues['end']);
 
         try {
-            $this->dispatch(new UpdateCouponCommand($coupon));
+            $this->dispatch(new UpdateCouponCommand(
+                $code,
+                $flagFreeShipping,
+                $minOrderValue,
+                $maxOrderValue,
+                $canCombineWithOtherCoupons,
+                $name,
+                $promotionTypeSlug,
+                $value,
+                $reducesTaxSubtotal,
+                $maxRedemptions,
+                $startAt,
+                $endAt,
+                $couponId
+            ));
 
             $this->flashSuccess('Coupon has been saved.');
             return redirect()->route(
@@ -46,42 +75,6 @@ class EditCouponController extends Controller
             $this->flashFormErrors($e->getErrors());
         }
 
-        return $this->renderTemplate(
-            '@theme/admin/coupon/edit.twig',
-            [
-                'coupon' => $coupon,
-                'promotionTypes' => PromotionType::getNameMap(),
-            ]
-        );
-    }
-
-    private function updateCouponDTOFromPost(CouponDTO & $couponDTO, array $couponValues)
-    {
-        $typeId = (int) Arr::get($couponValues, 'type');
-        $promotionType = PromotionType::createById($typeId);
-        $promotionTypeDTO = $this->getDTOBuilderFactory()
-            ->getPromotionTypeDTOBuilder($promotionType)
-            ->build();
-
-        if ($promotionTypeDTO->isFixed || $promotionTypeDTO->isExact) {
-            $value = (int) (Arr::get($couponValues, 'value') * 100);
-        } else {
-            $value = (int) Arr::get($couponValues, 'value');
-        }
-
-        $couponDTO->name = trim(Arr::get($couponValues, 'name'));
-        $couponDTO->code = trim(Arr::get($couponValues, 'code'));
-        $couponDTO->type = $promotionTypeDTO;
-        $couponDTO->value = $value;
-        $couponDTO->minOrderValue = $this->getCentsOrNull(Arr::get($couponValues, 'minOrderValue'));
-        $couponDTO->maxOrderValue = $this->getCentsOrNull(Arr::get($couponValues, 'maxOrderValue'));
-        $couponDTO->maxRedemptions = (int) Arr::get($couponValues, 'maxRedemptions');
-        $couponDTO->flagFreeShipping = Arr::get($couponValues, 'flagFreeShipping', false);
-        $couponDTO->reducesTaxSubtotal = Arr::get($couponValues, 'reducesTaxSubtotal', false);
-        $couponDTO->canCombineWithOtherCoupons = Arr::get($couponValues, 'canCombineWithOtherCoupons', false);
-
-        // TODO:
-        //$couponDTO->start =
-        //$couponDTO->end =
+        return $this->get($couponId);
     }
 }

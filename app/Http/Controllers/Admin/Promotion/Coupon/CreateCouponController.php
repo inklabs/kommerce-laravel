@@ -23,12 +23,11 @@ class CreateCouponController extends Controller
     public function post(Request $request)
     {
         $couponValues = $request->input('coupon');
-
         $promotionTypeSlug = Arr::get($couponValues, 'type');
-        $value = (int) Arr::get($couponValues, 'value');
+        $value = Arr::get($couponValues, 'value');
 
         if ($promotionTypeSlug === 'fixed' || $promotionTypeSlug === 'exact') {
-            $value = $value * 100;
+            $value = (int) ($value * 100);
         }
 
         $name = trim(Arr::get($couponValues, 'name'));
@@ -73,11 +72,6 @@ class CreateCouponController extends Controller
             $this->flashFormErrors($e->getErrors());
         }
 
-        return $this->renderTemplate(
-            '@theme/admin/coupon/new.twig',
-            [
-                'promotionTypes' => PromotionType::getSlugNameMap(),
-            ]
-        );
+        return $this->get();
     }
 }
