@@ -34,7 +34,7 @@ class CreateCouponController extends Controller
         $code = trim(Arr::get($couponValues, 'code'));
         $minOrderValue = $this->getCentsOrNull(Arr::get($couponValues, 'minOrderValue'));
         $maxOrderValue = $this->getCentsOrNull(Arr::get($couponValues, 'maxOrderValue'));
-        $maxRedemptions = (int) Arr::get($couponValues, 'maxRedemptions');
+        $maxRedemptions = $this->getIntOrNull(Arr::get($couponValues, 'maxRedemptions'));
         $flagFreeShipping = (bool) Arr::get($couponValues, 'flagFreeShipping', false);
         $reducesTaxSubtotal = (bool) Arr::get($couponValues, 'reducesTaxSubtotal', false);
         $canCombineWithOtherCoupons = (bool) Arr::get($couponValues, 'canCombineWithOtherCoupons', false);

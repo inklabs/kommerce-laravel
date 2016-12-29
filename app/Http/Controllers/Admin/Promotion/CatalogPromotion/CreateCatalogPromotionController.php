@@ -4,20 +4,19 @@ namespace App\Http\Controllers\Admin\Promotion\CatalogPromotion;
 use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
+use inklabs\kommerce\Action\CatalogPromotion\CreateCatalogPromotionCommand;
 use inklabs\kommerce\Action\CatalogPromotion\UpdateCatalogPromotionCommand;
 use inklabs\kommerce\Entity\PromotionType;
+use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
 use inklabs\kommerce\Exception\EntityValidatorException;
 
-class EditCatalogPromotionController extends Controller
+class CreateCatalogPromotionController extends Controller
 {
-    public function get($catalogPromotionId)
+    public function get()
     {
-        $catalogPromotion = $this->getCatalogPromotionWithAllData($catalogPromotionId);
-
         return $this->renderTemplate(
-            '@theme/admin/promotion/catalog-promotion/edit.twig',
+            '@theme/admin/promotion/catalog-promotion/new.twig',
             [
-                'catalogPromotion' => $catalogPromotion,
                 'promotionTypes' => PromotionType::getSlugNameMap(),
             ]
         );
@@ -25,7 +24,6 @@ class EditCatalogPromotionController extends Controller
 
     public function post(Request $request)
     {
-        $catalogPromotionId = $request->input('catalogPromotionId');
         $catalogPromotionValues = $request->input('catalogPromotion');
         $promotionTypeSlug = Arr::get($catalogPromotionValues, 'type');
         $value = Arr::get($catalogPromotionValues, 'value');
@@ -43,7 +41,7 @@ class EditCatalogPromotionController extends Controller
         $endAt = $this->getTimestampFromDateTimeTimezoneInput($catalogPromotionValues['end']);
 
         try {
-            $this->dispatch(new UpdateCatalogPromotionCommand(
+            $command = new CreateCatalogPromotionCommand(
                 $name,
                 $promotionTypeSlug,
                 $value,
@@ -51,22 +49,22 @@ class EditCatalogPromotionController extends Controller
                 $maxRedemptions,
                 $startAt,
                 $endAt,
-                $catalogPromotionId,
                 $tagId
-            ));
+            );
+            $this->dispatch($command);
 
-            $this->flashSuccess('CatalogPromotion has been saved.');
+            $this->flashSuccess('Catalog Promotion has been created.');
             return redirect()->route(
                 'admin.catalog-promotion.edit',
                 [
-                    'catalogPromotionId' => $catalogPromotionId,
+                    'catalogPromotionId' => $command->getCatalogPromotionId()->gethex(),
                 ]
             );
         } catch (EntityValidatorException $e) {
-            $this->flashError('Unable to save catalogPromotion!');
+            $this->flashError('Unable to create catalogPromotion!');
             $this->flashFormErrors($e->getErrors());
         }
 
-        return $this->get($catalogPromotionId);
+        return $this->get();
     }
 }

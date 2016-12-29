@@ -152,11 +152,11 @@ Route::group(['namespace' => 'Admin'], function() {
         });
         Route::group(['namespace' => 'CatalogPromotion'], function () {
             Route::get('admin/promotion/catalog-promotion', 'ListCatalogPromotionsController@index')->name('admin.catalog-promotion');
-            Route::get('admin/promotion/catalog-promotion/new', 'EditCatalogPromotionController@getNew')->name('admin.catalog-promotion.new');
-            Route::get('admin/promotion/catalog-promotion/edit/{catalogPromotionId}', 'EditCatalogPromotionController@getEdit')->name('admin.catalog-promotion.edit');
+            Route::get('admin/promotion/catalog-promotion/new', 'CreateCatalogPromotionController@get')->name('admin.catalog-promotion.new');
+            Route::get('admin/promotion/catalog-promotion/edit/{catalogPromotionId}', 'EditCatalogPromotionController@get')->name('admin.catalog-promotion.edit');
 
-            Route::post('admin/promotion/catalog-promotion/new', 'EditCatalogPromotionController@postNew')->name('admin.catalog-promotion.new.post');
-            Route::post('admin/promotion/catalog-promotion/edit', 'EditCatalogPromotionController@postEdit')->name('admin.catalog-promotion.edit.post');
+            Route::post('admin/promotion/catalog-promotion/new', 'CreateCatalogPromotionController@post')->name('admin.catalog-promotion.new.post');
+            Route::post('admin/promotion/catalog-promotion/edit', 'EditCatalogPromotionController@post')->name('admin.catalog-promotion.edit.post');
             Route::post('admin/promotion/catalog-promotion/delete', 'DeleteCatalogPromotionController@post')->name('admin.catalog-promotion.delete');
 });
     });

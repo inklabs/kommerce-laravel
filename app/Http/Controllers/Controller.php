@@ -591,6 +591,17 @@ class Controller extends BaseController
      * @return CatalogPromotionDTO
      * @throws NotFoundHttpException
      */
+    protected function getCatalogPromotionWithAllData($catalogPromotionId)
+    {
+        return $this->getCatalogPromotionById($catalogPromotionId)
+            ->getCatalogPromotionDTOWithAllData();
+    }
+
+    /**
+     * @param $catalogPromotionId
+     * @return CatalogPromotionDTO
+     * @throws NotFoundHttpException
+     */
     protected function getCatalogPromotion($catalogPromotionId)
     {
         return $this->getCatalogPromotionById($catalogPromotionId)
@@ -700,6 +711,21 @@ class Controller extends BaseController
         }
 
         return (int) $value;
+    }
+
+    /**
+     * @param string $value
+     * @return null|string
+     */
+    protected function getStringOrNull($value)
+    {
+        $value = trim($value);
+
+        if ($value === '') {
+            return null;
+        }
+
+        return (string) $value;
     }
 
     /**

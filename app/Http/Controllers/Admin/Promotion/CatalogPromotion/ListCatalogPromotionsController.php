@@ -21,7 +21,7 @@ class ListCatalogPromotionsController extends Controller
         $response = new ListCatalogPromotionsResponse();
         $this->dispatchQuery(new ListCatalogPromotionsQuery($request, $response));
 
-        $catalogPromotions = $response->getCatalogPromotionDTOs();
+        $catalogPromotions = $response->getCatalogPromotionDTOsWithAllData();
         $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
