@@ -194,6 +194,14 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::post('admin/option/add-tag', 'AddTagToOptionController@post')->name('admin.option.add-tag');
         Route::post('admin/option/remove-tag', 'RemoveTagFromOptionController@post')->name('admin.option.remove-tag');
     });
+    Route::group(['namespace' => 'Attribute'], function() {
+        Route::get('admin/attribute', 'ListAttributesController@index')->name('admin.attribute');
+        Route::get('admin/attribute/new', 'CreateAttributesController@get')->name('admin.attribute.new');
+        Route::get('admin/attribute/edit/{attributeId}', 'EditAttributeController@get')->name('admin.attribute.edit');
+
+        Route::post('admin/attribute/new', 'CreateAttributesController@post')->name('admin.attribute.new.post');
+        Route::get('admin/attribute/edit', 'EditAttributeController@post')->name('admin.attribute.post');
+    });
     Route::group(['namespace' => 'Settings'], function() {
         Route::get('admin/settings/sales-tax', 'ListSalesTaxRulesController@index')->name('admin.settings.sales-tax');
         Route::get('admin/settings/sales-tax/zipcode', 'ListZipcodeSalesTaxRulesController@index')->name('admin.settings.sales-tax.zipcode');
