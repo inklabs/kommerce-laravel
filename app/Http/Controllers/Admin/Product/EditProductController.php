@@ -29,7 +29,7 @@ class EditProductController extends Controller
             return redirect()->route(
                 'admin.product.edit',
                 [
-                    'productId' => $command->getProductId()->gethex(),
+                    'productId' => $command->getProductId()->getHex(),
                 ]
             );
         } catch (EntityValidatorException $e) {

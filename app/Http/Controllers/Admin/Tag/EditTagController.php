@@ -29,7 +29,7 @@ class EditTagController extends Controller
             return redirect()->route(
                 'admin.tag.edit',
                 [
-                    'tagId' => $command->getTagId()->gethex(),
+                    'tagId' => $command->getTagId()->getHex(),
                 ]
             );
         } catch (EntityValidatorException $e) {

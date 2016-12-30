@@ -135,13 +135,13 @@ Route::group(['namespace' => 'Admin'], function() {
         });
         Route::group(['namespace' => 'CartPriceRule'], function () {
             Route::get('admin/promotion/cart-price-rule', 'ListCartPriceRulesController@index')->name('admin.cart-price-rule');
-            Route::get('admin/promotion/cart-price-rule/new', 'EditCartPriceRuleController@getNew')->name('admin.cart-price-rule.new');
-            Route::get('admin/promotion/cart-price-rule/edit/{cartPriceRuleId}', 'EditCartPriceRuleController@getEdit')->name('admin.cart-price-rule.edit');
+            Route::get('admin/promotion/cart-price-rule/new', 'CreateCartPriceRuleController@get')->name('admin.cart-price-rule.new');
+            Route::get('admin/promotion/cart-price-rule/edit/{cartPriceRuleId}', 'EditCartPriceRuleController@get')->name('admin.cart-price-rule.edit');
             Route::get('admin/promotion/cart-price-rule/items/{cartPriceRuleId}', 'ListCartPriceRuleItemsController@index')->name('admin.cart-price-rule.items');
             Route::get('admin/promotion/cart-price-rule/discounts/{cartPriceRuleId}', 'ListCartPriceRuleDiscountsController@index')->name('admin.cart-price-rule.discounts');
 
-            Route::post('admin/promotion/cart-price-rule/new', 'EditCartPriceRuleController@postNew')->name('admin.cart-price-rule.new.post');
-            Route::post('admin/promotion/cart-price-rule/edit', 'EditCartPriceRuleController@postEdit')->name('admin.cart-price-rule.edit.post');
+            Route::post('admin/promotion/cart-price-rule/new', 'CreateCartPriceRuleController@post')->name('admin.cart-price-rule.new.post');
+            Route::post('admin/promotion/cart-price-rule/edit', 'EditCartPriceRuleController@post')->name('admin.cart-price-rule.edit.post');
             Route::post('admin/promotion/cart-price-rule/delete', 'DeleteCartPriceRuleController@post')->name('admin.cart-price-rule.delete');
             Route::post('admin/promotion/cart-price-rule/item/new-product', 'CreateCartPriceRuleProductItemController@post')->name('admin.cart-price-rule.item.new-product');
             Route::post('admin/promotion/cart-price-rule/item/new-tag', 'CreateCartPriceRuleTagItemController@post')->name('admin.cart-price-rule.item.new-tag');

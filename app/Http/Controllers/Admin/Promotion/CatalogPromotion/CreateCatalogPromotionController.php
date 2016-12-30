@@ -57,7 +57,7 @@ class CreateCatalogPromotionController extends Controller
             return redirect()->route(
                 'admin.catalog-promotion.edit',
                 [
-                    'catalogPromotionId' => $command->getCatalogPromotionId()->gethex(),
+                    'catalogPromotionId' => $command->getCatalogPromotionId()->getHex(),
                 ]
             );
         } catch (EntityValidatorException $e) {

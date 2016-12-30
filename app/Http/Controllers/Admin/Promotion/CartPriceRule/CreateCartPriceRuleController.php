@@ -4,26 +4,18 @@ namespace App\Http\Controllers\Admin\Promotion\CartPriceRule;
 use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
-use inklabs\kommerce\Action\CartPriceRule\UpdateCartPriceRuleCommand;
+use inklabs\kommerce\Action\CartPriceRule\CreateCartPriceRuleCommand;
 use inklabs\kommerce\Exception\EntityValidatorException;
 
-class EditCartPriceRuleController extends Controller
+class CreateCartPriceRuleController extends Controller
 {
-    public function get($cartPriceRuleId)
+    public function get()
     {
-        $cartPriceRule = $this->getCartPriceRuleWithAllData($cartPriceRuleId);
-
-        return $this->renderTemplate(
-            '@theme/admin/promotion/cart-price-rule/edit.twig',
-            [
-                'cartPriceRule' => $cartPriceRule,
-            ]
-        );
+        return $this->renderTemplate('@theme/admin/promotion/cart-price-rule/new.twig');
     }
 
     public function post(Request $request)
     {
-        $cartPriceRuleId = $request->input('cartPriceRuleId');
         $cartPriceRuleValues = $request->input('cartPriceRule');
         $name = trim(Arr::get($cartPriceRuleValues, 'name'));
         $maxRedemptions = $this->getIntOrNull(Arr::get($cartPriceRuleValues, 'maxRedemptions'));
@@ -32,27 +24,27 @@ class EditCartPriceRuleController extends Controller
         $endAt = $this->getTimestampFromDateTimeTimezoneInput($cartPriceRuleValues['end']);
 
         try {
-            $this->dispatch(new UpdateCartPriceRuleCommand(
+            $command = new CreateCartPriceRuleCommand(
                 $name,
                 $maxRedemptions,
                 $reducesTaxSubtotal,
                 $startAt,
-                $endAt,
-                $cartPriceRuleId
-            ));
+                $endAt
+            );
+            $this->dispatch($command);
 
-            $this->flashSuccess('CartPriceRule has been saved.');
+            $this->flashSuccess('CartPriceRule has been created.');
             return redirect()->route(
                 'admin.cart-price-rule.edit',
                 [
-                    'cartPriceRuleId' => $cartPriceRuleId,
+                    'cartPriceRuleId' => $command->getCartPriceRuleId()->getHex(),
                 ]
             );
         } catch (EntityValidatorException $e) {
-            $this->flashError('Unable to save cartPriceRule!');
+            $this->flashError('Unable to create cartPriceRule!');
             $this->flashFormErrors($e->getErrors());
         }
 
-        return $this->get($cartPriceRuleId);
+        return $this->get();
     }
 }

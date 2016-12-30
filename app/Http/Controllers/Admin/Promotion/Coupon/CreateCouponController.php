@@ -64,7 +64,7 @@ class CreateCouponController extends Controller
             return redirect()->route(
                 'admin.coupon.edit',
                 [
-                    'couponId' => $command->getCouponId()->gethex(),
+                    'couponId' => $command->getCouponId()->getHex(),
                 ]
             );
         } catch (EntityValidatorException $e) {
