@@ -25,7 +25,7 @@ class AddOptionValueToOptionController extends Controller
 
             $this->flashSuccess('Successfully added option value');
         } catch (EntityValidatorException $e) {
-            $this->flashError('Unable to save product!');
+            $this->flashError('Unable to add option value!');
             $this->flashFormErrors($e->getErrors());
         }
 

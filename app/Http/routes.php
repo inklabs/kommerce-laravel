@@ -204,6 +204,7 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::post('admin/attribute/new', 'CreateAttributeController@post')->name('admin.attribute.new.post');
         Route::post('admin/attribute/edit', 'EditAttributeController@post')->name('admin.attribute.edit.post');
         Route::post('admin/attribute/delete', 'DeleteAttributeController@post')->name('admin.attribute.delete');
+        Route::post('admin/attribute/new-attribute-value', 'CreateAttributeValueController@post')->name('admin.attribute.new-attribute-value');
         Route::post('admin/attribute/delete-attribute-value', 'DeleteAttributeValueController@post')->name('admin.attribute.delete-attribute-value');
         Route::post('admin/attribute/delete-product-attribute', 'DeleteProductAttributeController@post')->name('admin.attribute.delete-product-attribute');
     });
