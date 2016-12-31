@@ -12,6 +12,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use inklabs\kommerce\Action\Attribute\GetAttributeQuery;
+use inklabs\kommerce\Action\Attribute\Query\GetAttributeRequest;
+use inklabs\kommerce\Action\Attribute\Query\GetAttributeResponse;
 use inklabs\kommerce\Action\Cart\CreateCartCommand;
 use inklabs\kommerce\Action\Cart\GetCartBySessionIdQuery;
 use inklabs\kommerce\Action\Cart\GetCartQuery;
@@ -46,6 +49,7 @@ use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
 use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
+use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
@@ -550,6 +554,35 @@ class Controller extends BaseController
             $request = new GetCartPriceRuleRequest($cartPriceRuleId);
             $response = new GetCartPriceRuleResponse();
             $this->dispatchQuery(new GetCartPriceRuleQuery($request, $response));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $attributeId
+     * @return AttributeDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getAttribute($attributeId)
+    {
+        return $this->getAttributeById($attributeId)
+            ->getAttributeDTO();
+    }
+
+    /**
+     * @param string $attributeId
+     * @return GetAttributeResponse
+     * @throws NotFoundHttpException
+     */
+    private function getAttributeById($attributeId)
+    {
+        try {
+            $request = new GetAttributeRequest($attributeId);
+            $response = new GetAttributeResponse();
+            $this->dispatchQuery(new GetAttributeQuery($request, $response));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
