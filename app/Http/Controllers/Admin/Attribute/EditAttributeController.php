@@ -11,7 +11,7 @@ class EditAttributeController extends Controller
 {
     public function get($attributeId)
     {
-        $attribute = $this->getAttribute($attributeId);
+        $attribute = $this->getAttributeWithAllData($attributeId);
 
         return $this->renderTemplate(
             '@theme/admin/attribute/edit.twig',

@@ -198,6 +198,8 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::get('admin/attribute', 'ListAttributesController@index')->name('admin.attribute');
         Route::get('admin/attribute/new', 'CreateAttributeController@get')->name('admin.attribute.new');
         Route::get('admin/attribute/edit/{attributeId}', 'EditAttributeController@get')->name('admin.attribute.edit');
+        Route::get('admin/attribute/attribute-values/{attributeId}', 'ListAttributeValuesForAttributeController@get')->name('admin.attribute.attribute-values');
+        Route::get('admin/attribute/product-attributes/{attributeId}', 'ListProductAttributesForAttributeController@get')->name('admin.attribute.product-attributes');
 
         Route::post('admin/attribute/new', 'CreateAttributeController@post')->name('admin.attribute.new.post');
         Route::post('admin/attribute/edit', 'EditAttributeController@post')->name('admin.attribute.edit.post');

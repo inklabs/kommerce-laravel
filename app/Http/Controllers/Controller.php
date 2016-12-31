@@ -566,6 +566,17 @@ class Controller extends BaseController
      * @return AttributeDTO
      * @throws NotFoundHttpException
      */
+    protected function getAttributeWithAllData($attributeId)
+    {
+        return $this->getAttributeById($attributeId)
+            ->getAttributeDTOWithAllData();
+    }
+
+    /**
+     * @param $attributeId
+     * @return AttributeDTO
+     * @throws NotFoundHttpException
+     */
     protected function getAttribute($attributeId)
     {
         return $this->getAttributeById($attributeId)
