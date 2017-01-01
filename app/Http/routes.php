@@ -199,7 +199,6 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::get('admin/attribute/new', 'CreateAttributeController@get')->name('admin.attribute.new');
         Route::get('admin/attribute/edit/{attributeId}', 'EditAttributeController@get')->name('admin.attribute.edit');
         Route::get('admin/attribute/attribute-values/{attributeId}', 'ListAttributeValuesForAttributeController@get')->name('admin.attribute.attribute-values');
-        Route::get('admin/attribute/product-attributes/{attributeId}', 'ListProductAttributesForAttributeController@get')->name('admin.attribute.product-attributes');
 
         Route::post('admin/attribute/new', 'CreateAttributeController@post')->name('admin.attribute.new.post');
         Route::post('admin/attribute/edit', 'EditAttributeController@post')->name('admin.attribute.edit.post');
@@ -207,6 +206,12 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::post('admin/attribute/new-attribute-value', 'CreateAttributeValueController@post')->name('admin.attribute.new-attribute-value');
         Route::post('admin/attribute/delete-attribute-value', 'DeleteAttributeValueController@post')->name('admin.attribute.delete-attribute-value');
         Route::post('admin/attribute/delete-product-attribute', 'DeleteProductAttributeController@post')->name('admin.attribute.delete-product-attribute');
+
+        Route::get('admin/attribute/attribute-value/edit/{attributeValueId}', 'EditAttributeValueController@get')->name('admin.attribute.attribute-value.edit');
+        Route::get('admin/attribute/attribute-value/product-attributes/{attributeValueId}', 'ListProductAttributesForAttributeValueController@get')->name('admin.attribute.attribute-value.product-attributes');
+
+        Route::post('admin/attribute/attribute-value/edit', 'EditAttributeValueController@post')->name('admin.attribute.attribute-value.edit.post');
+        Route::post('admin/attribute/attribute-value/delete', 'DeleteAttributeValueController@post')->name('admin.attribute.attribute-value.delete');
     });
     Route::group(['namespace' => 'Settings'], function() {
         Route::get('admin/settings/sales-tax', 'ListSalesTaxRulesController@index')->name('admin.settings.sales-tax');

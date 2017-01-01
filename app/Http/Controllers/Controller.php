@@ -13,8 +13,11 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use inklabs\kommerce\Action\Attribute\GetAttributeQuery;
+use inklabs\kommerce\Action\Attribute\GetAttributeValueQuery;
 use inklabs\kommerce\Action\Attribute\Query\GetAttributeRequest;
 use inklabs\kommerce\Action\Attribute\Query\GetAttributeResponse;
+use inklabs\kommerce\Action\Attribute\Query\GetAttributeValueRequest;
+use inklabs\kommerce\Action\Attribute\Query\GetAttributeValueResponse;
 use inklabs\kommerce\Action\Cart\CreateCartCommand;
 use inklabs\kommerce\Action\Cart\GetCartBySessionIdQuery;
 use inklabs\kommerce\Action\Cart\GetCartQuery;
@@ -50,6 +53,7 @@ use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
+use inklabs\kommerce\EntityDTO\AttributeValueDTO;
 use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
@@ -569,7 +573,7 @@ class Controller extends BaseController
     protected function getAttributeWithAllData($attributeId)
     {
         return $this->getAttributeById($attributeId)
-            ->getAttributeDTOWithAllData();
+            ->getAttributeDTOWithAttributeValues();
     }
 
     /**
@@ -594,6 +598,46 @@ class Controller extends BaseController
             $request = new GetAttributeRequest($attributeId);
             $response = new GetAttributeResponse();
             $this->dispatchQuery(new GetAttributeQuery($request, $response));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $attributeValueId
+     * @return AttributeValueDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getAttributeValueWithAllData($attributeValueId)
+    {
+        return $this->getAttributeValueById($attributeValueId)
+            ->getAttributeValueDTOWithAllData();
+    }
+
+    /**
+     * @param $attributeValueId
+     * @return AttributeValueDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getAttributeValue($attributeValueId)
+    {
+        return $this->getAttributeValueById($attributeValueId)
+            ->getAttributeValueDTO();
+    }
+
+    /**
+     * @param string $attributeValueId
+     * @return GetAttributeValueResponse
+     * @throws NotFoundHttpException
+     */
+    private function getAttributeValueById($attributeValueId)
+    {
+        try {
+            $request = new GetAttributeValueRequest($attributeValueId);
+            $response = new GetAttributeValueResponse();
+            $this->dispatchQuery(new GetAttributeValueQuery($request, $response));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
