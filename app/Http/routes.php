@@ -212,7 +212,7 @@ Route::group(['namespace' => 'Admin'], function() {
 
         Route::post('admin/attribute/attribute-value/edit', 'EditAttributeValueController@post')->name('admin.attribute.attribute-value.edit.post');
         Route::post('admin/attribute/attribute-value/delete', 'DeleteAttributeValueController@post')->name('admin.attribute.attribute-value.delete');
-        Route::post('admin/attribute/attribute-value/add-product', 'AddProductToAttributeValueController@post')->name('admin.attribute.attribute-value.add-product');
+        Route::post('admin/attribute/attribute-value/add-product', 'CreateProductAttributeController@post')->name('admin.attribute.attribute-value.add-product');
     });
     Route::group(['namespace' => 'Settings'], function() {
         Route::get('admin/settings/sales-tax', 'ListSalesTaxRulesController@index')->name('admin.settings.sales-tax');
