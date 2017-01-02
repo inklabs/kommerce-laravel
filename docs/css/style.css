@@ -1,8 +1,15 @@
-.screenshots img {
-    margin-left: 50px;
-    max-width: 80%;
+#zoom-image-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: hidden;
+    border: 3px solid #848484;
 }
 
 .screenshots .row:not(:first-child) {
     margin-bottom: 50px;
+}
+
+img {
+    max-width: 100%;
 }
