@@ -161,6 +161,7 @@ class CheckoutController extends Controller
         $orderAddressDTO = new OrderAddressDTO();
         $orderAddressDTO->firstName = array_get($orderAddress, 'firstName');
         $orderAddressDTO->lastName = array_get($orderAddress, 'lastName');
+        $orderAddressDTO->fullName = $orderAddressDTO->firstName . ' ' . $orderAddressDTO->lastName;
         $orderAddressDTO->company = array_get($orderAddress, 'company');
         $orderAddressDTO->address1 = array_get($orderAddress, 'address1');
         $orderAddressDTO->address2 = array_get($orderAddress, 'address2');

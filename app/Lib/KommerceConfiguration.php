@@ -181,8 +181,7 @@ class KommerceConfiguration
     {
         static $shipmentGateway = null;
         if ($shipmentGateway === null) {
-            $storeAddress = new OrderAddressDTO();
-            $storeAddress->zip5 = '90401';
+            $storeAddress = $this->getStoreAddress();
 
             $easyPostApiKey = env('EASYPOST-API-KEY');
             if ($easyPostApiKey === 'your-key-here') {
@@ -207,5 +206,22 @@ class KommerceConfiguration
             );
         }
         return $fileManager;
+    }
+
+    /**
+     * @return OrderAddressDTO
+     */
+    public function getStoreAddress()
+    {
+        $storeAddress = new OrderAddressDTO();
+        $storeAddress->firstName = env('STORE-FIRST-NAME');
+        $storeAddress->lastName = env('STORE-LAST-NAME');
+        $storeAddress->company = env('STORE-COMPANY');
+        $storeAddress->address1 = env('STORE-ADDRESS1');
+        $storeAddress->address2 = env('STORE-ADDRESS2');
+        $storeAddress->city = env('STORE-CITY');
+        $storeAddress->state = env('STORE-STATE');
+        $storeAddress->zip5 = env('STORE-ZIP5');
+        return $storeAddress;
     }
 }

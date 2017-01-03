@@ -49,6 +49,9 @@ use inklabs\kommerce\Action\Product\Query\GetProductRequest;
 use inklabs\kommerce\Action\Product\Query\GetProductResponse;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
 use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
+use inklabs\kommerce\Action\Shipment\GetShipmentTrackerQuery;
+use inklabs\kommerce\Action\Shipment\Query\GetShipmentTrackerRequest;
+use inklabs\kommerce\Action\Shipment\Query\GetShipmentTrackerResponse;
 use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
 use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
@@ -63,6 +66,7 @@ use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\EntityDTO\OrderItemDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
 use inklabs\kommerce\EntityDTO\ProductDTO;
+use inklabs\kommerce\EntityDTO\ShipmentTrackerDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
@@ -118,6 +122,11 @@ class Controller extends BaseController
     protected function dispatchQuery(QueryInterface $query)
     {
         $this->kommerceConfiguration->dispatchQuery($query);
+    }
+
+    protected function getStoreAddress()
+    {
+        return $this->kommerceConfiguration->getStoreAddress();
     }
 
     /**
@@ -438,6 +447,35 @@ class Controller extends BaseController
             $request = new GetOrderRequest($orderId);
             $response = new GetOrderResponse();
             $this->dispatchQuery(new GetOrderQuery($request, $response));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $shipmentTrackerId
+     * @return ShipmentTrackerDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getShipmentTracker($shipmentTrackerId)
+    {
+        return $this->getShipmentTrackerById($shipmentTrackerId)
+            ->getShipmentTrackerDTO();
+    }
+
+    /**
+     * @param string $shipmentTrackerId
+     * @return GetShipmentTrackerResponse
+     * @throws NotFoundHttpException
+     */
+    private function getShipmentTrackerById($shipmentTrackerId)
+    {
+        try {
+            $request = new GetShipmentTrackerRequest($shipmentTrackerId);
+            $response = new GetShipmentTrackerResponse();
+            $this->dispatchQuery(new GetShipmentTrackerQuery($request, $response));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
@@ -799,6 +837,19 @@ class Controller extends BaseController
         }
 
         return (int) $value;
+    }
+    /**
+
+     * @param string $value
+     * @return null|float
+     */
+    protected function getFloatOrNull($value)
+    {
+        if ($value === '') {
+            return null;
+        }
+
+        return (float) $value;
     }
 
     /**

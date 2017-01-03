@@ -99,7 +99,8 @@ class AddShipmentController extends Controller
         $orderItemQty = $httpRequest->input('orderItemQty');
         $comment = $httpRequest->input('comment');
         $shipment = $httpRequest->input('shipment');
-        $weight = $httpRequest->input('shipment.weight');
+        $weightLbs = $httpRequest->input('shipment.weightLbs');
+        $weightOz = (int) round($weightLbs * 16);
         $length = $httpRequest->input('shipment.length');
         $width = $httpRequest->input('shipment.width');
         $height = $httpRequest->input('shipment.height');
@@ -112,7 +113,7 @@ class AddShipmentController extends Controller
         $parcel->length = $length;
         $parcel->width = $width;
         $parcel->height = $height;
-        $parcel->weight = $weight * 16;
+        $parcel->weight = $weightOz;
 
         $request = new GetShipmentRatesRequest($toAddress, $parcel);
         $response = new GetShipmentRatesResponse();
