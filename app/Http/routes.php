@@ -89,6 +89,7 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::get('admin/product/images/{productId}', 'ListProductImagesController@index')->name('admin.product.images');
         Route::get('admin/product/tags/{productId}', 'ListProductTagsController@index')->name('admin.product.tags');
         Route::get('admin/product/options/{productId}', 'ListProductOptionsController@index')->name('admin.product.options');
+        Route::get('admin/product/attributes/{productId}', 'ListProductAttributesForProductOptionsController@index')->name('admin.product.attributes');
         Route::get('admin/product/quantity-discounts/{productId}', 'ListProductQuantityDiscountsController@index')->name('admin.product.quantity-discounts');
 
         Route::post('admin/product/new', 'EditProductController@postNew')->name('admin.product.new.post');
@@ -97,6 +98,8 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::post('admin/product/remove-image', 'RemoveImageFromProductController@post')->name('admin.product.remove-image');
         Route::post('admin/product/add-tag', 'AddTagToProductController@post')->name('admin.product.add-tag');
         Route::post('admin/product/remove-tag', 'RemoveTagFromProductController@post')->name('admin.product.remove-tag');
+        Route::post('admin/product/add-attribute-value', 'AddAttributeValueToProductController@post')->name('admin.product.add-attribute-value');
+        Route::post('admin/product/remove-attribute-value', 'RemoveAttributeValueFromProductController@post')->name('admin.product.remove-attribute-value');
         Route::post('admin/product/set-default-image', 'SetDefaultImageForProductController@post')->name('admin.product.set-default-image');
         Route::post('admin/product/unset-default-image', 'UnsetDefaultImageForProductController@post')->name('admin.product.unset-default-image');
         Route::post('admin/product/delete-quantity-discount', 'DeleteProductQuantityDiscountController@post')->name('admin.product.delete-quantity-discount');
