@@ -232,6 +232,7 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::post('admin/settings/sales-tax/delete', 'DeleteSalesTaxRateController@post')->name('admin.settings.sales-tax.delete');
     });
     Route::group(['namespace' => 'Tools'], function() {
+        Route::get('admin/tools/ad-hoc-shipment', 'ListAdHocShipmentsController@index')->name('admin.tools.ad-hoc-shipment');
         Route::get('admin/tools/ad-hoc-shipment/new', 'CreateAdHocShipmentController@get')->name('admin.tools.ad-hoc-shipment.new');
         Route::get('admin/tools/ad-hoc-shipment/view/{shipmentTrackerId}', 'ViewAdHocShipmentController@get')->name('admin.tools.ad-hoc-shipment.view');
 

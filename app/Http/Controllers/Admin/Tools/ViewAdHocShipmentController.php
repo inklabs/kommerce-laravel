@@ -19,7 +19,7 @@ class ViewAdHocShipmentController extends Controller
         $shipmentTracker = $this->getShipmentTracker($shipmentTrackerId);
 
         return $this->renderTemplate(
-            '@theme/admin/tools/view-ad-hoc-shipment.twig',
+            '@theme/admin/tools/ad-hoc-shipment/view.twig',
             [
                 'shipmentTracker' => $shipmentTracker
             ]
