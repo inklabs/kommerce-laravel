@@ -73,8 +73,14 @@ Route::group(['namespace' => 'User'], function() {
     Route::get('user/change-password', 'ChangePasswordController@index')->name('user.change-password');
     Route::post('user/change-password', 'ChangePasswordController@post')->name('user.change-password.post');
 
+    Route::get('user/login', 'UserLoginController@get')->name('user.login');
+    Route::get('user/forgot-password', 'UserForgotPasswordController@get')->name('user.forgot-password');
+    Route::get('user/forgot-password/complete', 'UserForgotPasswordController@complete')->name('user.forgot-password.complete');
     Route::get('user/account', 'AccountController@index')->name('user.account');
     Route::get('user/account/view-order/{orderId}', 'AccountController@viewOrder')->name('user.account.view-order');
+
+    Route::post('user/login', 'UserLoginController@post')->name('user.login.post');
+    Route::post('user/forgot-password', 'UserForgotPasswordController@post')->name('user.forgot-password.post');
 });
 
 Route::group(['namespace' => 'Admin'], function() {
@@ -161,7 +167,7 @@ Route::group(['namespace' => 'Admin'], function() {
             Route::post('admin/promotion/catalog-promotion/new', 'CreateCatalogPromotionController@post')->name('admin.catalog-promotion.new.post');
             Route::post('admin/promotion/catalog-promotion/edit', 'EditCatalogPromotionController@post')->name('admin.catalog-promotion.edit.post');
             Route::post('admin/promotion/catalog-promotion/delete', 'DeleteCatalogPromotionController@post')->name('admin.catalog-promotion.delete');
-});
+        });
     });
     Route::group(['namespace' => 'Order'], function() {
         Route::get('admin/order', 'ListOrdersController@index')->name('admin.order');
@@ -241,7 +247,6 @@ Route::group(['namespace' => 'Admin'], function() {
     });
 });
 
-Route::get('login', 'LoginController@index')->name('login');
 Route::get('logout', 'LogoutController@index')->name('logout');
 
 Route::get('page/privacy', 'PageController@privacy')->name('page.privacy');

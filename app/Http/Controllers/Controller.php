@@ -7,6 +7,7 @@ use App\Lib\KommerceConfiguration;
 use App\Lib\LaravelRouteUrl;
 use DateTime;
 use DateTimeZone;
+use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -99,6 +100,45 @@ class Controller extends BaseController
         $this->kommerceConfiguration = new KommerceConfiguration();
     }
 
+    /**
+     * @return CaptchaBuilder
+     */
+    public function getCaptchaBuilder()
+    {
+        $builder = new CaptchaBuilder();
+        $builder->setBackgroundColor(255, 255, 255);
+        $builder->setIgnoreAllEffects(true);
+        $builder->build();
+
+        $this->setCaptchaPhraseToSession($builder->getPhrase());
+
+        return $builder;
+    }
+
+    /**
+     * @todo Fix: This is an awful way to set session variables
+     * @param string $phrase
+     */
+    private function setCaptchaPhraseToSession($phrase)
+    {
+        /** @var \Illuminate\Session\Store $session */
+        $session = app('session');
+        $session->set('captchaPhrase', $phrase);
+    }
+
+    /**
+     * @todo Fix: This is an awful way to get session variables
+     * @return string
+     */
+    protected function getCaptchaPhraseFromSession()
+    {
+        /** @var \Illuminate\Session\Store $session */
+        $session = app('session');
+        $phrase = $session->get('captchaPhrase');
+        $session->forget('captchaPhrase');
+        return $phrase;
+    }
+
     protected function getPricing()
     {
         return $this->kommerceConfiguration->getPricing();
@@ -135,6 +175,14 @@ class Controller extends BaseController
     protected function getRemoteIP4()
     {
         return request()->ip();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getUserAgent()
+    {
+        return request()->header('User-Agent');
     }
 
     /**
@@ -289,7 +337,20 @@ class Controller extends BaseController
      * @param array $data
      * @throws InvalidArgumentException
      */
-    protected function flashTemplateSuccess($flashTemplate, array $data)
+    protected function flashTemplateError($flashTemplate, array $data = [])
+    {
+        if (strpos($flashTemplate, '@theme/flash/') === false) {
+            throw new InvalidArgumentException('Can only flash from @theme/flash/');
+        }
+        $this->flashTemplateMessage('error', $flashTemplate, $data);
+    }
+
+    /**
+     * @param string $flashTemplate
+     * @param array $data
+     * @throws InvalidArgumentException
+     */
+    protected function flashTemplateSuccess($flashTemplate, array $data = [])
     {
         if (strpos($flashTemplate, '@theme/flash/') === false) {
             throw new InvalidArgumentException('Can only flash from @theme/flash/');

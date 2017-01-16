@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c65bb9bfec69cbc8d7a8fb311aaa5b9f",
-    "content-hash": "2cb27f454c25502112d16cc9556bf746",
+    "hash": "8fd067c98dbea7a5df1042498539e695",
+    "content-hash": "2b7a24663303bb297f33131f0f79ae34",
     "packages": [
         {
             "name": "behat/gherkin",
@@ -1045,6 +1045,54 @@
             "time": "2016-10-14 15:16:51"
         },
         {
+            "name": "gregwar/captcha",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gregwar/Captcha.git",
+                "reference": "1240ab993ca713680573b2d4166900da5f758623"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gregwar/Captcha/zipball/1240ab993ca713680573b2d4166900da5f758623",
+                "reference": "1240ab993ca713680573b2d4166900da5f758623",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "captcha",
+            "autoload": {
+                "psr-4": {
+                    "Gregwar\\Captcha\\": "/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire Passault",
+                    "email": "g.passault@gmail.com",
+                    "homepage": "http://www.gregwar.com/"
+                },
+                {
+                    "name": "Jeremy Livingston",
+                    "email": "jeremy.j.livingston@gmail.com"
+                }
+            ],
+            "description": "Captcha generator",
+            "homepage": "https://github.com/Gregwar/Captcha",
+            "keywords": [
+                "bot",
+                "captcha",
+                "spam"
+            ],
+            "time": "2015-09-11 15:23:20"
+        },
+        {
             "name": "guzzlehttp/guzzle",
             "version": "6.2.2",
             "source": {
@@ -1322,12 +1370,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-templates.git",
-                "reference": "e01f129954894378778cde11c22c497c19ff5272"
+                "reference": "89e014e68a82c95f2782f9eebc76225b7dffacda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/e01f129954894378778cde11c22c497c19ff5272",
-                "reference": "e01f129954894378778cde11c22c497c19ff5272",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/89e014e68a82c95f2782f9eebc76225b7dffacda",
+                "reference": "89e014e68a82c95f2782f9eebc76225b7dffacda",
                 "shasum": ""
             },
             "require": {
@@ -1359,7 +1407,7 @@
                 "source": "https://github.com/inklabs/kommerce-templates",
                 "issues": "https://github.com/inklabs/kommerce-templates/issues"
             },
-            "time": "2017-01-13 07:32:54"
+            "time": "2017-01-16 06:13:02"
         },
         {
             "name": "jakub-onderka/php-console-color",
