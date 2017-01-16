@@ -14,9 +14,10 @@ class UserForgotPasswordController extends Controller
         return $this->renderTemplate('@theme/user/forgot-password-complete.twig');
     }
 
-    public function get()
+    public function get(Request $request)
     {
-        return $this->renderWithCaptcha();
+        $email = $request->query('email');
+        return $this->renderWithCaptcha($email);
     }
 
     public function post(Request $request)
