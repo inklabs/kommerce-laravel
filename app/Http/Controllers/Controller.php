@@ -139,6 +139,13 @@ class Controller extends BaseController
         return $phrase;
     }
 
+    protected function saveUserToSession(UserDTO $user)
+    {
+        /** @var \Illuminate\Session\Store $session */
+        $session = app('session');
+        $session->set('user', $user);
+    }
+
     protected function getPricing()
     {
         return $this->kommerceConfiguration->getPricing();

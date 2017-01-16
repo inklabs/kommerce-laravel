@@ -3,6 +3,11 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use inklabs\kommerce\Action\User\GetUserByEmailQuery;
+use inklabs\kommerce\Action\User\LoginCommand;
+use inklabs\kommerce\Action\User\Query\GetUserByEmailRequest;
+use inklabs\kommerce\Action\User\Query\GetUserByEmailResponse;
+use inklabs\kommerce\Exception\UserLoginException;
 
 class UserLoginController extends Controller
 {
@@ -13,7 +18,30 @@ class UserLoginController extends Controller
 
     public function post(Request $request)
     {
-        dd($request->input());
-        // TODO: Finish user login
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $redirect = $request->input('redirect', route('user.account'));
+
+        try {
+            $this->dispatch(new LoginCommand(
+                $email,
+                $password,
+                $this->getRemoteIP4()
+            ));
+
+            $request = new GetUserByEmailRequest($email);
+            $response = new GetUserByEmailResponse();
+            $this->dispatchQuery(new GetUserByEmailQuery($request, $response));
+            $user = $response->getUserDTOWithRolesAndTokens();
+            $this->saveUserToSession($user);
+
+            // Todo: Merge anonymous session cart with users cart, this may become a single command
+
+            return redirect($redirect);
+        } catch (UserLoginException $e) {
+            $this->flashError('Invalid username or password.');
+        }
+
+        return $this->get();
     }
 }
