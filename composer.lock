@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8fd067c98dbea7a5df1042498539e695",
+    "hash": "f4d97bdbd1b1d44a623587642affa721",
     "content-hash": "2b7a24663303bb297f33131f0f79ae34",
     "packages": [
         {
@@ -1317,12 +1317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-core.git",
-                "reference": "85405a29af0c4dda6ba36cd50c8df25035d9632e"
+                "reference": "2c888df4c0f3c7c3821c53acb72e737bbba64db8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/85405a29af0c4dda6ba36cd50c8df25035d9632e",
-                "reference": "85405a29af0c4dda6ba36cd50c8df25035d9632e",
+                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/2c888df4c0f3c7c3821c53acb72e737bbba64db8",
+                "reference": "2c888df4c0f3c7c3821c53acb72e737bbba64db8",
                 "shasum": ""
             },
             "require": {
@@ -1362,7 +1362,7 @@
                 "source": "https://github.com/inklabs/kommerce-core",
                 "issues": "https://github.com/inklabs/kommerce-core/issues"
             },
-            "time": "2017-01-13 07:29:41"
+            "time": "2017-01-18 06:57:32"
         },
         {
             "name": "inklabs/kommerce-templates",
