@@ -48,6 +48,8 @@ foreach ($truncateEntities as $class) {
         ->execute();
 }
 
+//$entityManager->createNativeQuery('PRAGMA foreign_keys = ON', new ResultSetMapping())->execute();
+
 foreach ($entities as $entity) {
     /** Doctrine\ORM\EntityManager $entityManager */
     $entityManager->persist($entity);
