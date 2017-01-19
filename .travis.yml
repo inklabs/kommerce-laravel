@@ -9,10 +9,9 @@ before_script:
   - composer self-update
   - composer install
   - composer create-project
+  - php bin/initialize-test-db.php
   - php artisan serve --quiet &> /dev/null &
-  - sleep 3
-  - curl -s http://localhost:8000/dummy-data/create-dummy-product > /dev/null
-  - curl -s http://localhost:8000/dummy-data/create-dummy-coupon > /dev/null
+  - sleep 2
 
 script:
   - vendor/bin/codecept -c vendor/inklabs/kommerce-templates/codeception.yml run acceptance
