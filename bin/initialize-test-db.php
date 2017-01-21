@@ -46,25 +46,40 @@ $entities = [
     TaxRate::createState('CA', 8.5, true),
 ];
 
-$size = new Attribute('Size', 1);
-$large = new AttributeValue($size, 'Large', 1);
-$medium = new AttributeValue($size, 'Medium', 2);
-$small = new AttributeValue($size, 'Small', 3);
+$sizeAttribute = new Attribute('Size', 1);
+$largeAttributeValue = new AttributeValue($sizeAttribute, 'Large', 1);
+$mediumAttributeValue = new AttributeValue($sizeAttribute, 'Medium', 2);
+$smallAttributeValue = new AttributeValue($sizeAttribute, 'Small', 3);
 
-$color = new Attribute('Color', 2);
-$red = new AttributeValue($color, 'Red', 1);
-$blue = new AttributeValue($color, 'Blue', 2);
-$gray = new AttributeValue($color, 'Gray', 2);
-$green = new AttributeValue($color, 'Green', 3);
-$orange = new AttributeValue($color, 'Orange', 4);
+$colorAttribute = new Attribute('Color', 2);
+$redAttributeValue = new AttributeValue($colorAttribute, 'Red', 1);
+$blueAttributeValue = new AttributeValue($colorAttribute, 'Blue', 2);
+$grayAttributeValue = new AttributeValue($colorAttribute, 'Gray', 2);
+$greenAttributeValue = new AttributeValue($colorAttribute, 'Green', 3);
+$orangeAttributeValue = new AttributeValue($colorAttribute, 'Orange', 4);
 
-addShirts('Red Shirt',    'SHT-RED', 'http://i.imgur.com/mFpzjL2.jpg', 550, 600, $red);
-addShirts('Blue Shirt',   'SHT-BLU', 'http://i.imgur.com/3c68pg3.jpg', 550, 600, $blue);
-addShirts('Gray Shirt',   'SHT-GRY', 'http://i.imgur.com/Wzc9lUc.jpg', 550, 600, $gray);
-addShirts('Green Shirt',  'SHT-GRN', 'http://i.imgur.com/6oKbsLw.jpg', 550, 600, $green);
-addShirts('Orange Shirt', 'SHT-ONG', 'http://i.imgur.com/y7fSopr.jpg', 550, 600, $orange);
+$largeTag = new Tag();
+$largeTag->setIsVisible(true);
+$largeTag->setName('Large Shirt');
 
-$entities[] = $color;
+$mediumTag = new Tag();
+$mediumTag->setIsVisible(true);
+$mediumTag->setName('Medium Shirt');
+
+$smallTag = new Tag();
+$smallTag->setIsVisible(true);
+$smallTag->setName('Small Shirt');
+
+addShirts('Red Shirt',    'SHT-RED', 'http://i.imgur.com/mFpzjL2.jpg', 550, 600, $redAttributeValue);
+addShirts('Blue Shirt',   'SHT-BLU', 'http://i.imgur.com/3c68pg3.jpg', 550, 600, $blueAttributeValue);
+addShirts('Gray Shirt',   'SHT-GRY', 'http://i.imgur.com/Wzc9lUc.jpg', 550, 600, $grayAttributeValue);
+addShirts('Green Shirt',  'SHT-GRN', 'http://i.imgur.com/6oKbsLw.jpg', 550, 600, $greenAttributeValue);
+addShirts('Orange Shirt', 'SHT-ONG', 'http://i.imgur.com/y7fSopr.jpg', 550, 600, $orangeAttributeValue);
+
+$entities[] = $colorAttribute;
+$entities[] = $largeTag;
+$entities[] = $mediumTag;
+$entities[] = $smallTag;
 
 foreach ($entities as $entity) {
     /** Doctrine\ORM\EntityManager $entityManager */
@@ -77,7 +92,8 @@ $entityManager->flush();
 function addShirts($name, $sku, $path, $width, $height, AttributeValue $colorAttributeValue)
 {
     global $entities;
-    global $size, $large, $medium, $small, $color;
+    global $sizeAttribute, $largeAttributeValue, $mediumAttributeValue, $smallAttributeValue, $colorAttribute;
+    global $largeTag, $mediumTag, $smallTag;
 
     $image = new Image();
     $image->setPath($path);
@@ -88,20 +104,25 @@ function addShirts($name, $sku, $path, $width, $height, AttributeValue $colorAtt
     $mediumProduct = getProduct('Medium ' . $name, $sku . '-MD', 800, $image);
     $smallProduct = getProduct('Small ' . $name, $sku . '-SM', 600, $image);
 
-    $size->addProductAttribute(new ProductAttribute($largeProduct, $large));
-    $size->addProductAttribute(new ProductAttribute($mediumProduct, $medium));
-    $size->addProductAttribute(new ProductAttribute($smallProduct, $small));
+    $sizeAttribute->addProductAttribute(new ProductAttribute($largeProduct, $largeAttributeValue));
+    $sizeAttribute->addProductAttribute(new ProductAttribute($mediumProduct, $mediumAttributeValue));
+    $sizeAttribute->addProductAttribute(new ProductAttribute($smallProduct, $smallAttributeValue));
 
-    $color->addProductAttribute(new ProductAttribute($largeProduct, $colorAttributeValue));
-    $color->addProductAttribute(new ProductAttribute($mediumProduct, $colorAttributeValue));
-    $color->addProductAttribute(new ProductAttribute($smallProduct, $colorAttributeValue));
+    $colorAttribute->addProductAttribute(new ProductAttribute($largeProduct, $colorAttributeValue));
+    $colorAttribute->addProductAttribute(new ProductAttribute($mediumProduct, $colorAttributeValue));
+    $colorAttribute->addProductAttribute(new ProductAttribute($smallProduct, $colorAttributeValue));
 
     $tag = new Tag();
+    $tag->setIsVisible(true);
     $tag->setName($name);
     $tag->addImage($image);
     $tag->addProduct($largeProduct);
     $tag->addProduct($mediumProduct);
     $tag->addProduct($smallProduct);
+
+    $largeTag->addProduct($largeProduct);
+    $mediumTag->addProduct($mediumProduct);
+    $smallTag->addProduct($smallProduct);
 
     $entities = array_merge($entities, [
         $image,
@@ -109,7 +130,7 @@ function addShirts($name, $sku, $path, $width, $height, AttributeValue $colorAtt
         $mediumProduct,
         $smallProduct,
         $tag,
-        $size
+        $sizeAttribute
     ]);
 }
 
