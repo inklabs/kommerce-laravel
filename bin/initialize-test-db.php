@@ -46,16 +46,25 @@ $entities = [
     TaxRate::createState('CA', 8.5, true),
 ];
 
-$attribute = new Attribute('Size', 1);
-$attributeValueLarge = new AttributeValue($attribute, 'Large', 1);
-$attributeValueMedium = new AttributeValue($attribute, 'Medium', 2);
-$attributeValueSmall = new AttributeValue($attribute, 'Small', 3);
+$size = new Attribute('Size', 1);
+$large = new AttributeValue($size, 'Large', 1);
+$medium = new AttributeValue($size, 'Medium', 2);
+$small = new AttributeValue($size, 'Small', 3);
 
-addShirts('Red Shirt',    'SHT-RED', 'http://i.imgur.com/mFpzjL2.jpg', 550, 600);
-addShirts('Blue Shirt',   'SHT-BLU', 'http://i.imgur.com/3c68pg3.jpg', 550, 600);
-addShirts('Gray Shirt',   'SHT-GRY', 'http://i.imgur.com/Wzc9lUc.jpg', 550, 600);
-addShirts('Green Shirt',  'SHT-GRN', 'http://i.imgur.com/6oKbsLw.jpg', 550, 600);
-addShirts('Orange Shirt', 'SHT-ONG', 'http://i.imgur.com/y7fSopr.jpg', 550, 600);
+$color = new Attribute('Color', 2);
+$red = new AttributeValue($color, 'Red', 1);
+$blue = new AttributeValue($color, 'Blue', 2);
+$gray = new AttributeValue($color, 'Gray', 2);
+$green = new AttributeValue($color, 'Green', 3);
+$orange = new AttributeValue($color, 'Orange', 4);
+
+addShirts('Red Shirt',    'SHT-RED', 'http://i.imgur.com/mFpzjL2.jpg', 550, 600, $red);
+addShirts('Blue Shirt',   'SHT-BLU', 'http://i.imgur.com/3c68pg3.jpg', 550, 600, $blue);
+addShirts('Gray Shirt',   'SHT-GRY', 'http://i.imgur.com/Wzc9lUc.jpg', 550, 600, $gray);
+addShirts('Green Shirt',  'SHT-GRN', 'http://i.imgur.com/6oKbsLw.jpg', 550, 600, $green);
+addShirts('Orange Shirt', 'SHT-ONG', 'http://i.imgur.com/y7fSopr.jpg', 550, 600, $orange);
+
+$entities[] = $color;
 
 foreach ($entities as $entity) {
     /** Doctrine\ORM\EntityManager $entityManager */
@@ -65,37 +74,42 @@ foreach ($entities as $entity) {
 $entityManager->flush();
 
 
-function addShirts($name, $sku, $path, $width, $height)
+function addShirts($name, $sku, $path, $width, $height, AttributeValue $colorAttributeValue)
 {
-    global $entities, $attribute, $attributeValueLarge, $attributeValueMedium, $attributeValueSmall;
+    global $entities;
+    global $size, $large, $medium, $small, $color;
 
     $image = new Image();
     $image->setPath($path);
     $image->setWidth($width);
     $image->setHeight($height);
 
-    $large = getProduct('Large ' . $name, $sku . '-LG', 1000, $image);
-    $medium = getProduct('Medium ' . $name, $sku . '-MD', 800, $image);
-    $small = getProduct('Small ' . $name, $sku . '-SM', 600, $image);
+    $largeProduct = getProduct('Large ' . $name, $sku . '-LG', 1000, $image);
+    $mediumProduct = getProduct('Medium ' . $name, $sku . '-MD', 800, $image);
+    $smallProduct = getProduct('Small ' . $name, $sku . '-SM', 600, $image);
 
-    $attribute->addProductAttribute(new ProductAttribute($large, $attributeValueLarge));
-    $attribute->addProductAttribute(new ProductAttribute($medium, $attributeValueMedium));
-    $attribute->addProductAttribute(new ProductAttribute($small, $attributeValueSmall));
+    $size->addProductAttribute(new ProductAttribute($largeProduct, $large));
+    $size->addProductAttribute(new ProductAttribute($mediumProduct, $medium));
+    $size->addProductAttribute(new ProductAttribute($smallProduct, $small));
+
+    $color->addProductAttribute(new ProductAttribute($largeProduct, $colorAttributeValue));
+    $color->addProductAttribute(new ProductAttribute($mediumProduct, $colorAttributeValue));
+    $color->addProductAttribute(new ProductAttribute($smallProduct, $colorAttributeValue));
 
     $tag = new Tag();
     $tag->setName($name);
     $tag->addImage($image);
-    $tag->addProduct($large);
-    $tag->addProduct($medium);
-    $tag->addProduct($small);
+    $tag->addProduct($largeProduct);
+    $tag->addProduct($mediumProduct);
+    $tag->addProduct($smallProduct);
 
     $entities = array_merge($entities, [
         $image,
-        $large,
-        $medium,
-        $small,
+        $largeProduct,
+        $mediumProduct,
+        $smallProduct,
         $tag,
-        $attribute
+        $size
     ]);
 }
 
