@@ -5,13 +5,19 @@ use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Attribute\CreateAttributeCommand;
+use inklabs\kommerce\Entity\AttributeChoiceType;
 use inklabs\kommerce\Exception\EntityValidatorException;
 
 class CreateAttributeController extends Controller
 {
     public function get()
     {
-        return $this->renderTemplate('@theme/admin/attribute/new.twig');
+        return $this->renderTemplate(
+            '@theme/admin/attribute/new.twig',
+            [
+                'validAttributeChoiceTypeMap' => AttributeChoiceType::getNameMap(),
+            ]
+        );
     }
 
     public function post(Request $request)
@@ -19,12 +25,14 @@ class CreateAttributeController extends Controller
         $attributeValues = $request->input('attribute');
 
         $name = trim(Arr::get($attributeValues, 'name'));
+        $choiceTypeSlug = AttributeChoiceType::createById(Arr::get($attributeValues, 'choiceType'))->getSlug();
         $sortOrder = (int) Arr::get($attributeValues, 'sortOrder');
         $description = trim(Arr::get($attributeValues, 'description'));
 
         try {
             $command = new CreateAttributeCommand(
                 $name,
+                $choiceTypeSlug,
                 $sortOrder,
                 $description
             );

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Attribute\UpdateAttributeCommand;
+use inklabs\kommerce\Entity\AttributeChoiceType;
 use inklabs\kommerce\Exception\EntityValidatorException;
 
 class EditAttributeController extends Controller
@@ -17,6 +18,7 @@ class EditAttributeController extends Controller
             '@theme/admin/attribute/edit.twig',
             [
                 'attribute' => $attribute,
+                'validAttributeChoiceTypeMap' => AttributeChoiceType::getNameMap(),
             ]
         );
     }
@@ -27,12 +29,14 @@ class EditAttributeController extends Controller
         $attributeValues = $request->input('attribute');
 
         $name = trim(Arr::get($attributeValues, 'name'));
+        $choiceTypeSlug = AttributeChoiceType::createById(Arr::get($attributeValues, 'choiceType'))->getSlug();
         $sortOrder = (int) Arr::get($attributeValues, 'sortOrder');
         $description = trim(Arr::get($attributeValues, 'description'));
 
         try {
             $this->dispatch(new UpdateAttributeCommand(
                 $name,
+                $choiceTypeSlug,
                 $sortOrder,
                 $description,
                 $attributeId

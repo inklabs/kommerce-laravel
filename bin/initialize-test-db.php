@@ -1,5 +1,6 @@
 <?php
 use inklabs\kommerce\Entity\Attribute;
+use inklabs\kommerce\Entity\AttributeChoiceType;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Product;
@@ -46,12 +47,12 @@ $entities = [
     TaxRate::createState('CA', 8.5, true),
 ];
 
-$sizeAttribute = new Attribute('Size', 1);
+$sizeAttribute = new Attribute('Size', AttributeChoiceType::select(), 1);
 $largeAttributeValue = new AttributeValue($sizeAttribute, 'Large', 1);
 $mediumAttributeValue = new AttributeValue($sizeAttribute, 'Medium', 2);
 $smallAttributeValue = new AttributeValue($sizeAttribute, 'Small', 3);
 
-$colorAttribute = new Attribute('Color', 2);
+$colorAttribute = new Attribute('Color', AttributeChoiceType::imageLink(), 2);
 $redAttributeValue = new AttributeValue($colorAttribute, 'Red', 1);
 $blueAttributeValue = new AttributeValue($colorAttribute, 'Blue', 2);
 $grayAttributeValue = new AttributeValue($colorAttribute, 'Gray', 2);
