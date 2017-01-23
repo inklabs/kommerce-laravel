@@ -1,57 +1,14 @@
 {
-  "name": "Larakommerce",
+  "name": "kommerce-laravel",
   "version": "0.0.6",
-  "description": "Larakommerce",
+  "description": "kommerce-laravel",
   "keywords": [
-    "Larave",
-    "Kommerce"
+    "Kommerce",
+    "Laravel"
   ],
   "repository": {
     "type": "git",
     "url": "git://github.com/inlkabs/kommerce-laravel.git"
   },
-  "license": "MIT",
-  "author": "Jason Raimondi",
-  "scripts": {
-    "prod": "node build/build.js",
-    "dev": "node build/dev.js",
-    "watch": "webpack --watch --config ./build/webpack.dev.conf.js"
-  },
-  "dependencies": {
-    "foundation-sites": "^6.2.0",
-    "jquery": "^2.1.4",
-    "vue": "^1.0.26",
-    "vue-resource": "^0.7.0",
-    "vue-router": "^0.7.13",
-    "vue-typeahead": "^2.2.1"
-  },
-  "devDependencies": {
-    "argv": "0.0.2",
-    "babel-core": "^6.9.1",
-    "babel-loader": "^6.2.4",
-    "babel-plugin-transform-runtime": "^6.9.0",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-runtime": "^6.9.2",
-    "clean-webpack-plugin": "^0.1.9",
-    "css-loader": "^0.23.1",
-    "extract-text-webpack-plugin": "^1.0.1",
-    "file-loader": "^0.8.5",
-    "node-sass": "^3.7.0",
-    "ora": "^0.2.3",
-    "path": "^0.12.7",
-    "postcss": "^5.0.21",
-    "postcss-loader": "^0.9.1",
-    "sass-loader": "^3.2.0",
-    "shelljs": "^0.7.0",
-    "style-loader": "^0.13.1",
-    "svg-inline-loader": "^0.4.1",
-    "url-loader": "^0.5.7",
-    "vue-hot-reload-api": "^1.3.2",
-    "vue-html-loader": "^1.2.2",
-    "vue-loader": "^8.5.2",
-    "vue-style-loader": "^1.0.0",
-    "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1",
-    "webpack-merge": "^0.13.0"
-  }
+  "license": "MIT"
 }

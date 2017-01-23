@@ -26,40 +26,6 @@ php artisan serve
 open http://localhost:8000
 ```
 
-## Building Assets
-
-```
-npm install
-npm run dev
-npm run watch
-```
-
-### Build for production
-
-```
-npm run prod // uglify, autoprefix, no maps
-```
-
-## Serving Assets   
-
-#### Locally
-
-
-
-#### Nginx
-
-Place your assets in a directory inside your base-theme folder at the same root level of `templates` with the name of `assets`, this will be where your theme's built asset files are located. This directory will probably be .gitignored.
-
-```
-    location ~ ^/(assets)/  {
-        root /path/to/base/theme;
-        gzip_static on;
-        expires max;
-        add_header Cache-Control public;
-       #access_log /dev/null;
-    }
-```
-
 ## EasyPost
 
 You will need a test API key to get shipping rates. https://www.easypost.com/getting-started
