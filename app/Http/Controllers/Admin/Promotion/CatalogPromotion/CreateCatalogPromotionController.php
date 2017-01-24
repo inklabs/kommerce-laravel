@@ -5,9 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\CatalogPromotion\CreateCatalogPromotionCommand;
-use inklabs\kommerce\Action\CatalogPromotion\UpdateCatalogPromotionCommand;
 use inklabs\kommerce\Entity\PromotionType;
-use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
 use inklabs\kommerce\Exception\EntityValidatorException;
 
 class CreateCatalogPromotionController extends Controller

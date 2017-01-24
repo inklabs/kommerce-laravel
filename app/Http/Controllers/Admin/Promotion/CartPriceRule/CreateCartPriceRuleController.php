@@ -33,7 +33,7 @@ class CreateCartPriceRuleController extends Controller
             );
             $this->dispatch($command);
 
-            $this->flashSuccess('CartPriceRule has been created.');
+            $this->flashSuccess('Cart Price Rule has been created.');
             return redirect()->route(
                 'admin.cart-price-rule.edit',
                 [
