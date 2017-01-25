@@ -7,9 +7,10 @@ class EditPaymentsConfigurationController extends Controller
 {
     public function get()
     {
-        $configuration = [
-            'stripeApiKey' => [
-                'isActive' => true,
+        $configurations = [
+            [
+                'key' => 'stripeApiKey',
+                'name' => 'Stripe API Key',
                 'value' => 'xxx',
                 'created' => new \DateTime(),
                 'updated' => new \DateTime(),
@@ -19,7 +20,7 @@ class EditPaymentsConfigurationController extends Controller
         return $this->renderTemplate(
             '@theme/admin/settings/store/payments.twig',
             [
-                'configuration' => $configuration,
+                'configurations' => $configurations,
             ]
         );
     }

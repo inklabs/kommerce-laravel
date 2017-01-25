@@ -7,9 +7,10 @@ class EditShippingConfigurationController extends Controller
 {
     public function get()
     {
-        $configuration = [
-            'easypostApiKey' => [
-                'isActive' => true,
+        $configurations = [
+            [
+                'key' => 'easyPostApiKey',
+                'name' => 'EasyPost API Key',
                 'value' => 'xxx',
                 'created' => new \DateTime(),
                 'updated' => new \DateTime(),
@@ -19,7 +20,7 @@ class EditShippingConfigurationController extends Controller
         return $this->renderTemplate(
             '@theme/admin/settings/store/shipping.twig',
             [
-                'configuration' => $configuration,
+                'configurations' => $configurations,
             ]
         );
     }

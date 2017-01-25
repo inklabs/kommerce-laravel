@@ -24,8 +24,7 @@ class UpdateStateSalesTaxRulesController extends Controller
                 $applyToShipping
             ));
 
-        $this->flashSuccess('Tax rate has been updated.');
-
+            $this->flashSuccess('Tax rate has been updated.');
         } catch (EntityValidatorException $e) {
             $this->flashError('Unable to update tax rate!');
             $this->flashFormErrors($e->getErrors());
