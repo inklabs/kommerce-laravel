@@ -1370,12 +1370,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-templates.git",
-                "reference": "adf97ede0fdaa67d85514cf659f6e9c174b84b65"
+                "reference": "3a4c565d3e339371727185d8315caaba473f8233"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/adf97ede0fdaa67d85514cf659f6e9c174b84b65",
-                "reference": "adf97ede0fdaa67d85514cf659f6e9c174b84b65",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/3a4c565d3e339371727185d8315caaba473f8233",
+                "reference": "3a4c565d3e339371727185d8315caaba473f8233",
                 "shasum": ""
             },
             "require": {
@@ -1385,7 +1385,8 @@
                 "php": ">=5.5.9",
                 "twbs/bootstrap-sass": "~3.3.7",
                 "twig/extensions": "1.4.1",
-                "twig/twig": "1.29"
+                "twig/twig": "1.29",
+                "zurb/foundation": "^6.3"
             },
             "type": "project",
             "autoload": {
@@ -1407,7 +1408,7 @@
                 "source": "https://github.com/inklabs/kommerce-templates",
                 "issues": "https://github.com/inklabs/kommerce-templates/issues"
             },
-            "time": "2017-01-24 07:36:42"
+            "time": "2017-01-25 04:41:11"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -4989,6 +4990,45 @@
                 "validate"
             ],
             "time": "2016-11-23 20:04:58"
+        },
+        {
+            "name": "zurb/foundation",
+            "version": "v6.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zurb/foundation-sites.git",
+                "reference": "60566d1539325783ac3002ab5282a2b446a2c1a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zurb/foundation-sites/zipball/60566d1539325783ac3002ab5282a2b446a2c1a1",
+                "reference": "60566d1539325783ac3002ab5282a2b446a2c1a1",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ZURB, Inc.",
+                    "email": "foundation@zurb.com",
+                    "homepage": "http://zurb.com"
+                }
+            ],
+            "description": "The most advanced responsive front-end framework in the world.",
+            "homepage": "http://foundation.zurb.com",
+            "keywords": [
+                "JS",
+                "css",
+                "framework",
+                "mobile-first",
+                "responsive",
+                "sass",
+                "scss"
+            ],
+            "time": "2016-12-15 16:54:01"
         }
     ],
     "packages-dev": [

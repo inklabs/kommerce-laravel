@@ -236,6 +236,14 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::post('admin/settings/sales-tax/state/new', 'CreateStateSalesTaxRulesController@post')->name('admin.settings.sales-tax.state.new');
         Route::post('admin/settings/sales-tax/state/edit', 'UpdateStateSalesTaxRulesController@post')->name('admin.settings.sales-tax.state.edit');
         Route::post('admin/settings/sales-tax/delete', 'DeleteSalesTaxRateController@post')->name('admin.settings.sales-tax.delete');
+
+        Route::get('admin/settings/store', 'ListStoreConfigurationController@index')->name('admin.settings.store');
+        Route::get('admin/settings/store/shipping', 'EditShippingConfigurationController@get')->name('admin.settings.store.shipping');
+        Route::get('admin/settings/store/payments', 'EditPaymentsConfigurationController@get')->name('admin.settings.store.payments');
+
+        Route::post('admin/settings/store/shipping', 'EditShippingConfigurationController@post')->name('admin.settings.store.shipping.post');
+        Route::post('admin/settings/store', 'EditConfigurationController@post')->name('admin.settings.store.post');
+
     });
     Route::group(['namespace' => 'Tools'], function() {
         Route::get('admin/tools/ad-hoc-shipment', 'ListAdHocShipmentsController@index')->name('admin.tools.ad-hoc-shipment');
