@@ -3,23 +3,25 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use inklabs\kommerce\tests\Helper\Entity\DummyData;
+use inklabs\kommerce\Action\Order\GetOrdersByUserQuery;
+use inklabs\kommerce\Action\Order\Query\GetOrdersByUserRequest;
+use inklabs\kommerce\Action\Order\Query\GetOrdersByUserResponse;
 
 class AccountController extends Controller
 {
     public function index()
     {
-        $dummyData = new DummyData();
-        $user = $this->getDTOBuilderFactory()->getUserDTOBuilder($dummyData->getUser())->build();
-        $order = $dummyData->getOrderFull();
-        $order->setReferenceNumber('xxx-xxx-xxxx');
-        $orders[] = $this->getDTOBuilderFactory()->getOrderDTOBuilder($order)->build();
+        $user = $this->getUserFromSession();
+
+        $request = new GetOrdersByUserRequest($user->id->getHex());
+        $response = new GetOrdersByUserResponse();
+        $this->dispatchQuery(new GetOrdersByUserQuery($request, $response));
 
         return $this->renderTemplate(
             '@theme/user/account.twig',
             [
                 'user' => $user,
-                'orders' => $orders,
+                'orders' => $response->getOrderDTOsWithAllData(),
             ]
         );
     }

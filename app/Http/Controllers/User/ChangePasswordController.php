@@ -30,13 +30,14 @@ class ChangePasswordController extends Controller
             return redirect()->route('user.change-password');
         }
 
-        $userId = 'xxx';
+        $user = $this->getUserFromSession();
 
         try {
             $this->dispatch(new ChangePasswordCommand(
-                $userId,
+                $user->id,
                 $passwordNew
             ));
+            $this->flashSuccess('Password changed');
         } catch (UserPasswordValidationException $e) {
             $this->flashError($e->getMessage());
             return redirect()->route('user.change-password');
@@ -45,7 +46,6 @@ class ChangePasswordController extends Controller
             return redirect()->route('user.account');
         }
 
-        // TODO: Get correct logged-in user and redirect after successful password change
-        dd([$passwordNew, $passwordCheck]);
+        return redirect()->route("user.account");
     }
 }

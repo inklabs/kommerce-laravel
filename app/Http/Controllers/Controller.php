@@ -149,6 +149,21 @@ class Controller extends BaseController
         $session->set('user', $user);
     }
 
+    /**
+     * @return UserDTO
+     */
+    protected function getUserFromSession()
+    {
+        /** @var \Illuminate\Session\Store $session */
+        $session = app('session');
+
+        if (! $session->has('user')) {
+            abort(401);
+        }
+
+        return $session->get('user');
+    }
+
     protected function getPricing()
     {
         return $this->kommerceConfiguration->getPricing();
