@@ -7,22 +7,10 @@ class ListStoreConfigurationController extends Controller
 {
     public function index()
     {
-        $configurations = [
-            [
-                'key' => 'storeTheme',
-                'name' => 'Store Theme',
-                'value' => 'foundation',
-                'created' => new \DateTime(),
-                'updated' => new \DateTime(),
-            ],
-            [
-                'key' => 'adminTheme',
-                'name' => 'Admin Theme',
-                'value' => 'cardinal',
-                'created' => new \DateTime(),
-                'updated' => new \DateTime(),
-            ],
-        ];
+        $configurations = $this->getConfigurationsByKeys([
+            'adminTheme',
+            'storeTheme',
+        ]);
 
         return $this->renderTemplate(
             '@theme/admin/settings/store/index.twig',

@@ -32,6 +32,9 @@ use inklabs\kommerce\Action\CartPriceRule\Query\GetCartPriceRuleResponse;
 use inklabs\kommerce\Action\CatalogPromotion\GetCatalogPromotionQuery;
 use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionRequest;
 use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionResponse;
+use inklabs\kommerce\Action\Configuration\GetConfigurationsByKeysQuery;
+use inklabs\kommerce\Action\Configuration\Query\GetConfigurationsByKeysRequest;
+use inklabs\kommerce\Action\Configuration\Query\GetConfigurationsByKeysResponse;
 use inklabs\kommerce\Action\Coupon\GetCouponQuery;
 use inklabs\kommerce\Action\Coupon\Query\GetCouponRequest;
 use inklabs\kommerce\Action\Coupon\Query\GetCouponResponse;
@@ -454,6 +457,14 @@ class Controller extends BaseController
         return $response->getProductDTOs();
     }
 
+    protected function getConfigurationsByKeys(array $keys)
+    {
+        $request = new GetConfigurationsByKeysRequest($keys);
+        $response = new GetConfigurationsByKeysResponse();
+        $this->dispatchQuery(new GetconfigurationsByKeysQuery($request, $response));
+
+        return $response->getConfigurationDTOs();
+    }
     /**
      * @return TwigThemeConfig
      */

@@ -7,15 +7,9 @@ class EditPaymentsConfigurationController extends Controller
 {
     public function get()
     {
-        $configurations = [
-            [
-                'key' => 'stripeApiKey',
-                'name' => 'Stripe API Key',
-                'value' => 'xxx',
-                'created' => new \DateTime(),
-                'updated' => new \DateTime(),
-            ],
-        ];
+        $configurations = $this->getConfigurationsByKeys([
+            'stripeApiKey',
+        ]);
 
         return $this->renderTemplate(
             '@theme/admin/settings/store/payments.twig',

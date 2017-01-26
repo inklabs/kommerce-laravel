@@ -2,6 +2,7 @@
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeChoiceType;
 use inklabs\kommerce\Entity\AttributeValue;
+use inklabs\kommerce\Entity\Configuration;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
@@ -18,7 +19,6 @@ $classes = $entityManager->getMetaDataFactory()->getAllMetaData();
 $tool = new Doctrine\ORM\Tools\SchemaTool($entityManager);
 $tool->dropSchema($classes);
 $tool->createSchema($classes);
-
 
 $adminRole = new UserRole(UserRoleType::admin());
 
@@ -45,6 +45,10 @@ $entities = [
     TaxRate::createZip5Range('73621', '73721', 7.9, true),
     TaxRate::createState('DC', 9.78, true),
     TaxRate::createState('CA', 8.5, true),
+    new Configuration('storeTheme', 'Store Theme', 'foundation'),
+    new Configuration('adminTheme', 'Admin Theme', 'cardinal'),
+    new Configuration('easyPostApiKey', 'EasyPost API Key', 'xxx234'),
+    new Configuration('stripeApiKey', 'Stripe API Key', 'xxyyzz'),
 ];
 
 $sizeAttribute = new Attribute('Size', AttributeChoiceType::select(), 1);
