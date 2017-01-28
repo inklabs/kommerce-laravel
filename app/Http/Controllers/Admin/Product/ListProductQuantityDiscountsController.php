@@ -10,7 +10,7 @@ class ListProductQuantityDiscountsController extends Controller
         $product = $this->getProductWithAllData($productId);
 
         return $this->renderTemplate(
-            '@theme/admin/product/quantity-discounts.twig',
+            '@admin/product/quantity-discounts.twig',
             [
                 'product' => $product,
             ]

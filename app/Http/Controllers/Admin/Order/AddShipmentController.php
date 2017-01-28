@@ -21,7 +21,7 @@ class AddShipmentController extends Controller
         $order = $this->getOrderWithAllData($orderId);
 
         return $this->renderTemplate(
-            '@theme/admin/order/add-shipment.twig',
+            '@admin/order/add-shipment.twig',
             [
                 'order' => $order,
             ]
@@ -123,7 +123,7 @@ class AddShipmentController extends Controller
         $shipment['shipmentRateExternalId'] = $shipmentRates[0]->externalId;
 
         return $this->renderTemplate(
-            '@theme/admin/order/add-shipment-label.twig',
+            '@admin/order/add-shipment-label.twig',
             [
                 'order' => $order,
                 'orderItemQty' => $orderItemQty,
@@ -143,7 +143,7 @@ class AddShipmentController extends Controller
         $order = $this->getOrderWithAllData($orderId);
 
         return $this->renderTemplate(
-            '@theme/admin/order/add-shipment-tracking.twig',
+            '@admin/order/add-shipment-tracking.twig',
             [
                 'order' => $order,
                 'orderItemQty' => $orderItemQty,
@@ -173,7 +173,7 @@ class AddShipmentController extends Controller
         ];
 
         return $this->renderTemplate(
-            '@theme/admin/order/add-shipment-label.twig',
+            '@admin/order/add-shipment-label.twig',
             [
                 'order' => $order,
                 'orderItemQty' => $orderItemQty,

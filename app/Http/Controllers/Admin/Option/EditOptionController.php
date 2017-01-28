@@ -13,7 +13,7 @@ class EditOptionController extends Controller
 {
     public function getNew()
     {
-        return $this->renderTemplate('@theme/admin/option/new.twig');
+        return $this->renderTemplate('@admin/option/new.twig');
     }
 
     public function postNew(Request $request)
@@ -38,7 +38,7 @@ class EditOptionController extends Controller
         }
 
         return $this->renderTemplate(
-            '@theme/admin/option/new.twig',
+            '@admin/option/new.twig',
             [
                 'option' => $option,
             ]
@@ -50,7 +50,7 @@ class EditOptionController extends Controller
         $option = $this->getOptionWithAllData($optionId);
 
         return $this->renderTemplate(
-            '@theme/admin/option/edit.twig',
+            '@admin/option/edit.twig',
             [
                 'option' => $option,
             ]
@@ -80,7 +80,7 @@ class EditOptionController extends Controller
         }
 
         return $this->renderTemplate(
-            '@theme/admin/option/edit.twig',
+            '@admin/option/edit.twig',
             [
                 'option' => $option,
             ]

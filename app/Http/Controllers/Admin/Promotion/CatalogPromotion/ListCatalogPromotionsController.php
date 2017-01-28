@@ -25,7 +25,7 @@ class ListCatalogPromotionsController extends Controller
         $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            '@theme/admin/promotion/catalog-promotion/index.twig',
+            '@admin/promotion/catalog-promotion/index.twig',
             [
                 'catalogPromotions' => $catalogPromotions,
                 'pagination' => $pagination,

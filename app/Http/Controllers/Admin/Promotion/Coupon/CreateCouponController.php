@@ -13,7 +13,7 @@ class CreateCouponController extends Controller
     public function get()
     {
         return $this->renderTemplate(
-            '@theme/admin/coupon/new.twig',
+            '@admin/coupon/new.twig',
             [
                 'promotionTypes' => PromotionType::getSlugNameMap(),
             ]

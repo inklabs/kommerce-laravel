@@ -14,7 +14,7 @@ class ViewOrderShipmentsController extends Controller
         $order = $this->getOrderWithAllData($orderId);
 
         return $this->renderTemplate(
-            '@theme/admin/order/shipments.twig',
+            '@admin/order/shipments.twig',
             [
                 'order' => $order,
             ]

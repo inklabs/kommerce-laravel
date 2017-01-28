@@ -25,7 +25,7 @@ class ListAdHocShipmentsController extends Controller
         $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            '@theme/admin/tools/ad-hoc-shipment/index.twig',
+            '@admin/tools/ad-hoc-shipment/index.twig',
             [
                 'shipmentTrackers' => $shipmentTrackers,
                 'pagination' => $pagination,

@@ -13,7 +13,7 @@ class EditTagController extends Controller
 {
     public function getNew()
     {
-        return $this->renderTemplate('@theme/admin/tag/new.twig');
+        return $this->renderTemplate('@admin/tag/new.twig');
     }
 
     public function postNew(Request $request)
@@ -38,7 +38,7 @@ class EditTagController extends Controller
         }
 
         return $this->renderTemplate(
-            '@theme/admin/tag/new.twig',
+            '@admin/tag/new.twig',
             [
                 'tag' => $tag,
             ]
@@ -50,7 +50,7 @@ class EditTagController extends Controller
         $tag = $this->getTagWithAllData($tagId);
 
         return $this->renderTemplate(
-            '@theme/admin/tag/edit.twig',
+            '@admin/tag/edit.twig',
             [
                 'tag' => $tag,
             ]
@@ -80,7 +80,7 @@ class EditTagController extends Controller
         }
 
         return $this->renderTemplate(
-            '@theme/admin/tag/edit.twig',
+            '@admin/tag/edit.twig',
             [
                 'tag' => $tag,
             ]

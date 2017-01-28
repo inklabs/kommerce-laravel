@@ -19,7 +19,7 @@ class CreateAdHocShipmentController extends Controller
         $fromAddress = $this->getStoreAddress();
 
         return $this->renderTemplate(
-            '@theme/admin/tools/ad-hoc-shipment/new.twig',
+            '@admin/tools/ad-hoc-shipment/new.twig',
             [
                 'fromAddress' => $fromAddress,
             ]
@@ -54,7 +54,7 @@ class CreateAdHocShipmentController extends Controller
         $shipmentRates = $response->getShipmentRateDTOs();
 
         return $this->renderTemplate(
-            '@theme/admin/tools/ad-hoc-shipment/new.twig',
+            '@admin/tools/ad-hoc-shipment/new.twig',
             [
                 'shipment' => $shipment,
                 'fromAddress' => $fromAddress,

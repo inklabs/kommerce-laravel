@@ -25,7 +25,7 @@ class ListOptionsController extends Controller
         $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            '@theme/admin/option/index.twig',
+            '@admin/option/index.twig',
             [
                 'options' => $options,
                 'pagination' => $pagination,

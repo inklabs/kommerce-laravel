@@ -11,7 +11,7 @@ class CreateCartPriceRuleController extends Controller
 {
     public function get()
     {
-        return $this->renderTemplate('@theme/admin/promotion/cart-price-rule/new.twig');
+        return $this->renderTemplate('@admin/promotion/cart-price-rule/new.twig');
     }
 
     public function post(Request $request)

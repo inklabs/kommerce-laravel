@@ -10,7 +10,7 @@ class ListOptionValuesController extends Controller
         $option = $this->getOptionWithAllData($optionId);
 
         return $this->renderTemplate(
-            '@theme/admin/option/values.twig',
+            '@admin/option/values.twig',
             [
                 'option' => $option,
             ]

@@ -13,7 +13,7 @@ class ListZipcodeRangeSalesTaxRulesController extends Controller
         $zip5RangeTaxRates = $this->getZipcodeRangeSalesTaxRules();
 
         return $this->renderTemplate(
-            '@theme/admin/settings/sales-tax/zipcode-range.twig',
+            '@admin/settings/sales-tax/zipcode-range.twig',
             [
                 'zip5RangeTaxRates' => $zip5RangeTaxRates,
             ]

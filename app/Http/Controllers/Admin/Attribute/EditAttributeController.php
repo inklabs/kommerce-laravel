@@ -15,7 +15,7 @@ class EditAttributeController extends Controller
         $attribute = $this->getAttributeWithAllData($attributeId);
 
         return $this->renderTemplate(
-            '@theme/admin/attribute/edit.twig',
+            '@admin/attribute/edit.twig',
             [
                 'attribute' => $attribute,
                 'validAttributeChoiceTypeMap' => AttributeChoiceType::getNameMap(),

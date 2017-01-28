@@ -10,7 +10,7 @@ class ListProductAttributesForProductOptionsController extends Controller
         $product = $this->getProductWithAllData($productId);
 
         return $this->renderTemplate(
-            '@theme/admin/product/attributes.twig',
+            '@admin/product/attributes.twig',
             [
                 'product' => $product,
             ]

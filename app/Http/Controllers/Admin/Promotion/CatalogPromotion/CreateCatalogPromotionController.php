@@ -13,7 +13,7 @@ class CreateCatalogPromotionController extends Controller
     public function get()
     {
         return $this->renderTemplate(
-            '@theme/admin/promotion/catalog-promotion/new.twig',
+            '@admin/promotion/catalog-promotion/new.twig',
             [
                 'promotionTypes' => PromotionType::getSlugNameMap(),
             ]

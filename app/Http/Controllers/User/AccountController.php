@@ -18,7 +18,7 @@ class AccountController extends Controller
         $this->dispatchQuery(new GetOrdersByUserQuery($request, $response));
 
         return $this->renderTemplate(
-            '@theme/user/account.twig',
+            '@store/user/account.twig',
             [
                 'user' => $user,
                 'orders' => $response->getOrderDTOsWithAllData(),
@@ -36,7 +36,7 @@ class AccountController extends Controller
 //        }
 
         return $this->renderTemplate(
-            '@theme/user/view-order.twig',
+            '@store/user/view-order.twig',
             [
                 'order' => $order,
             ]

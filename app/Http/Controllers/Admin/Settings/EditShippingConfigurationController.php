@@ -12,7 +12,7 @@ class EditShippingConfigurationController extends Controller
         ]);
 
         return $this->renderTemplate(
-            '@theme/admin/settings/store/shipping.twig',
+            '@admin/settings/store/shipping.twig',
             [
                 'configurations' => $configurations,
             ]

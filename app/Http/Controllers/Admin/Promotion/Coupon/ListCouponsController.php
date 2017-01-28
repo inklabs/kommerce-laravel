@@ -25,7 +25,7 @@ class ListCouponsController extends Controller
         $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            '@theme/admin/coupon/index.twig',
+            '@admin/coupon/index.twig',
             [
                 'coupons' => $coupons,
                 'pagination' => $pagination,

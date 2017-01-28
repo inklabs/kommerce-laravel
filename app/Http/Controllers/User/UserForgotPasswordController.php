@@ -11,7 +11,7 @@ class UserForgotPasswordController extends Controller
 {
     public function complete()
     {
-        return $this->renderTemplate('@theme/user/forgot-password-complete.twig');
+        return $this->renderTemplate('@store/user/forgot-password-complete.twig');
     }
 
     public function get(Request $request)
@@ -43,7 +43,7 @@ class UserForgotPasswordController extends Controller
 
             return redirect()->route('user.forgot-password.complete');
         } else {
-            $this->flashTemplateError('@theme/flash/invalid-captcha.twig');
+            $this->flashTemplateError('@store/flash/invalid-captcha.twig');
         }
 
         return $this->renderWithCaptcha($email);
@@ -52,7 +52,7 @@ class UserForgotPasswordController extends Controller
     private function renderWithCaptcha($email = '')
     {
         return $this->renderTemplate(
-            '@theme/user/forgot-password.twig',
+            '@store/user/forgot-password.twig',
             [
                 'email' => $email,
                 'captchaInlineSrc' => $this->getCaptchaBuilder()->inline(),
