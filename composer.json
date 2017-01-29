@@ -18,7 +18,7 @@
         }
      ],
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=7.1",
         "inklabs/kommerce-core": "dev-master",
         "inklabs/kommerce-templates": "dev-master",
         "gregwar/captcha": "1.1.1",
