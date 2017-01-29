@@ -8,6 +8,7 @@ class HomeController extends Controller
         return $this->renderTemplate(
             '@store/home/index.twig',
             [
+                'newProducts' => $this->getRandomProducts(4),
                 'recommendedProducts' => $this->getRandomProducts(12),
             ]
         );
