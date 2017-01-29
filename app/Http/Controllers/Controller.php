@@ -928,7 +928,9 @@ class Controller extends BaseController
             "html" => "text/html",
         ];
 
-        $extension = strtolower(end(explode('.', $file)));
+        $variable = explode('.', $file);
+
+        $extension = strtolower(end($variable));
 
         return $mime_types[$extension];
     }
