@@ -5,6 +5,8 @@ use Doctrine\Common\Cache\ArrayCache;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
+use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
+use inklabs\kommerce\Lib\Authorization\SessionAuthorizationContext;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Command\CommandBus;
 use inklabs\kommerce\Lib\Command\CommandInterface;
@@ -23,6 +25,9 @@ use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 
 class KommerceConfiguration
 {
+    /** @var AuthorizationContextInterface */
+    private $authorizationContext;
+
     public function dispatch(CommandInterface $command)
     {
         $this->getCommandBus()->execute($command);
@@ -86,6 +91,7 @@ class KommerceConfiguration
         static $commandBus = null;
         if ($commandBus === null) {
             $commandBus = new CommandBus(
+                $this->getAuthorizationContext(),
                 $this->getMapper()
             );
         }
@@ -101,6 +107,14 @@ class KommerceConfiguration
             );
         }
         return $queryBus;
+    }
+
+    private function getAuthorizationContext()
+    {
+        if ($this->authorizationContext === null) {
+            $this->authorizationContext = new SessionAuthorizationContext();
+        }
+        return $this->authorizationContext;
     }
 
     private function getCacheDriver()

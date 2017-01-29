@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f4d97bdbd1b1d44a623587642affa721",
-    "content-hash": "2b7a24663303bb297f33131f0f79ae34",
+    "hash": "7ad6e37a18c9189780bba28768d12a94",
+    "content-hash": "83274dbedd823e44cf1e59fe7f5ff4ce",
     "packages": [
         {
             "name": "behat/gherkin",
@@ -1318,12 +1318,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-core.git",
-                "reference": "0f833beb478d1bf555358254d49910de67db2b30"
+                "reference": "7f611eec7d8064bdfc635a3a9631043ebfba592f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/0f833beb478d1bf555358254d49910de67db2b30",
-                "reference": "0f833beb478d1bf555358254d49910de67db2b30",
+                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/7f611eec7d8064bdfc635a3a9631043ebfba592f",
+                "reference": "7f611eec7d8064bdfc635a3a9631043ebfba592f",
                 "shasum": ""
             },
             "require": {
@@ -1363,7 +1363,7 @@
                 "source": "https://github.com/inklabs/kommerce-core",
                 "issues": "https://github.com/inklabs/kommerce-core/issues"
             },
-            "time": "2017-01-29 01:38:57"
+            "time": "2017-01-29 21:58:12"
         },
         {
             "name": "inklabs/kommerce-templates",
@@ -5335,7 +5335,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.5.9"
+        "php": ">=7.1"
     },
     "platform-dev": []
 }
