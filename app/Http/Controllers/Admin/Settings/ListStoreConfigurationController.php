@@ -13,7 +13,7 @@ class ListStoreConfigurationController extends Controller
         ]);
 
         return $this->renderTemplate(
-            '@theme/admin/settings/store/index.twig',
+            '@admin/settings/store/index.twig',
             [
                 'configurations' => $configurations,
             ]

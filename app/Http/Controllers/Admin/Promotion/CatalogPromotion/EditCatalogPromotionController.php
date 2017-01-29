@@ -15,7 +15,7 @@ class EditCatalogPromotionController extends Controller
         $catalogPromotion = $this->getCatalogPromotionWithAllData($catalogPromotionId);
 
         return $this->renderTemplate(
-            '@theme/admin/promotion/catalog-promotion/edit.twig',
+            '@admin/promotion/catalog-promotion/edit.twig',
             [
                 'catalogPromotion' => $catalogPromotion,
                 'promotionTypes' => PromotionType::getSlugNameMap(),

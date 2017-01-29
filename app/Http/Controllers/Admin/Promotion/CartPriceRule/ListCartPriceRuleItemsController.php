@@ -13,7 +13,7 @@ class ListCartPriceRuleItemsController extends Controller
         $cartPriceRule = $this->getCartPriceRuleWithAllData($cartPriceRuleId);
 
         return $this->renderTemplate(
-            '@theme/admin/promotion/cart-price-rule/items.twig',
+            '@admin/promotion/cart-price-rule/items.twig',
             [
                 'cartPriceRule' => $cartPriceRule,
             ]

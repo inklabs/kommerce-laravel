@@ -25,7 +25,7 @@ class ListAttributesController extends Controller
         $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            '@theme/admin/attribute/index.twig',
+            '@admin/attribute/index.twig',
             [
                 'attributes' => $attributes,
                 'pagination' => $pagination,

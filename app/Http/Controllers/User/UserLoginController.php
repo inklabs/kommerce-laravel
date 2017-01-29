@@ -13,7 +13,7 @@ class UserLoginController extends Controller
 {
     public function get()
     {
-        return $this->renderTemplate('@theme/user/login.twig');
+        return $this->renderTemplate('@store/user/login.twig');
     }
 
     public function post(Request $request)

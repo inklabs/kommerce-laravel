@@ -14,7 +14,7 @@ class ListStateSalesTaxRulesController extends Controller
         $stateTaxRates = $this->getZipcodeSalesTaxRules();
 
         return $this->renderTemplate(
-            '@theme/admin/settings/sales-tax/state.twig',
+            '@admin/settings/sales-tax/state.twig',
             [
                 'stateTaxRates' => $stateTaxRates,
                 'validStatesMap' => TaxRate::getValidStatesMap(),

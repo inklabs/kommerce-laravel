@@ -336,7 +336,8 @@ class Controller extends BaseController
     protected function getTwigTemplate()
     {
         $twigTemplate = new TwigTemplate(
-            $this->getThemeConfig(),
+            TwigThemeConfig::loadConfigFromTheme(env('STORE_THEME'), 'store'),
+            TwigThemeConfig::loadConfigFromTheme(env('ADMIN_THEME'), 'admin'),
             new CSRFTokenGenerator(),
             new LaravelRouteUrl(),
             env('STORE_TIMEZONE'),
@@ -364,8 +365,8 @@ class Controller extends BaseController
      */
     protected function flashTemplateError($flashTemplate, array $data = [])
     {
-        if (strpos($flashTemplate, '@theme/flash/') === false) {
-            throw new InvalidArgumentException('Can only flash from @theme/flash/');
+        if (strpos($flashTemplate, '@store/flash/') === false) {
+            throw new InvalidArgumentException('Can only flash from @store/flash/');
         }
         $this->flashTemplateMessage('error', $flashTemplate, $data);
     }
@@ -377,8 +378,8 @@ class Controller extends BaseController
      */
     protected function flashTemplateSuccess($flashTemplate, array $data = [])
     {
-        if (strpos($flashTemplate, '@theme/flash/') === false) {
-            throw new InvalidArgumentException('Can only flash from @theme/flash/');
+        if (strpos($flashTemplate, '@store/flash/') === false) {
+            throw new InvalidArgumentException('Can only flash from @store/flash/');
         }
         $this->flashTemplateMessage('success', $flashTemplate, $data);
     }
@@ -476,18 +477,9 @@ class Controller extends BaseController
     {
         $request = new GetConfigurationsByKeysRequest($keys);
         $response = new GetConfigurationsByKeysResponse();
-        $this->dispatchQuery(new GetconfigurationsByKeysQuery($request, $response));
+        $this->dispatchQuery(new GetConfigurationsByKeysQuery($request, $response));
 
         return $response->getConfigurationDTOs();
-    }
-    /**
-     * @return TwigThemeConfig
-     */
-    protected function getThemeConfig()
-    {
-        $themePath = TwigThemeConfig::getThemePath(env('THEME'));
-        $themeConfig = TwigThemeConfig::loadConfig($themePath);
-        return $themeConfig;
     }
 
     /**

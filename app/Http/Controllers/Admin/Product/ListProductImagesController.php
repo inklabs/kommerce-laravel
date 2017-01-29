@@ -10,7 +10,7 @@ class ListProductImagesController extends Controller
         $product = $this->getProductWithAllData($productId);
 
         return $this->renderTemplate(
-            '@theme/admin/product/images.twig',
+            '@admin/product/images.twig',
             [
                 'product' => $product,
             ]

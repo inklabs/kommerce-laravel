@@ -13,7 +13,7 @@ class CreateAttributeController extends Controller
     public function get()
     {
         return $this->renderTemplate(
-            '@theme/admin/attribute/new.twig',
+            '@admin/attribute/new.twig',
             [
                 'validAttributeChoiceTypeMap' => AttributeChoiceType::getNameMap(),
             ]

@@ -42,7 +42,7 @@ class TagController extends Controller
         $paginationDTO = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            '@theme/tag/show.twig',
+            '@store/tag/show.twig',
             [
                 'tag' => $tagDTO,
                 'products' => $productDTOs,
@@ -64,7 +64,7 @@ class TagController extends Controller
         $paginationDTO = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            '@theme/tag/list.twig',
+            '@store/tag/list.twig',
             [
                 'tags' => $tagDTOs,
                 'pagination' => $paginationDTO,

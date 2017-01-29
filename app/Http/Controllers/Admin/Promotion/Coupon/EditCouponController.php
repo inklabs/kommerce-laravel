@@ -15,7 +15,7 @@ class EditCouponController extends Controller
         $coupon = $this->getCoupon($couponId);
 
         return $this->renderTemplate(
-            '@theme/admin/coupon/edit.twig',
+            '@admin/coupon/edit.twig',
             [
                 'coupon' => $coupon,
                 'promotionTypes' => PromotionType::getSlugNameMap(),

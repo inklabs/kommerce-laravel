@@ -31,10 +31,10 @@ Route::get('/t/{slug}-{tagId}', 'TagController@show')
     ]);
 Route::get('/t', 'TagController@getList')->name('tag.list');
 
-Route::get('/s', 'StyleController@serve')
-    ->name('style.serve');
+Route::get('/s/{theme}/{section}', 'ScssController@serve')
+    ->name('scss.serve');
 
-Route::get('/a/{theme}/{path}', 'AssetController@serve')
+Route::get('/a/{theme}/{section}/{path}', 'AssetController@serve')
     ->name('asset.serve')
     ->where([
         'path' => '(.*)',

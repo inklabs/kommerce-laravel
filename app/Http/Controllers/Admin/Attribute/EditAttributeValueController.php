@@ -14,7 +14,7 @@ class EditAttributeValueController extends Controller
         $attributeValue = $this->getAttributeValueWithAllData($attributeValueId);
 
         return $this->renderTemplate(
-            '@theme/admin/attribute/attribute-value/edit.twig',
+            '@admin/attribute/attribute-value/edit.twig',
             [
                 'attributeValue' => $attributeValue,
             ]

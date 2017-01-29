@@ -14,7 +14,7 @@ class EditCartPriceRuleController extends Controller
         $cartPriceRule = $this->getCartPriceRuleWithAllData($cartPriceRuleId);
 
         return $this->renderTemplate(
-            '@theme/admin/promotion/cart-price-rule/edit.twig',
+            '@admin/promotion/cart-price-rule/edit.twig',
             [
                 'cartPriceRule' => $cartPriceRule,
             ]

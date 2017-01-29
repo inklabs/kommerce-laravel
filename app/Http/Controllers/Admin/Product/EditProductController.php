@@ -13,7 +13,7 @@ class EditProductController extends Controller
 {
     public function getNew()
     {
-        return $this->renderTemplate('@theme/admin/product/new.twig');
+        return $this->renderTemplate('@admin/product/new.twig');
     }
 
     public function postNew(Request $request)
@@ -38,7 +38,7 @@ class EditProductController extends Controller
         }
 
         return $this->renderTemplate(
-            '@theme/admin/product/new.twig',
+            '@admin/product/new.twig',
             [
                 'product' => $product,
             ]
@@ -50,7 +50,7 @@ class EditProductController extends Controller
         $product = $this->getProductWithAllData($productId);
 
         return $this->renderTemplate(
-            '@theme/admin/product/edit.twig',
+            '@admin/product/edit.twig',
             [
                 'product' => $product,
             ]
@@ -80,7 +80,7 @@ class EditProductController extends Controller
         }
 
         return $this->renderTemplate(
-            '@theme/admin/product/edit.twig',
+            '@admin/product/edit.twig',
             [
                 'product' => $product,
             ]

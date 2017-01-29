@@ -30,7 +30,7 @@ class ListSalesTaxRulesController extends Controller
         }
 
         return $this->renderTemplate(
-            '@theme/admin/settings/sales-tax/index.twig',
+            '@admin/settings/sales-tax/index.twig',
             [
                 'stateTaxRates' => $stateTaxRates,
                 'zip5TaxRates' => $zip5TaxRates,

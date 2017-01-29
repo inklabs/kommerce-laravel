@@ -12,7 +12,7 @@ class EditPaymentsConfigurationController extends Controller
         ]);
 
         return $this->renderTemplate(
-            '@theme/admin/settings/store/payments.twig',
+            '@admin/settings/store/payments.twig',
             [
                 'configurations' => $configurations,
             ]

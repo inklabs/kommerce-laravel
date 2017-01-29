@@ -11,7 +11,7 @@ class ListProductAttributesForAttributeValueController extends Controller
         $attributeValue = $this->getAttributeValueWithAllData($attributeValueId);
 
         return $this->renderTemplate(
-            '@theme/admin/attribute/attribute-value/product-attributes.twig',
+            '@admin/attribute/attribute-value/product-attributes.twig',
             [
                 'attributeValue' => $attributeValue,
                 'products' => $this->getAttributeValueProducts($attributeValue),

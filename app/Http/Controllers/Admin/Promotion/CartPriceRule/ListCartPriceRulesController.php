@@ -25,7 +25,7 @@ class ListCartPriceRulesController extends Controller
         $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            '@theme/admin/promotion/cart-price-rule/index.twig',
+            '@admin/promotion/cart-price-rule/index.twig',
             [
                 'cartPriceRules' => $cartPriceRules,
                 'pagination' => $pagination,

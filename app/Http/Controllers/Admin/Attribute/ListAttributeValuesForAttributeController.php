@@ -10,7 +10,7 @@ class ListAttributeValuesForAttributeController extends Controller
         $attribute = $this->getAttributeWithAllData($attributeId);
 
         return $this->renderTemplate(
-            '@theme/admin/attribute/attribute-values.twig',
+            '@admin/attribute/attribute-values.twig',
             [
                 'attribute' => $attribute,
             ]

@@ -15,7 +15,7 @@ class CreateAttachmentForOrderItemController extends Controller
         $orderItem = $this->getOrderItem($orderItemId);
 
         return $this->renderTemplate(
-            '@theme/user/attachment/create-for-order-item.twig',
+            '@store/user/attachment/create-for-order-item.twig',
             [
                 'orderItem' => $orderItem,
             ]

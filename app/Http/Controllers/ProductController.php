@@ -35,7 +35,7 @@ class ProductController extends Controller
         $relatedProductDTOs = $response->getProductDTOs();
 
         return $this->renderTemplate(
-            '@theme/product/show.twig',
+            '@store/product/show.twig',
             [
                 'product' => $productDTO,
                 'relatedProducts' => $relatedProductDTOs,
