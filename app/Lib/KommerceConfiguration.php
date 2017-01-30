@@ -92,7 +92,8 @@ class KommerceConfiguration
         if ($commandBus === null) {
             $commandBus = new CommandBus(
                 $this->getAuthorizationContext(),
-                $this->getMapper()
+                $this->getMapper(),
+                $this->getEventDispatcher()
             );
         }
         return $commandBus;
@@ -103,6 +104,7 @@ class KommerceConfiguration
         static $queryBus = null;
         if ($queryBus === null) {
             $queryBus = new QueryBus(
+                $this->getAuthorizationContext(),
                 $this->getMapper()
             );
         }
