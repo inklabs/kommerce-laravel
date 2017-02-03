@@ -160,10 +160,13 @@ class KommerceConfiguration
             $cacheDriver = $this->getCacheDriver();
             $doctrineHelper = new DoctrineHelper($cacheDriver);
             $doctrineHelper->setup([
-                'driver' => 'pdo_sqlite',
-                'path' => storage_path() . '/db.sqlite',
+                'driver' => 'pdo_mysql',
+                'host' => env('DB_HOST'),
+                'user' => env('DB_USER'),
+                'password' => env('DB_PASSWORD'),
+                'dbname' => env('DB_DATABASE'),
             ]);
-            $doctrineHelper->addSqliteFunctions();
+            $doctrineHelper->addMysqlFunctions();
 
             $entityManager = $doctrineHelper->getEntityManager();
         }
