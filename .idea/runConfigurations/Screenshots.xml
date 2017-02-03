@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Screenshots" type="PhpLocalRunConfigurationType" factoryName="PHP Console" singleton="true" path="$PROJECT_DIR$/vendor/bin/codecept" scriptParameters="-c vendor/inklabs/kommerce-templates/codeception.yml run screenshots">
+  <configuration default="false" name="Screenshots" type="PhpLocalRunConfigurationType" factoryName="PHP Console" singleton="true" path="$PROJECT_DIR$/application/vendor/bin/codecept" scriptParameters="-c vendor/inklabs/kommerce-templates/codeception.yml run screenshots">
     <CommandLine workingDirectory="$PROJECT_DIR$" />
     <option name="workingDirectory" value="$PROJECT_DIR$" />
     <method />

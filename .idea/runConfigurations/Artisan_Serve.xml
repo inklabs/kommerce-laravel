@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Artisan Serve" type="PhpLocalRunConfigurationType" factoryName="PHP Console" singleton="true" path="$PROJECT_DIR$/artisan" scriptParameters="serve">
+  <configuration default="false" name="Artisan Serve" type="PhpLocalRunConfigurationType" factoryName="PHP Console" singleton="true" path="$PROJECT_DIR$/application/artisan" scriptParameters="serve">
     <CommandLine workingDirectory="$PROJECT_DIR$" />
     <option name="workingDirectory" value="$PROJECT_DIR$" />
     <method />
