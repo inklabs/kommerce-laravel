@@ -1,0 +1,33 @@
+version: '2'
+services:
+  app:
+    container_name: inklabs_app
+    build: ./docker/app
+    ports:
+      - "8080:80"
+#      - "443:443"
+    volumes:
+     - ./logs:/var/log
+     - ./application:/var/www/html
+    networks:
+     - appnet
+  db:
+    container_name: inklabs_mysql
+    image: percona:5.7
+    ports:
+     - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: kommerce
+      MYSQL_USER: kommerce
+      MYSQL_PASSWORD: secret
+    volumes:
+     - ./data:/var/lib/mysql
+    networks:
+     - appnet
+networks:
+  appnet:
+    driver: "bridge"
+volumes:
+  data:
+    driver: "local"
