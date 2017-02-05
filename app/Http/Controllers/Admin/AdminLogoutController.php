@@ -1,9 +1,9 @@
 <?php
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
-class UserLogoutController extends Controller
+class AdminLogoutController extends Controller
 {
     public function post()
     {

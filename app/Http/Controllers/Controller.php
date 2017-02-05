@@ -403,9 +403,9 @@ class Controller extends BaseController
      */
     protected function flashTemplateError($flashTemplate, array $data = [])
     {
-        if (strpos($flashTemplate, '@store/flash/') === false) {
-            throw new InvalidArgumentException('Can only flash from @store/flash/');
-        }
+//        if (strpos($flashTemplate, '@store/flash/') === false) {
+//            throw new InvalidArgumentException('Can only flash from @store/flash/');
+//        }
         $this->flashTemplateMessage('error', $flashTemplate, $data);
     }
 

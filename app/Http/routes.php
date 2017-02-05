@@ -255,6 +255,12 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::post('admin/tools/ad-hoc-shipment/buy-shipment-label', 'CreateAdHocShipmentController@postBuyShipmentLabel')->name('admin.tools.ad-hoc-shipment.buy-shipment-label');
     });
 
+    Route::get('admin/login', 'AdminLoginController@get')->name('admin.login');
+    Route::get('admin/forgot-password', 'AdminForgotPasswordController@get')->name('admin.forgot-password');
+    Route::get('admin/forgot-password/complete', 'AdminForgotPasswordController@complete')->name('admin.forgot-password.complete');
+
+    Route::post('admin/login', 'AdminLoginController@post')->name('admin.login.post');
+    Route::post('admin/forgot-password', 'AdminForgotPasswordController@post')->name('admin.forgot-password.post');
     Route::post('admin/logout', 'AdminLogoutController@post')->name('admin.logout');
 });
 
