@@ -11,7 +11,7 @@ class AccountController extends Controller
 {
     public function index()
     {
-        $user = $this->getUserFromSession();
+        $user = $this->getUserFromSessionOrAbort();
 
         $request = new GetOrdersByUserRequest($user->id->getHex());
         $response = new GetOrdersByUserResponse();

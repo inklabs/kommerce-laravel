@@ -29,6 +29,7 @@ class UserLoginController extends Controller
                 $this->getRemoteIP4()
             ));
 
+            // TODO: This operation must be in the application context, not the user session context
             $request = new GetUserByEmailRequest($email);
             $response = new GetUserByEmailResponse();
             $this->dispatchQuery(new GetUserByEmailQuery($request, $response));

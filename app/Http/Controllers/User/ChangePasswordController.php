@@ -30,7 +30,7 @@ class ChangePasswordController extends Controller
             return redirect()->route('user.change-password');
         }
 
-        $user = $this->getUserFromSession();
+        $user = $this->getUserFromSessionOrAbort();
 
         try {
             $this->dispatch(new ChangePasswordCommand(

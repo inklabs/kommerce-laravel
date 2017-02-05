@@ -2,31 +2,101 @@
 namespace App\Lib;
 
 use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\ORM\EntityManagerInterface;
 use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactory;
+use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityRepository\RepositoryFactory;
 use inklabs\kommerce\Lib\Authorization\AuthorizationContextInterface;
 use inklabs\kommerce\Lib\Authorization\SessionAuthorizationContext;
 use inklabs\kommerce\Lib\CartCalculator;
+use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\Command\CommandBus;
+use inklabs\kommerce\Lib\Command\CommandBusInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\DoctrineHelper;
 use inklabs\kommerce\Lib\Event\EventDispatcher;
+use inklabs\kommerce\Lib\Event\EventDispatcherInterface;
+use inklabs\kommerce\Lib\FileManagerInterface;
 use inklabs\kommerce\Lib\LocalFileManager;
 use inklabs\kommerce\Lib\Mapper;
+use inklabs\kommerce\Lib\MapperInterface;
 use inklabs\kommerce\Lib\PaymentGateway\FakePaymentGateway;
+use inklabs\kommerce\Lib\PaymentGateway\PaymentGatewayInterface;
 use inklabs\kommerce\Lib\PaymentGateway\Stripe;
 use inklabs\kommerce\Lib\Pricing;
+use inklabs\kommerce\Lib\PricingInterface;
 use inklabs\kommerce\Lib\Query\QueryBus;
+use inklabs\kommerce\Lib\Query\QueryBusInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
 use inklabs\kommerce\Lib\ShipmentGateway\EasyPostGateway;
+use inklabs\kommerce\Lib\ShipmentGateway\ShipmentGatewayInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 use inklabs\kommerce\Service\ServiceFactory;
 use inklabs\kommerce\tests\Helper\Lib\ShipmentGateway\FakeShipmentGateway;
 
 class KommerceConfiguration
 {
+    /** @var null|UuidInterface */
+    private $userId;
+
+    /** @var bool */
+    private $isAdmin;
+
     /** @var AuthorizationContextInterface */
     private $authorizationContext;
+
+    /** @var QueryBusInterface */
+    private $queryBus;
+
+    /** @var CommandBusInterface */
+    private $commandBus;
+
+    /** @var ServiceFactory */
+    private $serviceFactory;
+
+    /** @var \Doctrine\Common\Cache\CacheProvider */
+    private $cacheDriver;
+
+    /** @var MapperInterface */
+    private $mapper;
+
+    /** @var RepositoryFactory */
+    private $repositoryFactory;
+
+    /** @var EntityManagerInterface */
+    private $entityManager;
+
+    /** @var EventDispatcherInterface */
+    private $eventDispatcher;
+
+    /** @var PaymentGatewayInterface */
+    private $paymentGateway;
+
+    /** @var ShipmentGatewayInterface */
+    private $shipmentGateway;
+
+    /** @var FileManagerInterface */
+    private $fileManager;
+
+    /** @var DTOBuilderFactoryInterface */
+    private $DTOBuilderFactory;
+
+    /** @var CartCalculatorInterface */
+    private $cartCalculator;
+
+    /** @var PricingInterface */
+    private $pricing;
+
+    /**
+     * @param UuidInterface|null $userId
+     * @param bool $isAdmin
+     */
+    public function __construct(UuidInterface $userId = null, $isAdmin = false)
+    {
+        $this->userId = $userId;
+        $this->isAdmin = $isAdmin;
+    }
 
     public function dispatch(CommandInterface $command)
     {
@@ -40,41 +110,37 @@ class KommerceConfiguration
 
     public function getPricing()
     {
-        static $pricing = null;
-        if ($pricing === null) {
-            $pricing = new Pricing();
-            $pricing->loadCatalogPromotions(
+        if ($this->pricing === null) {
+            $this->pricing = new Pricing();
+            $this->pricing->loadCatalogPromotions(
                 $this->getRepositoryFactory()->getCatalogPromotionRepository()
             );
         }
-        return $pricing;
+        return $this->pricing;
     }
 
     public function getCartCalculator()
     {
-        static $cartCalculator = null;
-        if ($cartCalculator === null) {
-            $cartCalculator = new CartCalculator(
+        if ($this->cartCalculator === null) {
+            $this->cartCalculator = new CartCalculator(
                 $this->getPricing()
             );
         }
-        return $cartCalculator;
+        return $this->cartCalculator;
     }
 
     public function getDTOBuilderFactory()
     {
-        static $DTOBuilderFactory = null;
-        if ($DTOBuilderFactory === null) {
-            $DTOBuilderFactory = new DTOBuilderFactory();
+        if ($this->DTOBuilderFactory === null) {
+            $this->DTOBuilderFactory = new DTOBuilderFactory();
         }
-        return $DTOBuilderFactory;
+        return $this->DTOBuilderFactory;
     }
 
     private function getServiceFactory()
     {
-        static $serviceFactory = null;
-        if ($serviceFactory === null) {
-            $serviceFactory = new ServiceFactory(
+        if ($this->serviceFactory === null) {
+            $this->serviceFactory = new ServiceFactory(
                 $this->getRepositoryFactory(),
                 $this->getCartCalculator(),
                 $this->getEventDispatcher(),
@@ -83,80 +149,77 @@ class KommerceConfiguration
                 $this->getFileManage()
             );
         }
-        return $serviceFactory;
+        return $this->serviceFactory;
     }
 
     private function getCommandBus()
     {
-        static $commandBus = null;
-        if ($commandBus === null) {
-            $commandBus = new CommandBus(
+        if ($this->commandBus === null) {
+            $this->commandBus = new CommandBus(
                 $this->getAuthorizationContext(),
                 $this->getMapper(),
                 $this->getEventDispatcher()
             );
         }
-        return $commandBus;
+        return $this->commandBus;
     }
 
     private function getQueryBus()
     {
-        static $queryBus = null;
-        if ($queryBus === null) {
-            $queryBus = new QueryBus(
+        if ($this->queryBus === null) {
+            $this->queryBus = new QueryBus(
                 $this->getAuthorizationContext(),
                 $this->getMapper()
             );
         }
-        return $queryBus;
+        return $this->queryBus;
     }
 
     private function getAuthorizationContext()
     {
         if ($this->authorizationContext === null) {
-            $this->authorizationContext = new SessionAuthorizationContext();
+            $this->authorizationContext = new SessionAuthorizationContext(
+                $this->userId,
+                $this->isAdmin
+            );
         }
         return $this->authorizationContext;
     }
 
     private function getCacheDriver()
     {
-        static $cacheDriver = null;
-        if ($cacheDriver === null) {
-            $cacheDriver = new ArrayCache();
+        if ($this->cacheDriver === null) {
+            $this->cacheDriver = new ArrayCache();
         }
-        return $cacheDriver;
+        return $this->cacheDriver;
     }
 
     private function getMapper()
     {
-        static $mapper = null;
-        if ($mapper === null) {
-            $mapper = new Mapper(
+        if ($this->mapper === null) {
+            $this->mapper = new Mapper(
                 $this->getRepositoryFactory(),
                 $this->getServiceFactory(),
                 $this->getPricing(),
                 $this->getDTOBuilderFactory()
             );
         }
-        return $mapper;
+        return $this->mapper;
     }
 
     private function getRepositoryFactory()
     {
-        static $repositoryFactory = null;
-        if ($repositoryFactory === null) {
-            $repositoryFactory = new RepositoryFactory(
+        if ($this->repositoryFactory === null) {
+            $this->repositoryFactory = new RepositoryFactory(
                 $this->getEntityManager()
             );
         }
-        return $repositoryFactory;
+        return $this->repositoryFactory;
     }
 
     private function getEntityManager()
     {
-        static $entityManager = null;
-        if ($entityManager === null) {
+        if ($this->entityManager === null) {
             $cacheDriver = $this->getCacheDriver();
             $doctrineHelper = new DoctrineHelper($cacheDriver);
             $doctrineHelper->setup([
@@ -165,63 +228,59 @@ class KommerceConfiguration
             ]);
             $doctrineHelper->addSqliteFunctions();
 
-            $entityManager = $doctrineHelper->getEntityManager();
+            $this->entityManager = $doctrineHelper->getEntityManager();
         }
-        return $entityManager;
+        return $this->entityManager;
     }
 
     private function getEventDispatcher()
     {
-        static $eventDispatcher = null;
-        if ($eventDispatcher === null) {
-            $eventDispatcher = new EventDispatcher();
+        if ($this->eventDispatcher === null) {
+            $this->eventDispatcher = new EventDispatcher();
         }
-        return $eventDispatcher;
+        return $this->eventDispatcher;
     }
 
     private function getPaymentGateway()
     {
-        static $paymentGateway = null;
-        if ($paymentGateway === null) {
+        if ($this->paymentGateway === null) {
             $stripeApiKey = env('STRIPE-API-KEY');
             if ($stripeApiKey === 'your-key-here') {
-                $paymentGateway = new FakePaymentGateway();
+                $this->paymentGateway = new FakePaymentGateway();
             } else {
-                $paymentGateway = new Stripe($stripeApiKey);
+                $this->paymentGateway = new Stripe($stripeApiKey);
             }
         }
-        return $paymentGateway;
+        return $this->paymentGateway;
     }
 
     private function getShipmentGateway()
     {
-        static $shipmentGateway = null;
-        if ($shipmentGateway === null) {
+        if ($this->shipmentGateway === null) {
             $storeAddress = $this->getStoreAddress();
 
             $easyPostApiKey = env('EASYPOST-API-KEY');
             if ($easyPostApiKey === 'your-key-here') {
                 // TODO: This is crossing the kommerce-core/test namespace boundary
-                $shipmentGateway = new FakeShipmentGateway($storeAddress);
+                $this->shipmentGateway = new FakeShipmentGateway($storeAddress);
             } else {
-                $shipmentGateway = new EasyPostGateway(
+                $this->shipmentGateway = new EasyPostGateway(
                     $easyPostApiKey,
                     $storeAddress
                 );
             }
         }
-        return $shipmentGateway;
+        return $this->shipmentGateway;
     }
 
     private function getFileManage()
     {
-        static $fileManager = null;
-        if ($fileManager === null) {
-            $fileManager = new LocalFileManager(
+        if ($this->fileManager === null) {
+            $this->fileManager = new LocalFileManager(
                 storage_path() . '/files'
             );
         }
-        return $fileManager;
+        return $this->fileManager;
     }
 
     /**

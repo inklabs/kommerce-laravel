@@ -75,8 +75,12 @@ class CheckoutController extends Controller
         $shippingAddress = $this->getOrderAddressDTOFromArray($inputShipping);
         $billingAddress = clone $shippingAddress;
 
+        $user = $this->getUserFromSession();
+
         try {
-            $user = $this->getOrCreateUserFromOrderAddress($billingAddress);
+            if ($user === null) {
+                $user = $this->getOrCreateUserFromOrderAddress($billingAddress);
+            }
 
             $createOrderCommand = new CreateOrderFromCartCommand(
                 $cart->id->getHex(),

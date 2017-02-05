@@ -80,6 +80,7 @@ Route::group(['namespace' => 'User'], function() {
     Route::get('user/account/view-order/{orderId}', 'AccountController@viewOrder')->name('user.account.view-order');
 
     Route::post('user/login', 'UserLoginController@post')->name('user.login.post');
+    Route::post('user/logout', 'UserLogoutController@post')->name('user.logout');
     Route::post('user/forgot-password', 'UserForgotPasswordController@post')->name('user.forgot-password.post');
 });
 
@@ -253,9 +254,9 @@ Route::group(['namespace' => 'Admin'], function() {
         Route::post('admin/tools/ad-hoc-shipment/new', 'CreateAdHocShipmentController@post')->name('admin.tools.ad-hoc-shipment.new.post');
         Route::post('admin/tools/ad-hoc-shipment/buy-shipment-label', 'CreateAdHocShipmentController@postBuyShipmentLabel')->name('admin.tools.ad-hoc-shipment.buy-shipment-label');
     });
-});
 
-Route::get('logout', 'LogoutController@index')->name('logout');
+    Route::post('admin/logout', 'AdminLogoutController@post')->name('admin.logout');
+});
 
 Route::get('page/privacy', 'PageController@privacy')->name('page.privacy');
 Route::get('page/terms', 'PageController@terms')->name('page.terms');

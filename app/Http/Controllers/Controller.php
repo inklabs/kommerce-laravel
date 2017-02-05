@@ -100,7 +100,19 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        $this->kommerceConfiguration = new KommerceConfiguration();
+        $userId = null;
+        $user = $this->getUserFromSession();
+        if ($user !== null) {
+            $userId = $user->id;
+        }
+
+        // TODO: Remove admin default, determine from user role
+        $isAdmin = true;
+
+        $this->kommerceConfiguration = new KommerceConfiguration(
+            $userId,
+            $isAdmin
+        );
     }
 
     /**
@@ -149,8 +161,34 @@ class Controller extends BaseController
         $session->set('user', $user);
     }
 
+    protected function removeUserFromSession()
+    {
+        /** @var \Illuminate\Session\Store $session */
+        $session = app('session');
+
+        if (! $session->has('user')) {
+            abort(401);
+        }
+
+        $session->remove('user');
+    }
+
     /**
      * @return UserDTO
+     */
+    protected function getUserFromSessionOrAbort()
+    {
+        $user = $this->getUserFromSession();
+
+        if ($user === null) {
+            abort(401);
+        }
+
+        return $user;
+    }
+
+    /**
+     * @return null|UserDTO
      */
     protected function getUserFromSession()
     {
@@ -158,7 +196,7 @@ class Controller extends BaseController
         $session = app('session');
 
         if (! $session->has('user')) {
-            abort(401);
+            return null;
         }
 
         return $session->get('user');
