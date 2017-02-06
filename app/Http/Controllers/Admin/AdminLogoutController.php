@@ -8,6 +8,6 @@ class AdminLogoutController extends Controller
     public function post()
     {
         $this->removeUserFromSession();
-        return redirect()->route('home');
+        return redirect()->route('admin.login');
     }
 }
