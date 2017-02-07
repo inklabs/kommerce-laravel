@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use inklabs\kommerce\Action\Product\GetProductQuery;
 use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
 use inklabs\kommerce\Action\Product\Query\GetProductRequest;
@@ -17,6 +16,7 @@ class ProductController extends Controller
         $response = new GetProductResponse($this->getPricing());
         $this->dispatchQuery(new GetProductQuery($request, $response));
 
+        $cartDTO = $this->getCart();
         $productDTO = $response->getProductDTOWithAllData();
 
         if ($slug !== $productDTO->slug) {
@@ -37,6 +37,7 @@ class ProductController extends Controller
         return $this->renderTemplate(
             '@store/product/show.twig',
             [
+                'cart' => $cartDTO,
                 'product' => $productDTO,
                 'relatedProducts' => $relatedProductDTOs,
             ]
