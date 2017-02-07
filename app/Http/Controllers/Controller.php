@@ -98,21 +98,42 @@ class Controller extends BaseController
     /** @var KommerceConfiguration */
     private $kommerceConfiguration;
 
+    /** @var KommerceConfiguration */
+    private $adminKommerceConfiguration;
+
     public function __construct()
     {
+        $sessionId = $this->getSessionId();
+        $isAdmin = false;
         $userId = null;
         $user = $this->getUserFromSession();
         if ($user !== null) {
             $userId = $user->id;
+            $isAdmin = $this->userHasAdminRole($user);
         }
-
-        // TODO: Remove admin default, determine from user role
-        $isAdmin = true;
 
         $this->kommerceConfiguration = new KommerceConfiguration(
             $userId,
+            $sessionId,
             $isAdmin
         );
+
+        $this->adminKommerceConfiguration = new KommerceConfiguration(
+            null,
+            null,
+            true
+        );
+    }
+
+    public function userHasAdminRole(UserDTO $user)
+    {
+        foreach ($user->userRoles as $userRole) {
+            if ($userRole->userRoleType->isAdmin) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -159,6 +180,7 @@ class Controller extends BaseController
         /** @var \Illuminate\Session\Store $session */
         $session = app('session');
         $session->set('user', $user);
+        $this->kommerceConfiguration->setUserId($user->id);
     }
 
     protected function removeUserFromSession()
@@ -217,6 +239,11 @@ class Controller extends BaseController
         return $this->kommerceConfiguration->getDTOBuilderFactory();
     }
 
+    protected function getStoreAddress()
+    {
+        return $this->kommerceConfiguration->getStoreAddress();
+    }
+
     protected function dispatch(CommandInterface $command)
     {
         $this->kommerceConfiguration->dispatch($command);
@@ -227,9 +254,14 @@ class Controller extends BaseController
         $this->kommerceConfiguration->dispatchQuery($query);
     }
 
-    protected function getStoreAddress()
+    protected function adminDispatch(CommandInterface $command)
     {
-        return $this->kommerceConfiguration->getStoreAddress();
+        $this->adminKommerceConfiguration->dispatch($command);
+    }
+
+    protected function adminDispatchQuery(QueryInterface $query)
+    {
+        $this->adminKommerceConfiguration->dispatchQuery($query);
     }
 
     /**

@@ -29,10 +29,9 @@ class AdminLoginController extends Controller
                 $this->getRemoteIP4()
             ));
 
-            // TODO: This operation must be in the application context, not the user session context
             $request = new GetUserByEmailRequest($email);
             $response = new GetUserByEmailResponse();
-            $this->dispatchQuery(new GetUserByEmailQuery($request, $response));
+            $this->adminDispatchQuery(new GetUserByEmailQuery($request, $response));
             $user = $response->getUserDTOWithRolesAndTokens();
             $this->saveUserToSession($user);
 

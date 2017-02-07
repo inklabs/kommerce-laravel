@@ -40,6 +40,9 @@ class KommerceConfiguration
     /** @var null|UuidInterface */
     private $userId;
 
+    /** @var null|string */
+    private $sessionId;
+
     /** @var bool */
     private $isAdmin;
 
@@ -90,12 +93,19 @@ class KommerceConfiguration
 
     /**
      * @param UuidInterface|null $userId
+     * @param null|string $sessionId
      * @param bool $isAdmin
      */
-    public function __construct(UuidInterface $userId = null, $isAdmin = false)
+    public function __construct(UuidInterface $userId = null, $sessionId = null, $isAdmin = false)
     {
         $this->userId = $userId;
+        $this->sessionId = $sessionId;
         $this->isAdmin = $isAdmin;
+    }
+
+    public function setUserId(UuidInterface $userId)
+    {
+        $this->userId = $userId;
     }
 
     public function dispatch(CommandInterface $command)
@@ -179,6 +189,9 @@ class KommerceConfiguration
     {
         if ($this->authorizationContext === null) {
             $this->authorizationContext = new SessionAuthorizationContext(
+                $this->getRepositoryFactory()->getCartRepository(),
+                $this->getRepositoryFactory()->getOrderRepository(),
+                $this->sessionId,
                 $this->userId,
                 $this->isAdmin
             );

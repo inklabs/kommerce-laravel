@@ -80,6 +80,7 @@ class CheckoutController extends Controller
         try {
             if ($user === null) {
                 $user = $this->getOrCreateUserFromOrderAddress($billingAddress);
+                $this->saveUserToSession($user);
             }
 
             $createOrderCommand = new CreateOrderFromCartCommand(
@@ -203,7 +204,7 @@ class CheckoutController extends Controller
         try {
             $request = new GetUserByEmailRequest($orderAddress->email);
             $response = new GetUserByEmailResponse();
-            $this->dispatchQuery(new GetUserByEmailQuery($request, $response));
+            $this->adminDispatchQuery(new GetUserByEmailQuery($request, $response));
 
             return $response->getUserDTO();
         } catch (EntityNotFoundException $e) {
@@ -213,13 +214,13 @@ class CheckoutController extends Controller
             $user->email = $orderAddress->email;
 
             $createUserCommand = new CreateUserCommand($user);
-            $this->dispatch($createUserCommand);
+            $this->adminDispatch($createUserCommand);
 
             $userId = $createUserCommand->getUserId();
 
             $request = new GetUserRequest($userId);
             $response = new GetUserResponse();
-            $this->dispatchQuery(new GetUserQuery($request, $response));
+            $this->adminDispatchQuery(new GetUserQuery($request, $response));
 
             return $response->getUserDTO();
         }
