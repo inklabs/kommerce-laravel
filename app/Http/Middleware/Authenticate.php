@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use inklabs\kommerce\EntityDTO\UserDTO;
 
 class Authenticate
 {
@@ -17,14 +18,20 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->guest()) {
-            if ($request->ajax() || $request->wantsJson()) {
-                return response('Unauthorized.', 401);
-            } else {
-                return redirect()->guest('login');
+        $session = app('session');
+
+        if (! $session->has('user')) {
+            return redirect()->route('admin.login');
+        }
+
+        /** @var UserDTO $user */
+        $user = $session->get('user');
+        foreach ($user->userRoles as $userRole) {
+            if ($userRole->userRoleType->isAdmin) {
+                return $next($request);
             }
         }
 
-        return $next($request);
+        return response('Access Denied.', 401);
     }
 }
