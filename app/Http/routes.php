@@ -197,14 +197,14 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
         });
         Route::group(['namespace' => 'Option', 'prefix' => 'option'], function () {
             Route::get('', 'ListOptionsController@index')->name('admin.option');
-            Route::get('new', 'EditOptionController@getNew')->name('admin.option.new');
-            Route::get('edit/{optionId}', 'EditOptionController@getEdit')->name('admin.option.edit');
+            Route::get('new', 'CreateOptionController@get')->name('admin.option.new');
+            Route::get('edit/{optionId}', 'EditOptionController@get')->name('admin.option.edit');
             Route::get('values/{optionId}', 'ListOptionValuesController@index')->name('admin.option.values');
             Route::get('option-products/{optionId}', 'ListOptionProductsController@index')->name('admin.option.option-products');
             Route::get('tags/{optionId}', 'ListTagsForOptionController@index')->name('admin.option.tags');
 
-            Route::post('new', 'EditOptionController@postNew')->name('admin.option.new.post');
-            Route::post('edit', 'EditOptionController@postEdit')->name('admin.option.edit.post');
+            Route::post('new', 'CreateOptionController@post')->name('admin.option.new.post');
+            Route::post('edit', 'EditOptionController@post')->name('admin.option.edit.post');
             Route::post('delete', 'DeleteOptionController@post')->name('admin.option.delete');
             Route::post('add-option-value', 'AddOptionValueToOptionController@post')->name('admin.option.add-option-value');
             Route::post('delete-option-value', 'DeleteOptionValueController@post')->name('admin.option.delete-option-value');
@@ -273,5 +273,3 @@ Route::get('page/contact', 'PageController@contact')->name('page.contact');
 Route::get('data/image/{imagePath}', 'ImageController@get')
     ->name('image.path')
     ->where('imagePath', '(.*)');
-
-Route::controller('dummy-data', 'DummyDataController');

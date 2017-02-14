@@ -4,21 +4,18 @@ namespace App\Http\Controllers\Admin\Option;
 use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
-use inklabs\kommerce\Action\Option\UpdateOptionCommand;
+use inklabs\kommerce\Action\Option\CreateOptionCommand;
 use inklabs\kommerce\Entity\OptionType;
 use inklabs\kommerce\EntityDTO\OptionDTO;
 use inklabs\kommerce\Exception\EntityValidatorException;
 
-class EditOptionController extends Controller
+class CreateOptionController extends Controller
 {
-    public function get($optionId)
+    public function get()
     {
-        $option = $this->getOptionWithAllData($optionId);
-
         return $this->renderTemplate(
-            '@admin/option/edit.twig',
+            '@admin/option/new.twig',
             [
-                'option' => $option,
                 'optionTypes' => OptionType::getSlugNameMap(),
             ]
         );
@@ -26,7 +23,6 @@ class EditOptionController extends Controller
 
     public function post(Request $request)
     {
-        $optionId = $request->input('optionId');
         $optionValues = $request->input('option');
         $name = trim(Arr::get($optionValues, 'name'));
         $description = trim(Arr::get($optionValues, 'description'));
@@ -34,32 +30,38 @@ class EditOptionController extends Controller
         $optionTypeSlug = Arr::get($optionValues, 'type');
 
         try {
-            $this->dispatch(new UpdateOptionCommand(
+            $command = new CreateOptionCommand(
                 $name,
                 $description,
                 $sortOrder,
-                $optionTypeSlug,
-                $optionId
-            ));
+                $optionTypeSlug
+            );
+            $this->dispatch($command);
 
-            $this->flashSuccess('Option has been saved.');
+            $this->flashSuccess('Option has been created.');
             return redirect()->route(
                 'admin.option.edit',
                 [
-                    'optionId' => $optionId,
+                    'optionId' => $command->getOptionId()->getHex(),
                 ]
             );
         } catch (EntityValidatorException $e) {
-            $this->flashError('Unable to save option!');
+            $this->flashError('Unable to create option!');
             $this->flashFormErrors($e->getErrors());
         }
 
         return $this->renderTemplate(
-            '@admin/option/edit.twig',
+            '@admin/option/new.twig',
             [
                 'option' => $option,
                 'optionTypes' => OptionType::getSlugNameMap(),
             ]
         );
+    }
+
+    private function updateOptionDTOFromPost(OptionDTO & $optionDTO, array $optionValues)
+    {
+        $optionDTO->name = trim(Arr::get($optionValues, 'name'));
+        $optionDTO->description = trim(Arr::get($optionValues, 'description'));
     }
 }
