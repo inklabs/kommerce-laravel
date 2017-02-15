@@ -19,13 +19,20 @@ use inklabs\kommerce\Action\Attribute\Query\GetAttributeRequest;
 use inklabs\kommerce\Action\Attribute\Query\GetAttributeResponse;
 use inklabs\kommerce\Action\Attribute\Query\GetAttributeValueRequest;
 use inklabs\kommerce\Action\Attribute\Query\GetAttributeValueResponse;
+use inklabs\kommerce\Action\Cart\CopyCartItemsCommand;
 use inklabs\kommerce\Action\Cart\CreateCartCommand;
 use inklabs\kommerce\Action\Cart\GetCartBySessionIdQuery;
+use inklabs\kommerce\Action\Cart\GetCartByUserIdQuery;
 use inklabs\kommerce\Action\Cart\GetCartQuery;
 use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdResponse;
+use inklabs\kommerce\Action\Cart\Query\GetCartByUserIdRequest;
+use inklabs\kommerce\Action\Cart\Query\GetCartByUserIdResponse;
 use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
 use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
+use inklabs\kommerce\Action\Cart\RemoveCartCommand;
+use inklabs\kommerce\Action\Cart\SetCartSessionIdCommand;
+use inklabs\kommerce\Action\Cart\SetCartUserCommand;
 use inklabs\kommerce\Action\CartPriceRule\GetCartPriceRuleQuery;
 use inklabs\kommerce\Action\CartPriceRule\Query\GetCartPriceRuleRequest;
 use inklabs\kommerce\Action\CartPriceRule\Query\GetCartPriceRuleResponse;
@@ -75,8 +82,10 @@ use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\InvalidArgumentException;
+use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Lib\Command\CommandInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\UuidInterface;
 use inklabs\KommerceTemplates\Lib\AssetLocationService;
 use inklabs\KommerceTemplates\Lib\TwigTemplate;
 use inklabs\KommerceTemplates\Lib\TwigThemeConfig;
@@ -339,6 +348,20 @@ class Controller extends BaseController
         $request = new GetCartBySessionIdRequest($this->getSessionId());
         $response = new GetCartBySessionIdResponse($this->getCartCalculator());
         $this->dispatchQuery(new GetCartBySessionIdQuery($request, $response));
+
+        return $response->getCartDTO();
+    }
+
+    /**
+     * @param string $userId
+     * @return CartDTO
+     * @throws EntityNotFoundException
+     */
+    private function getCartByUserId($userId)
+    {
+        $request = new GetCartByUserIdRequest($userId);
+        $response = new GetCartByUserIdResponse($this->getCartCalculator());
+        $this->dispatchQuery(new GetCartByUserIdQuery($request, $response));
 
         return $response->getCartDTO();
     }
@@ -1075,5 +1098,64 @@ class Controller extends BaseController
         }
 
         return null;
+    }
+
+    protected function mergeCart(UuidInterface $userId)
+    {
+        $sessionId = $this->getSessionId();
+        $userCart = null;
+        $sessionCart = null;
+
+        try {
+            $userCart = $this->getCartByUserId($userId);
+        } catch (KommerceException $e) {
+        }
+
+        try {
+            $sessionCart = $this->getCartFromSession();
+        } catch (KommerceException $e) {
+        }
+
+        try {
+            if ($userCart === null && $sessionCart !== null) {
+                // SessionCart Exists
+                $this->dispatch(new SetCartUserCommand(
+                    $sessionCart->id->getHex(),
+                    $userId->getHex()
+                ));
+            } elseif ($userCart !== null && $sessionCart === null) {
+                // UserCart Exists
+                $this->dispatch(new SetCartSessionIdCommand(
+                    $userCart->id->getHex(),
+                    $sessionId
+                ));
+            } elseif ($userCart !== null && $sessionCart !== null) {
+                if ($userCart->id->equals($sessionCart->id)) {
+                    return;
+                }
+
+                // Both Exist
+                $this->dispatch(new CopyCartItemsCommand(
+                    $sessionCart->id->getHex(),
+                    $userCart->id->getHex()
+                ));
+                $this->dispatch(new RemoveCartCommand($sessionCart->id->getHex()));
+                $this->dispatch(new SetCartSessionIdCommand(
+                    $userCart->id->getHex(),
+                    $sessionId
+                ));
+            }
+        } catch (KommerceException $e) {
+            $this->logError($e->getMessage());
+            $this->flashGenericWarning('Unable to merge your existing cart.');
+        }
+    }
+
+    /**
+     * @param string $message
+     */
+    private function logError($message)
+    {
+        // TODO: Log error message to file
     }
 }

@@ -34,8 +34,7 @@ class UserLoginController extends Controller
             $this->adminDispatchQuery(new GetUserByEmailQuery($request, $response));
             $user = $response->getUserDTOWithRolesAndTokens();
             $this->saveUserToSession($user);
-
-            // Todo: Merge anonymous session cart with users cart, this may become a single command
+            $this->mergeCart($user->id);
 
             return redirect($redirect);
         } catch (UserLoginException $e) {
