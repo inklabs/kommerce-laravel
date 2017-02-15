@@ -1112,12 +1112,16 @@ class Controller extends BaseController
 
         try {
             $userCart = $this->getCartByUserId($userId->getHex());
+        } catch (EntityNotFoundException $e) {
         } catch (KommerceException $e) {
+            $this->logError($e->getMessage());
         }
 
         try {
             $sessionCart = $this->getCartFromSession();
+        } catch (EntityNotFoundException $e) {
         } catch (KommerceException $e) {
+            $this->logError($e->getMessage());
         }
 
         try {
