@@ -119,6 +119,8 @@ class Controller extends BaseController
         if ($user !== null) {
             $userId = $user->id;
             $isAdmin = $this->userHasAdminRole($user);
+            $twig = $this->getTwigTemplate();
+            $twig->addGlobal('user', $user);
         }
 
         $this->kommerceConfiguration = new KommerceConfiguration(
@@ -347,7 +349,7 @@ class Controller extends BaseController
     {
         $request = new GetCartBySessionIdRequest($this->getSessionId());
         $response = new GetCartBySessionIdResponse($this->getCartCalculator());
-        $this->dispatchQuery(new GetCartBySessionIdQuery($request, $response));
+        $this->adminDispatchQuery(new GetCartBySessionIdQuery($request, $response));
 
         return $response->getCartDTO();
     }
@@ -355,13 +357,12 @@ class Controller extends BaseController
     /**
      * @param string $userId
      * @return CartDTO
-     * @throws EntityNotFoundException
      */
     private function getCartByUserId($userId)
     {
         $request = new GetCartByUserIdRequest($userId);
         $response = new GetCartByUserIdResponse($this->getCartCalculator());
-        $this->dispatchQuery(new GetCartByUserIdQuery($request, $response));
+        $this->adminDispatchQuery(new GetCartByUserIdQuery($request, $response));
 
         return $response->getCartDTO();
     }
@@ -428,17 +429,20 @@ class Controller extends BaseController
      */
     protected function getTwigTemplate()
     {
-        $twigTemplate = new TwigTemplate(
-            TwigThemeConfig::loadConfigFromTheme(env('STORE_THEME'), 'store'),
-            TwigThemeConfig::loadConfigFromTheme(env('ADMIN_THEME'), 'admin'),
-            new CSRFTokenGenerator(),
-            new LaravelRouteUrl(),
-            env('STORE_TIMEZONE'),
-            env('STORE_DATE_FORMAT'),
-            env('STORE_TIME_FORMAT'),
-            env('TWIG_PROFILER_ENABLED'),
-            env('TWIG_DEBUG_ENABLED')
-        );
+        static $twigTemplate = null;
+        if ($twigTemplate === null) {
+            $twigTemplate = new TwigTemplate(
+                TwigThemeConfig::loadConfigFromTheme(env('STORE_THEME'), 'store'),
+                TwigThemeConfig::loadConfigFromTheme(env('ADMIN_THEME'), 'admin'),
+                new CSRFTokenGenerator(),
+                new LaravelRouteUrl(),
+                env('STORE_TIMEZONE'),
+                env('STORE_DATE_FORMAT'),
+                env('STORE_TIME_FORMAT'),
+                env('TWIG_PROFILER_ENABLED'),
+                env('TWIG_DEBUG_ENABLED')
+            );
+        }
 
         return $twigTemplate;
     }
@@ -1107,7 +1111,7 @@ class Controller extends BaseController
         $sessionCart = null;
 
         try {
-            $userCart = $this->getCartByUserId($userId);
+            $userCart = $this->getCartByUserId($userId->getHex());
         } catch (KommerceException $e) {
         }
 
