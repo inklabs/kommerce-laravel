@@ -10,13 +10,10 @@ Docs: [Github Pages](https://inklabs.github.io/kommerce-laravel)
 ## Initialize project
 
 ```
+composer install
 composer create-project
+php bin/initialize-test-db.php
 ```
-## Tests
-
-### Acceptance Tests
-
-`vendor/bin/codecept run -c vendor/inklabs/kommerce-templates/codeception.yml`
 
 ## Serve
 
@@ -24,6 +21,19 @@ composer create-project
 php artisan serve
 open http://localhost:8000
 ```
+
+## Docker
+
+```
+cd Docker/dev
+make start
+```
+
+## Tests
+
+### Acceptance Tests
+
+`vendor/bin/codecept run -c vendor/inklabs/kommerce-templates/codeception.yml`
 
 ## EasyPost
 

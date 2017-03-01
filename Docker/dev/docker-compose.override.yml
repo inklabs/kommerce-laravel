@@ -1,0 +1,14 @@
+version: "2"
+
+services:
+  nginx:
+    ports:
+      - "8000:80"
+    volumes_from:
+      - php71-fpm
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+
+  php71-fpm:
+    volumes:
+      - ../..:/code/kommerce-laravel
