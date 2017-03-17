@@ -1,9 +1,11 @@
 <?php
+use inklabs\kommerce\Entity\Address;
 use inklabs\kommerce\Entity\Attribute;
 use inklabs\kommerce\Entity\AttributeChoiceType;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Configuration;
 use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
 use inklabs\kommerce\Entity\Tag;
@@ -11,6 +13,7 @@ use inklabs\kommerce\Entity\TaxRate;
 use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\Entity\UserRoleType;
+use inklabs\kommerce\Entity\Warehouse;
 
 require_once __DIR__  . '/../config/cli-config.php';
 
@@ -19,6 +22,17 @@ $classes = $entityManager->getMetaDataFactory()->getAllMetaData();
 $tool = new Doctrine\ORM\Tools\SchemaTool($entityManager);
 $tool->dropSchema($classes);
 $tool->createSchema($classes);
+
+$address = new Address();
+$address->setAttention('Shipping Dept');
+$address->setCompany('Acme Ltd');
+$address->setAddress1('123 Any St');
+$address->setAddress2('Ste 2');
+$address->setCity('Santa Monica');
+$address->setState('CA');
+$address->setZip5('90405');
+$address->setPoint(new Point(34.052234, -118.243685));
+$warehouse = new Warehouse('Santa Monica - Main St', $address);
 
 $adminRole = new UserRole(UserRoleType::admin());
 
@@ -36,6 +50,7 @@ $customer->setEmail('charles@example.com');
 $customer->setPassword('Test123!');
 
 $entities = [
+    $warehouse,
     $adminRole,
     $admin,
     $customer,

@@ -263,6 +263,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
             Route::post('ad-hoc-shipment/new', 'CreateAdHocShipmentController@post')->name('admin.tools.ad-hoc-shipment.new.post');
             Route::post('ad-hoc-shipment/buy-shipment-label', 'CreateAdHocShipmentController@postBuyShipmentLabel')->name('admin.tools.ad-hoc-shipment.buy-shipment-label');
         });
+        Route::group(['namespace' => 'Inventory', 'prefix' => 'inventory'], function () {
+            Route::get('warehouse', 'ListWarehousesController@index')->name('admin.inventory.warehouse');
+            Route::get('warehouse/new', 'CreateWarehouseController@get')->name('admin.inventory.warehouse.new');
+        });
     });
 });
 
