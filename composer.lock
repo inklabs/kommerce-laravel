@@ -1317,12 +1317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-core.git",
-                "reference": "f2d7b59f097f675f1353e24f827519a1481839b4"
+                "reference": "cf5764528aede8b8ae27325c8bbce4ea620e9097"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/f2d7b59f097f675f1353e24f827519a1481839b4",
-                "reference": "f2d7b59f097f675f1353e24f827519a1481839b4",
+                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/cf5764528aede8b8ae27325c8bbce4ea620e9097",
+                "reference": "cf5764528aede8b8ae27325c8bbce4ea620e9097",
                 "shasum": ""
             },
             "require": {
@@ -1331,6 +1331,7 @@
                 "doctrine/orm": "~2.5",
                 "easypost/easypost-php": "2.1.1",
                 "hamcrest/hamcrest-php": "~2.0.0",
+                "paragonie/random_compat": "~1.4",
                 "php": ">=5.6",
                 "ramsey/uuid": "3.4.1",
                 "ramsey/uuid-doctrine": "1.2.0",
@@ -1362,7 +1363,7 @@
                 "source": "https://github.com/inklabs/kommerce-core",
                 "issues": "https://github.com/inklabs/kommerce-core/issues"
             },
-            "time": "2017-03-19 06:36:21"
+            "time": "2017-03-19 17:59:52"
         },
         {
             "name": "inklabs/kommerce-templates",
