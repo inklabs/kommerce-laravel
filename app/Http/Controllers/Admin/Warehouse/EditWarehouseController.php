@@ -11,7 +11,7 @@ class EditWarehouseController extends Controller
 {
     public function get($warehouseId)
     {
-        $warehouse = $this->getWarehouse($warehouseId);
+        $warehouse = $this->getWarehouseWithAllData($warehouseId);
 
         return $this->renderTemplate(
             '@admin/warehouse/edit.twig',

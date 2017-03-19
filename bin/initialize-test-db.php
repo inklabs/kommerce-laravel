@@ -5,6 +5,7 @@ use inklabs\kommerce\Entity\AttributeChoiceType;
 use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Configuration;
 use inklabs\kommerce\Entity\Image;
+use inklabs\kommerce\Entity\InventoryLocation;
 use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
@@ -34,6 +35,10 @@ $address->setZip5('90405');
 $address->setPoint(new Point(34.052234, -118.243685));
 $warehouse = new Warehouse('Santa Monica - Main St', $address);
 
+$inventoryLocation1 = new InventoryLocation($warehouse, 'Zone 1 | Rack 1 | Bin 2', 'Z1-R1-B2');
+$inventoryLocation2 = new InventoryLocation($warehouse, 'Zone 1 | Rack 1 | Bin 3', 'Z1-R1-B3');
+$inventoryLocation3 = new InventoryLocation($warehouse, 'Zone 1 | Rack 2 | Bin 15', 'Z1-R2-B15');
+
 $adminRole = new UserRole(UserRoleType::admin());
 
 $admin = new User();
@@ -51,6 +56,9 @@ $customer->setPassword('Test123!');
 
 $entities = [
     $warehouse,
+    $inventoryLocation1,
+    $inventoryLocation2,
+    $inventoryLocation3,
     $adminRole,
     $admin,
     $customer,

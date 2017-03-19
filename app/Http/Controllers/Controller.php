@@ -842,6 +842,17 @@ class Controller extends BaseController
      * @return WarehouseDTO
      * @throws NotFoundHttpException
      */
+    protected function getWarehouseWithAllData($warehouseId)
+    {
+        return $this->getWarehouseById($warehouseId)
+            ->getWarehouseDTOWithAllData();
+    }
+
+    /**
+     * @param $warehouseId
+     * @return WarehouseDTO
+     * @throws NotFoundHttpException
+     */
     protected function getWarehouse($warehouseId)
     {
         return $this->getWarehouseById($warehouseId)
