@@ -9,17 +9,12 @@ use inklabs\kommerce\Action\Cart\DeleteCartItemCommand;
 use inklabs\kommerce\Action\Cart\RemoveCouponFromCartCommand;
 use inklabs\kommerce\Action\Cart\SetExternalShipmentRateCommand;
 use inklabs\kommerce\Action\Cart\UpdateCartItemQuantityCommand;
-use inklabs\kommerce\Action\Product\GetRelatedProductsQuery;
-use inklabs\kommerce\Action\Product\Query\GetRelatedProductsRequest;
-use inklabs\kommerce\Action\Product\Query\GetRelatedProductsResponse;
 use inklabs\kommerce\Action\Shipment\GetLowestShipmentRatesByDeliveryMethodQuery;
-use inklabs\kommerce\Action\Shipment\Query\GetLowestShipmentRatesByDeliveryMethodRequest;
-use inklabs\kommerce\Action\Shipment\Query\GetLowestShipmentRatesByDeliveryMethodResponse;
+use inklabs\kommerce\ActionResponse\Shipment\GetLowestShipmentRatesByDeliveryMethodResponse;
 use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
-use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\EntityDTO\ShipmentRateDTO;
 use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\InputDTO\TextOptionValueDTO;
@@ -268,9 +263,8 @@ class CartController extends Controller
         $parcel->height = $defaultHeight;
         $parcel->weight = $cart->shippingWeight;
 
-        $request = new GetLowestShipmentRatesByDeliveryMethodRequest($toAddress, $parcel);
-        $response = new GetLowestShipmentRatesByDeliveryMethodResponse();
-        $this->dispatchQuery(new GetLowestShipmentRatesByDeliveryMethodQuery($request, $response));
+        /** @var GetLowestShipmentRatesByDeliveryMethodResponse $response */
+        $response = $this->dispatchQuery(new GetLowestShipmentRatesByDeliveryMethodQuery($toAddress, $parcel));
 
         $shipmentRateDTOs = $response->getShipmentRateDTOs();
 
@@ -315,32 +309,5 @@ class CartController extends Controller
         } catch (EntityValidatorException $e) {
             $this->flashGenericWarning();
         }
-    }
-
-    protected function getRelatedProducts(CartDTO $cartDTO, $limit = 4)
-    {
-        $cartProductIds = [];
-        foreach ($cartDTO->cartItems as $cartItem) {
-            $cartProductIds[] = $cartItem->product->id->getHex();
-        }
-
-        return $this->getRecommendedProducts($cartProductIds, $limit);
-    }
-
-    /**
-     * @param string[] $productIds
-     * @param int $limit
-     * @return ProductDTO[]
-     */
-    protected function getRecommendedProducts($productIds, $limit)
-    {
-        // Hot-wire random for now, until tags get into the db
-        return $this->getRandomProducts($limit);
-
-        $request = new GetRelatedProductsRequest($productIds, $limit);
-        $response = new GetRelatedProductsResponse($this->getPricing());
-        $this->dispatchQuery(new GetRelatedProductsQuery($request, $response));
-
-        return $response->getProductDTOs();
     }
 }

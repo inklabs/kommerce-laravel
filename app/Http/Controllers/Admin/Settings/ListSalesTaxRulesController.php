@@ -2,19 +2,16 @@
 namespace App\Http\Controllers\Admin\Settings;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use inklabs\kommerce\Action\TaxRate\ListTaxRatesQuery;
-use inklabs\kommerce\Action\TaxRate\Query\ListTaxRatesRequest;
-use inklabs\kommerce\Action\TaxRate\Query\ListTaxRatesResponse;
+use inklabs\kommerce\ActionResponse\TaxRate\ListTaxRatesResponse;
 use inklabs\kommerce\Entity\TaxRate;
 
 class ListSalesTaxRulesController extends Controller
 {
     public function index()
     {
-        $request = new ListTaxRatesRequest();
-        $response = new ListTaxRatesResponse();
-        $this->dispatchQuery(new ListTaxRatesQuery($request, $response));
+        /** @var ListTaxRatesResponse $response */
+        $response = $this->dispatchQuery(new ListTaxRatesQuery());
 
         $stateTaxRates = [];
         $zip5TaxRates = [];

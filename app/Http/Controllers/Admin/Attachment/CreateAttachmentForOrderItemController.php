@@ -6,7 +6,6 @@ use App\Lib\Arr;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Attachment\CreateAttachmentForOrderItemCommand;
 use inklabs\kommerce\EntityDTO\UploadFileDTO;
-use inklabs\kommerce\Exception\Kommerce400Exception;
 use inklabs\kommerce\Exception\KommerceException;
 
 class CreateAttachmentForOrderItemController extends Controller

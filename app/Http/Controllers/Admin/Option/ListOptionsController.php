@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Admin\Option;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Option\ListOptionsQuery;
-use inklabs\kommerce\Action\Option\Query\ListOptionsRequest;
-use inklabs\kommerce\Action\Option\Query\ListOptionsResponse;
+use inklabs\kommerce\ActionResponse\Option\ListOptionsResponse;
 
 class ListOptionsController extends Controller
 {
@@ -13,13 +12,11 @@ class ListOptionsController extends Controller
     {
         $queryString = $httpRequest->query('q');
 
-        $request = new ListOptionsRequest(
+        /** @var ListOptionsResponse $response */
+        $response = $this->dispatchQuery(new ListOptionsQuery(
             $queryString,
             $this->getPaginationDTO(20)
-        );
-
-        $response = new ListOptionsResponse();
-        $this->dispatchQuery(new ListOptionsQuery($request, $response));
+        ));
 
         $options = $response->getOptionDTOs();
         $pagination = $response->getPaginationDTO();

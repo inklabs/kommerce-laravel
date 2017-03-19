@@ -1,11 +1,10 @@
 <?php
-namespace App\Http\Controllers\Admin\Inventory;
+namespace App\Http\Controllers\Admin\Warehouse;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Warehouse\ListWarehousesQuery;
-use inklabs\kommerce\Action\Warehouse\Query\ListWarehousesRequest;
-use inklabs\kommerce\Action\Warehouse\Query\ListWarehousesResponse;
+use inklabs\kommerce\ActionResponse\Warehouse\ListWarehousesResponse;
 
 class ListWarehousesController extends Controller
 {
@@ -13,19 +12,17 @@ class ListWarehousesController extends Controller
     {
         $queryString = $httpRequest->query('q');
 
-        $request = new ListWarehousesRequest(
+        /** @var ListWarehousesResponse $response */
+        $response = $this->dispatchQuery(new ListWarehousesQuery(
             $queryString,
             $this->getPaginationDTO(20)
-        );
-
-        $response = new ListWarehousesResponse();
-        $this->dispatchQuery(new ListWarehousesQuery($request, $response));
+        ));
 
         $warehouses = $response->getWarehouseDTOs();
         $pagination = $response->getPaginationDTO();
 
         return $this->renderTemplate(
-            '@admin/inventory/warehouse/index.twig',
+            '@admin/warehouse/index.twig',
             [
                 'warehouses' => $warehouses,
                 'pagination' => $pagination,

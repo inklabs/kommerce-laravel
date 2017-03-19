@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Shipment\AddShipmentTrackingCodeCommand;
 use inklabs\kommerce\Action\Shipment\BuyShipmentLabelCommand;
 use inklabs\kommerce\Action\Shipment\GetShipmentRatesQuery;
-use inklabs\kommerce\Action\Shipment\Query\GetShipmentRatesRequest;
-use inklabs\kommerce\Action\Shipment\Query\GetShipmentRatesResponse;
+use inklabs\kommerce\ActionResponse\Shipment\GetShipmentRatesResponse;
 use inklabs\kommerce\Entity\ShipmentCarrierType;
 use inklabs\kommerce\EntityDTO\OrderItemQtyDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
@@ -115,9 +114,8 @@ class AddShipmentController extends Controller
         $parcel->height = $height;
         $parcel->weight = $weightOz;
 
-        $request = new GetShipmentRatesRequest($toAddress, $parcel);
-        $response = new GetShipmentRatesResponse();
-        $this->dispatchQuery(new GetShipmentRatesQuery($request, $response));
+        /** @var GetShipmentRatesResponse $response */
+        $response = $this->dispatchQuery(new GetShipmentRatesQuery($toAddress, $parcel));
 
         $shipmentRates = $response->getShipmentRateDTOs();
         $shipment['shipmentRateExternalId'] = $shipmentRates[0]->externalId;

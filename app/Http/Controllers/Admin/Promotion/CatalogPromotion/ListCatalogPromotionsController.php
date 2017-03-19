@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Admin\Promotion\CatalogPromotion;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\CatalogPromotion\ListCatalogPromotionsQuery;
-use inklabs\kommerce\Action\CatalogPromotion\Query\ListCatalogPromotionsRequest;
-use inklabs\kommerce\Action\CatalogPromotion\Query\ListCatalogPromotionsResponse;
+use inklabs\kommerce\ActionResponse\CatalogPromotion\ListCatalogPromotionsResponse;
 
 class ListCatalogPromotionsController extends Controller
 {
@@ -13,13 +12,11 @@ class ListCatalogPromotionsController extends Controller
     {
         $queryString = $httpRequest->query('q');
 
-        $request = new ListCatalogPromotionsRequest(
+        /** @var ListCatalogPromotionsResponse $response */
+        $response = $this->dispatchQuery(new ListCatalogPromotionsQuery(
             $queryString,
             $this->getPaginationDTO(20)
-        );
-
-        $response = new ListCatalogPromotionsResponse();
-        $this->dispatchQuery(new ListCatalogPromotionsQuery($request, $response));
+        ));
 
         $catalogPromotions = $response->getCatalogPromotionDTOsWithAllData();
         $pagination = $response->getPaginationDTO();

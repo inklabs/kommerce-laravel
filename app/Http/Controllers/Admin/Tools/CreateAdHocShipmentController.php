@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Shipment\BuyAdHocShipmentLabelCommand;
 use inklabs\kommerce\Action\Shipment\GetShipmentRatesQuery;
 use inklabs\kommerce\Action\Shipment\Query\GetShipmentRatesRequest;
-use inklabs\kommerce\Action\Shipment\Query\GetShipmentRatesResponse;
+use inklabs\kommerce\ActionResponse\Shipment\GetShipmentRatesResponse;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\ParcelDTO;
 use inklabs\kommerce\Exception\EntityValidatorException;
@@ -47,9 +47,8 @@ class CreateAdHocShipmentController extends Controller
         $parcelDTO->height = $height;
         $parcelDTO->weight = $weightOz;
 
-        $request = new GetShipmentRatesRequest($toAddressDTO, $parcelDTO, $fromAddressDTO);
-        $response = new GetShipmentRatesResponse();
-        $this->dispatchQuery(new GetShipmentRatesQuery($request, $response));
+        /** @var GetShipmentRatesResponse $response */
+        $response = $this->dispatchQuery(new GetShipmentRatesQuery($toAddressDTO, $parcelDTO, $fromAddressDTO));
 
         $shipmentRates = $response->getShipmentRateDTOs();
 

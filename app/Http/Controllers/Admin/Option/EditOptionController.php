@@ -6,7 +6,6 @@ use App\Lib\Arr;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Option\UpdateOptionCommand;
 use inklabs\kommerce\Entity\OptionType;
-use inklabs\kommerce\EntityDTO\OptionDTO;
 use inklabs\kommerce\Exception\EntityValidatorException;
 
 class EditOptionController extends Controller

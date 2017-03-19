@@ -2,11 +2,8 @@
 namespace App\Http\Controllers\Admin\Tag;
 
 use App\Http\Controllers\Controller;
-use App\Lib\Arr;
 use Illuminate\Http\Request;
-use inklabs\kommerce\Action\Image\CreateImageForTagCommand;
 use inklabs\kommerce\Action\Tag\AddOptionToTagCommand;
-use inklabs\kommerce\EntityDTO\UploadFileDTO;
 use inklabs\kommerce\Exception\KommerceException;
 
 class AddOptionToTagController extends Controller

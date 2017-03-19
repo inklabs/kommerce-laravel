@@ -4,8 +4,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Order\GetOrdersByUserQuery;
-use inklabs\kommerce\Action\Order\Query\GetOrdersByUserRequest;
-use inklabs\kommerce\Action\Order\Query\GetOrdersByUserResponse;
+use inklabs\kommerce\ActionResponse\Order\GetOrdersByUserResponse;
 
 class AccountController extends Controller
 {
@@ -13,9 +12,8 @@ class AccountController extends Controller
     {
         $user = $this->getUserFromSessionOrAbort();
 
-        $request = new GetOrdersByUserRequest($user->id->getHex());
-        $response = new GetOrdersByUserResponse();
-        $this->dispatchQuery(new GetOrdersByUserQuery($request, $response));
+        /** @var GetOrdersByUserResponse $response */
+        $response = $this->dispatchQuery(new GetOrdersByUserQuery($user->id->getHex()));
 
         return $this->renderTemplate(
             '@store/user/account.twig',

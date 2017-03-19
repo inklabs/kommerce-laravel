@@ -15,57 +15,45 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use inklabs\kommerce\Action\Attribute\GetAttributeQuery;
 use inklabs\kommerce\Action\Attribute\GetAttributeValueQuery;
-use inklabs\kommerce\Action\Attribute\Query\GetAttributeRequest;
-use inklabs\kommerce\Action\Attribute\Query\GetAttributeResponse;
-use inklabs\kommerce\Action\Attribute\Query\GetAttributeValueRequest;
-use inklabs\kommerce\Action\Attribute\Query\GetAttributeValueResponse;
+use inklabs\kommerce\Action\Warehouse\GetWarehouseQuery;
+use inklabs\kommerce\ActionResponse\Attribute\GetAttributeResponse;
+use inklabs\kommerce\ActionResponse\Attribute\GetAttributeValueResponse;
 use inklabs\kommerce\Action\Cart\CopyCartItemsCommand;
 use inklabs\kommerce\Action\Cart\CreateCartCommand;
 use inklabs\kommerce\Action\Cart\GetCartBySessionIdQuery;
 use inklabs\kommerce\Action\Cart\GetCartByUserIdQuery;
 use inklabs\kommerce\Action\Cart\GetCartQuery;
-use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdRequest;
-use inklabs\kommerce\Action\Cart\Query\GetCartBySessionIdResponse;
-use inklabs\kommerce\Action\Cart\Query\GetCartByUserIdRequest;
-use inklabs\kommerce\Action\Cart\Query\GetCartByUserIdResponse;
-use inklabs\kommerce\Action\Cart\Query\GetCartRequest;
-use inklabs\kommerce\Action\Cart\Query\GetCartResponse;
+use inklabs\kommerce\ActionResponse\Cart\GetCartBySessionIdResponse;
+use inklabs\kommerce\ActionResponse\Cart\GetCartByUserIdResponse;
+use inklabs\kommerce\ActionResponse\Cart\GetCartResponse;
 use inklabs\kommerce\Action\Cart\RemoveCartCommand;
 use inklabs\kommerce\Action\Cart\SetCartSessionIdCommand;
 use inklabs\kommerce\Action\Cart\SetCartUserCommand;
 use inklabs\kommerce\Action\CartPriceRule\GetCartPriceRuleQuery;
-use inklabs\kommerce\Action\CartPriceRule\Query\GetCartPriceRuleRequest;
-use inklabs\kommerce\Action\CartPriceRule\Query\GetCartPriceRuleResponse;
+use inklabs\kommerce\ActionResponse\CartPriceRule\GetCartPriceRuleResponse;
 use inklabs\kommerce\Action\CatalogPromotion\GetCatalogPromotionQuery;
-use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionRequest;
-use inklabs\kommerce\Action\CatalogPromotion\Query\GetCatalogPromotionResponse;
+use inklabs\kommerce\ActionResponse\CatalogPromotion\GetCatalogPromotionResponse;
 use inklabs\kommerce\Action\Configuration\GetConfigurationsByKeysQuery;
-use inklabs\kommerce\Action\Configuration\Query\GetConfigurationsByKeysRequest;
-use inklabs\kommerce\Action\Configuration\Query\GetConfigurationsByKeysResponse;
+use inklabs\kommerce\ActionResponse\Configuration\GetConfigurationsByKeysResponse;
 use inklabs\kommerce\Action\Coupon\GetCouponQuery;
-use inklabs\kommerce\Action\Coupon\Query\GetCouponRequest;
-use inklabs\kommerce\Action\Coupon\Query\GetCouponResponse;
+use inklabs\kommerce\ActionResponse\Coupon\GetCouponResponse;
 use inklabs\kommerce\Action\Option\GetOptionQuery;
-use inklabs\kommerce\Action\Option\Query\GetOptionRequest;
-use inklabs\kommerce\Action\Option\Query\GetOptionResponse;
+use inklabs\kommerce\ActionResponse\Option\GetOptionResponse;
 use inklabs\kommerce\Action\Order\GetOrderItemQuery;
 use inklabs\kommerce\Action\Order\GetOrderQuery;
-use inklabs\kommerce\Action\Order\Query\GetOrderItemRequest;
-use inklabs\kommerce\Action\Order\Query\GetOrderItemResponse;
-use inklabs\kommerce\Action\Order\Query\GetOrderRequest;
-use inklabs\kommerce\Action\Order\Query\GetOrderResponse;
+use inklabs\kommerce\ActionResponse\Order\GetOrderItemResponse;
+use inklabs\kommerce\ActionResponse\Order\GetOrderResponse;
 use inklabs\kommerce\Action\Product\GetProductQuery;
 use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
-use inklabs\kommerce\Action\Product\Query\GetProductRequest;
-use inklabs\kommerce\Action\Product\Query\GetProductResponse;
-use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
-use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
+use inklabs\kommerce\Action\Product\GetRelatedProductsQuery;
+use inklabs\kommerce\ActionResponse\Product\GetProductResponse;
+use inklabs\kommerce\ActionResponse\Product\GetRandomProductsResponse;
 use inklabs\kommerce\Action\Shipment\GetShipmentTrackerQuery;
-use inklabs\kommerce\Action\Shipment\Query\GetShipmentTrackerRequest;
-use inklabs\kommerce\Action\Shipment\Query\GetShipmentTrackerResponse;
+use inklabs\kommerce\ActionResponse\Product\GetRelatedProductsResponse;
+use inklabs\kommerce\ActionResponse\Shipment\GetShipmentTrackerResponse;
 use inklabs\kommerce\Action\Tag\GetTagQuery;
-use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
-use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
+use inklabs\kommerce\ActionResponse\Tag\GetTagResponse;
+use inklabs\kommerce\ActionResponse\Warehouse\GetWarehouseResponse;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\AttributeValueDTO;
 use inklabs\kommerce\EntityDTO\CartDTO;
@@ -80,6 +68,7 @@ use inklabs\kommerce\EntityDTO\ProductDTO;
 use inklabs\kommerce\EntityDTO\ShipmentTrackerDTO;
 use inklabs\kommerce\EntityDTO\TagDTO;
 use inklabs\kommerce\EntityDTO\UserDTO;
+use inklabs\kommerce\EntityDTO\WarehouseDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Exception\KommerceException;
@@ -262,7 +251,7 @@ class Controller extends BaseController
 
     protected function dispatchQuery(QueryInterface $query)
     {
-        $this->kommerceConfiguration->dispatchQuery($query);
+        return $this->kommerceConfiguration->dispatchQuery($query);
     }
 
     protected function adminDispatch(CommandInterface $command)
@@ -272,7 +261,7 @@ class Controller extends BaseController
 
     protected function adminDispatchQuery(QueryInterface $query)
     {
-        $this->adminKommerceConfiguration->dispatchQuery($query);
+        return $this->adminKommerceConfiguration->dispatchQuery($query);
     }
 
     /**
@@ -312,12 +301,10 @@ class Controller extends BaseController
      */
     protected function getCart()
     {
-        $cartId = $this->getCartId();
-
-        $request = new GetCartRequest($cartId);
-        $response = new GetCartResponse($this->getCartCalculator());
-        $this->dispatchQuery(new GetCartQuery($request, $response));
-
+        /** @var GetCartResponse $response */
+        $response = $this->dispatchQuery(new GetCartQuery(
+            $this->getCartId()
+        ));
         return $response->getCartDTOWithAllData();
     }
 
@@ -347,10 +334,8 @@ class Controller extends BaseController
      */
     private function getCartFromSession()
     {
-        $request = new GetCartBySessionIdRequest($this->getSessionId());
-        $response = new GetCartBySessionIdResponse($this->getCartCalculator());
-        $this->adminDispatchQuery(new GetCartBySessionIdQuery($request, $response));
-
+        /** @var GetCartBySessionIdResponse $response */
+        $response = $this->adminDispatchQuery(new GetCartBySessionIdQuery($this->getSessionId()));
         return $response->getCartDTO();
     }
 
@@ -360,10 +345,8 @@ class Controller extends BaseController
      */
     private function getCartByUserId($userId)
     {
-        $request = new GetCartByUserIdRequest($userId);
-        $response = new GetCartByUserIdResponse($this->getCartCalculator());
-        $this->adminDispatchQuery(new GetCartByUserIdQuery($request, $response));
-
+        /** @var GetCartByUserIdResponse $response */
+        $response = $this->adminDispatchQuery(new GetCartByUserIdQuery($userId));
         return $response->getCartDTO();
     }
 
@@ -382,9 +365,8 @@ class Controller extends BaseController
         $this->dispatch($createCartCommand);
         $cartId = $createCartCommand->getCartId();
 
-        $request = new GetCartRequest($cartId);
-        $response = new GetCartResponse($this->getCartCalculator());
-        $this->dispatchQuery(new GetCartQuery($request, $response));
+        /** @var GetCartResponse $response */
+        $response = $this->dispatchQuery(new GetCartQuery($cartId));
 
         $this->cartDTO = $response->getCartDTO();
     }
@@ -563,19 +545,15 @@ class Controller extends BaseController
 
     protected function getRandomProducts($limit)
     {
-        $request = new GetRandomProductsRequest($limit);
-        $response = new GetRandomProductsResponse($this->getPricing());
-        $this->dispatchQuery(new GetRandomProductsQuery($request, $response));
-
+        /** @var GetRandomProductsResponse $response */
+        $response = $this->dispatchQuery(new GetRandomProductsQuery($limit));
         return $response->getProductDTOs();
     }
 
     protected function getConfigurationsByKeys(array $keys)
     {
-        $request = new GetConfigurationsByKeysRequest($keys);
-        $response = new GetConfigurationsByKeysResponse();
-        $this->dispatchQuery(new GetConfigurationsByKeysQuery($request, $response));
-
+        /** @var GetConfigurationsByKeysResponse $response */
+        $response = $this->dispatchQuery(new GetConfigurationsByKeysQuery($keys));
         return $response->getConfigurationDTOs();
     }
 
@@ -598,14 +576,10 @@ class Controller extends BaseController
     private function getOptionById($optionId)
     {
         try {
-            $request = new GetOptionRequest($optionId);
-            $response = new GetOptionResponse($this->getPricing());
-            $this->dispatchQuery(new GetOptionQuery($request, $response));
+            return $this->dispatchQuery(new GetOptionQuery($optionId));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
-
-        return $response;
     }
 
     /**
@@ -627,14 +601,10 @@ class Controller extends BaseController
     private function getOrderById($orderId)
     {
         try {
-            $request = new GetOrderRequest($orderId);
-            $response = new GetOrderResponse();
-            $this->dispatchQuery(new GetOrderQuery($request, $response));
+            return $this->dispatchQuery(new GetOrderQuery($orderId));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
-
-        return $response;
     }
 
     /**
@@ -656,14 +626,10 @@ class Controller extends BaseController
     private function getShipmentTrackerById($shipmentTrackerId)
     {
         try {
-            $request = new GetShipmentTrackerRequest($shipmentTrackerId);
-            $response = new GetShipmentTrackerResponse();
-            $this->dispatchQuery(new GetShipmentTrackerQuery($request, $response));
+            return $this->dispatchQuery(new GetShipmentTrackerQuery($shipmentTrackerId));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
-
-        return $response;
     }
 
     /**
@@ -696,14 +662,10 @@ class Controller extends BaseController
     private function getOrderItemById($orderItemId)
     {
         try {
-            $request = new GetOrderItemRequest($orderItemId);
-            $response = new GetOrderItemResponse();
-            $this->dispatchQuery(new GetOrderItemQuery($request, $response));
+            return $this->dispatchQuery(new GetOrderItemQuery($orderItemId));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
-
-        return $response;
     }
 
     /**
@@ -736,14 +698,10 @@ class Controller extends BaseController
     private function getProductById($productId)
     {
         try {
-            $request = new GetProductRequest($productId);
-            $response = new GetProductResponse($this->getPricing());
-            $this->dispatchQuery(new GetProductQuery($request, $response));
+            return $this->dispatchQuery(new GetProductQuery($productId));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
-
-        return $response;
     }
 
     /**
@@ -776,14 +734,10 @@ class Controller extends BaseController
     private function getCartPriceRuleById($cartPriceRuleId)
     {
         try {
-            $request = new GetCartPriceRuleRequest($cartPriceRuleId);
-            $response = new GetCartPriceRuleResponse();
-            $this->dispatchQuery(new GetCartPriceRuleQuery($request, $response));
+            return $this->dispatchQuery(new GetCartPriceRuleQuery($cartPriceRuleId));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
-
-        return $response;
     }
 
     /**
@@ -816,14 +770,10 @@ class Controller extends BaseController
     private function getAttributeById($attributeId)
     {
         try {
-            $request = new GetAttributeRequest($attributeId);
-            $response = new GetAttributeResponse();
-            $this->dispatchQuery(new GetAttributeQuery($request, $response));
+            return $this->dispatchQuery(new GetAttributeQuery($attributeId));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
-
-        return $response;
     }
 
     /**
@@ -856,14 +806,10 @@ class Controller extends BaseController
     private function getAttributeValueById($attributeValueId)
     {
         try {
-            $request = new GetAttributeValueRequest($attributeValueId);
-            $response = new GetAttributeValueResponse();
-            $this->dispatchQuery(new GetAttributeValueQuery($request, $response));
+            return $this->dispatchQuery(new GetAttributeValueQuery($attributeValueId));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
-
-        return $response;
     }
 
     /**
@@ -885,14 +831,35 @@ class Controller extends BaseController
     private function getCouponById($couponId)
     {
         try {
-            $request = new GetCouponRequest($couponId);
-            $response = new GetCouponResponse();
-            $this->dispatchQuery(new GetCouponQuery($request, $response));
+            return $this->dispatchQuery(new GetCouponQuery($couponId));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
+    }
 
-        return $response;
+    /**
+     * @param $warehouseId
+     * @return WarehouseDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getWarehouse($warehouseId)
+    {
+        return $this->getWarehouseById($warehouseId)
+            ->getWarehouseDTO();
+    }
+
+    /**
+     * @param string $warehouseId
+     * @return GetWarehouseResponse
+     * @throws NotFoundHttpException
+     */
+    private function getWarehouseById($warehouseId)
+    {
+        try {
+            return $this->dispatchQuery(new GetWarehouseQuery($warehouseId));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
     }
 
     /**
@@ -925,14 +892,10 @@ class Controller extends BaseController
     private function getCatalogPromotionById($catalogPromotionId)
     {
         try {
-            $request = new GetCatalogPromotionRequest($catalogPromotionId);
-            $response = new GetCatalogPromotionResponse($this->getPricing());
-            $this->dispatchQuery(new GetCatalogPromotionQuery($request, $response));
+            return $this->dispatchQuery(new GetCatalogPromotionQuery($catalogPromotionId));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
-
-        return $response;
     }
 
     /**
@@ -965,14 +928,10 @@ class Controller extends BaseController
     private function getTagById($tagId)
     {
         try {
-            $request = new GetTagRequest($tagId);
-            $response = new GetTagResponse($this->getPricing());
-            $this->dispatchQuery(new GetTagQuery($request, $response));
+            return $this->dispatchQuery(new GetTagQuery($tagId));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
-
-        return $response;
     }
 
     /**
@@ -1165,5 +1124,27 @@ class Controller extends BaseController
     private function logError($message)
     {
         // TODO: Log error message to file
+    }
+
+    protected function getRelatedProducts(CartDTO $cartDTO, $limit = 4)
+    {
+        $cartProductIds = [];
+        foreach ($cartDTO->cartItems as $cartItem) {
+            $cartProductIds[] = $cartItem->product->id->getHex();
+        }
+
+        return $this->getRecommendedProducts($cartProductIds, $limit);
+    }
+
+    /**
+     * @param string[] $productIds
+     * @param int $limit
+     * @return ProductDTO[]
+     */
+    protected function getRecommendedProducts($productIds, $limit)
+    {
+        /** @var GetRelatedProductsResponse $response */
+        $response = $this->dispatchQuery(new GetRelatedProductsQuery($productIds, $limit));
+        return $response->getProductDTOs();
     }
 }

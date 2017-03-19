@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use inklabs\kommerce\Exception\KommerceException;
 use inklabs\kommerce\Lib\CartCalculator;
 use inklabs\kommerce\Lib\Pricing;

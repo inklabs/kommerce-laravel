@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Admin\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Product\ListProductsQuery;
-use inklabs\kommerce\Action\Product\Query\ListProductsRequest;
-use inklabs\kommerce\Action\Product\Query\ListProductsResponse;
+use inklabs\kommerce\ActionResponse\Product\ListProductsResponse;
 
 class ListProductsController extends Controller
 {
@@ -13,13 +12,11 @@ class ListProductsController extends Controller
     {
         $queryString = $httpRequest->query('q');
 
-        $request = new ListProductsRequest(
+        /** @var ListProductsResponse $response */
+        $response = $this->dispatchQuery(new ListProductsQuery(
             $queryString,
             $this->getPaginationDTO(20)
-        );
-
-        $response = new ListProductsResponse();
-        $this->dispatchQuery(new ListProductsQuery($request, $response));
+        ));
 
         $products = $response->getProductDTOs();
         $pagination = $response->getPaginationDTO();

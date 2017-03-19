@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Admin\Tag;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Tag\ListTagsQuery;
-use inklabs\kommerce\Action\Tag\Query\ListTagsRequest;
-use inklabs\kommerce\Action\Tag\Query\ListTagsResponse;
+use inklabs\kommerce\ActionResponse\Tag\ListTagsResponse;
 
 class ListTagsController extends Controller
 {
@@ -13,13 +12,11 @@ class ListTagsController extends Controller
     {
         $queryString = $httpRequest->query('q');
 
-        $request = new ListTagsRequest(
+        /** @var ListTagsResponse $response */
+        $response = $this->dispatchQuery(new ListTagsQuery(
             $queryString,
             $this->getPaginationDTO(20)
-        );
-
-        $response = new ListTagsResponse();
-        $this->dispatchQuery(new ListTagsQuery($request, $response));
+        ));
 
         $tags = $response->getTagDTOs();
         $pagination = $response->getPaginationDTO();

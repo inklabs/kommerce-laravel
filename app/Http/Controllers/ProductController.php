@@ -1,23 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 
-use inklabs\kommerce\Action\Product\GetProductQuery;
-use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
-use inklabs\kommerce\Action\Product\Query\GetProductRequest;
-use inklabs\kommerce\Action\Product\Query\GetProductResponse;
-use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
-use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
-
 class ProductController extends Controller
 {
     public function show($slug, $productId)
     {
-        $request = new GetProductRequest($productId);
-        $response = new GetProductResponse($this->getPricing());
-        $this->dispatchQuery(new GetProductQuery($request, $response));
-
         $cartDTO = $this->getCart();
-        $productDTO = $response->getProductDTOWithAllData();
+        $productDTO = $this->getProductWithAllData($productId);
 
         if ($slug !== $productDTO->slug) {
             return redirect()->route(
@@ -29,17 +18,12 @@ class ProductController extends Controller
             );
         }
 
-        $request = new GetRandomProductsRequest(4);
-        $response = new GetRandomProductsResponse($this->getPricing());
-        $this->dispatchQuery(new GetRandomProductsQuery($request, $response));
-        $relatedProductDTOs = $response->getProductDTOs();
-
         return $this->renderTemplate(
             '@store/product/show.twig',
             [
                 'cart' => $cartDTO,
                 'product' => $productDTO,
-                'relatedProducts' => $relatedProductDTOs,
+                'relatedProducts' => $this->getRandomProducts(4),
             ]
         );
     }

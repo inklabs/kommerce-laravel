@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Admin\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\User\ListUsersQuery;
-use inklabs\kommerce\Action\User\Query\ListUsersRequest;
-use inklabs\kommerce\Action\User\Query\ListUsersResponse;
+use inklabs\kommerce\ActionResponse\User\ListUsersResponse;
 
 class ListUsersController extends Controller
 {
@@ -13,13 +12,11 @@ class ListUsersController extends Controller
     {
         $queryString = $httpRequest->query('q');
 
-        $request = new ListUsersRequest(
+        /** @var ListUsersResponse $response */
+        $response = $this->dispatchQuery(new ListUsersQuery(
             $queryString,
             $this->getPaginationDTO(20)
-        );
-
-        $response = new ListUsersResponse();
-        $this->dispatchQuery(new ListUsersQuery($request, $response));
+        ));
 
         $users = $response->getUserDTOs();
         $pagination = $response->getPaginationDTO();

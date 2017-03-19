@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Admin\Attribute;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Attribute\ListAttributesQuery;
-use inklabs\kommerce\Action\Attribute\Query\ListAttributesRequest;
-use inklabs\kommerce\Action\Attribute\Query\ListAttributesResponse;
+use inklabs\kommerce\ActionResponse\Attribute\ListAttributesResponse;
 
 class ListAttributesController extends Controller
 {
@@ -13,13 +12,11 @@ class ListAttributesController extends Controller
     {
         $queryString = $httpRequest->query('q');
 
-        $request = new ListAttributesRequest(
+        /** @var ListAttributesResponse $response */
+        $response = $this->dispatchQuery(new ListAttributesQuery(
             $queryString,
             $this->getPaginationDTO(20)
-        );
-
-        $response = new ListAttributesResponse();
-        $this->dispatchQuery(new ListAttributesQuery($request, $response));
+        ));
 
         $attributes = $response->getAttributeDTOs();
         $pagination = $response->getPaginationDTO();

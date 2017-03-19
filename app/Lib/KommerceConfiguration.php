@@ -115,7 +115,7 @@ class KommerceConfiguration
 
     public function dispatchQuery(QueryInterface $query)
     {
-        $this->getQueryBus()->execute($query);
+        return $this->getQueryBus()->execute($query);
     }
 
     public function getPricing()

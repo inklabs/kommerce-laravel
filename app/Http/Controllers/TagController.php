@@ -3,23 +3,15 @@ namespace App\Http\Controllers;
 
 use inklabs\kommerce\Action\Product\GetProductsByTagQuery;
 use inklabs\kommerce\Action\Product\Query\GetProductsByTagRequest;
-use inklabs\kommerce\Action\Product\Query\GetProductsByTagResponse;
-use inklabs\kommerce\Action\Tag\GetTagQuery;
+use inklabs\kommerce\ActionResponse\Product\GetProductsByTagResponse;
 use inklabs\kommerce\Action\Tag\ListTagsQuery;
-use inklabs\kommerce\Action\Tag\Query\GetTagRequest;
-use inklabs\kommerce\Action\Tag\Query\GetTagResponse;
-use inklabs\kommerce\Action\Tag\Query\ListTagsRequest;
-use inklabs\kommerce\Action\Tag\Query\ListTagsResponse;
+use inklabs\kommerce\ActionResponse\Tag\ListTagsResponse;
 
 class TagController extends Controller
 {
     public function show($slug, $tagId)
     {
-        $request = new GetTagRequest($tagId);
-        $response = new GetTagResponse($this->getPricing());
-        $this->dispatchQuery(new GetTagQuery($request, $response));
-
-        $tagDTO = $response->getTagDTOWithAllData();
+        $tagDTO = $this->getTagWithAllData($tagId);
 
         if ($slug !== $tagDTO->slug) {
             return redirect()->route(
@@ -31,12 +23,11 @@ class TagController extends Controller
             );
         }
 
-        $request = new GetProductsByTagRequest(
+        /** @var GetProductsByTagResponse $response */
+        $response = $this->dispatchQuery(new GetProductsByTagQuery(
             $tagDTO->id->getHex(),
             $this->getPaginationDTO(12)
-        );
-        $response = new GetProductsByTagResponse($this->getPricing());
-        $this->dispatchQuery(new GetProductsByTagQuery($request, $response));
+        ));
 
         $productDTOs = $response->getProductDTOs();
         $paginationDTO = $response->getPaginationDTO();
@@ -53,12 +44,11 @@ class TagController extends Controller
 
     public function getList()
     {
-        $request = new ListTagsRequest(
+        /** @var ListTagsResponse $response */
+        $response = $this->dispatchQuery(new ListTagsQuery(
             null,
             $this->getPaginationDTO(12)
-        );
-        $response = new ListTagsResponse($this->getPricing());
-        $this->dispatchQuery(new ListTagsQuery($request, $response));
+        ));
 
         $tagDTOs = $response->getTagDTOs();
         $paginationDTO = $response->getPaginationDTO();

@@ -3,16 +3,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\Order\CreateOrderFromCartCommand;
-use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
-use inklabs\kommerce\Action\Product\Query\GetRandomProductsRequest;
-use inklabs\kommerce\Action\Product\Query\GetRandomProductsResponse;
 use inklabs\kommerce\Action\User\CreateUserCommand;
 use inklabs\kommerce\Action\User\GetUserByEmailQuery;
 use inklabs\kommerce\Action\User\GetUserQuery;
-use inklabs\kommerce\Action\User\Query\GetUserByEmailRequest;
-use inklabs\kommerce\Action\User\Query\GetUserByEmailResponse;
-use inklabs\kommerce\Action\User\Query\GetUserRequest;
-use inklabs\kommerce\Action\User\Query\GetUserResponse;
+use inklabs\kommerce\ActionResponse\User\GetUserByEmailResponse;
+use inklabs\kommerce\ActionResponse\User\GetUserResponse;
 use inklabs\kommerce\Exception\EntityValidatorException;
 use inklabs\kommerce\EntityDTO\CreditCardDTO;
 use inklabs\kommerce\EntityDTO\OrderAddressDTO;
@@ -202,9 +197,8 @@ class CheckoutController extends Controller
     protected function getOrCreateUserFromOrderAddress(OrderAddressDTO $orderAddress)
     {
         try {
-            $request = new GetUserByEmailRequest($orderAddress->email);
-            $response = new GetUserByEmailResponse();
-            $this->adminDispatchQuery(new GetUserByEmailQuery($request, $response));
+            /** @var GetUserByEmailResponse $response */
+            $response = $this->adminDispatchQuery(new GetUserByEmailQuery($orderAddress->email));
 
             return $response->getUserDTO();
         } catch (EntityNotFoundException $e) {
@@ -218,9 +212,8 @@ class CheckoutController extends Controller
 
             $userId = $createUserCommand->getUserId();
 
-            $request = new GetUserRequest($userId);
-            $response = new GetUserResponse();
-            $this->adminDispatchQuery(new GetUserQuery($request, $response));
+            /** @var GetUserResponse $response */
+            $response = $this->adminDispatchQuery(new GetUserQuery($userId));
 
             return $response->getUserDTO();
         }
@@ -238,15 +231,6 @@ class CheckoutController extends Controller
             $productIds[] = $orderItem->product->id->getHex();
         }
 
-        $request = new GetRandomProductsRequest(4);
-        $response = new GetRandomProductsResponse($this->getPricing());
-        $this->dispatchQuery(new GetRandomProductsQuery($request, $response));
-
-        // TODO: Switch to related products
-//        $request = new GetRelatedProductsRequest($productIds, 4);
-//        $response = new GetRelatedProductsResponse($this->getPricing());
-//        $this->dispatchQuery(new GetRelatedProductsQuery($request, $response));
-
-        return $response->getProductDTOs();
+        return $this->getRecommendedProducts($productIds, 4);
     }
 }

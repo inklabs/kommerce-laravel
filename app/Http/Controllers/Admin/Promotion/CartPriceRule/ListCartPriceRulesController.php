@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Admin\Promotion\CartPriceRule;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\CartPriceRule\ListCartPriceRulesQuery;
-use inklabs\kommerce\Action\CartPriceRule\Query\ListCartPriceRulesRequest;
-use inklabs\kommerce\Action\CartPriceRule\Query\ListCartPriceRulesResponse;
+use inklabs\kommerce\ActionResponse\CartPriceRule\ListCartPriceRulesResponse;
 
 class ListCartPriceRulesController extends Controller
 {
@@ -13,13 +12,11 @@ class ListCartPriceRulesController extends Controller
     {
         $queryString = $httpRequest->query('q');
 
-        $request = new ListCartPriceRulesRequest(
+        /** @var ListCartPriceRulesResponse $response */
+        $response = $this->dispatchQuery(new ListCartPriceRulesQuery(
             $queryString,
             $this->getPaginationDTO(20)
-        );
-
-        $response = new ListCartPriceRulesResponse();
-        $this->dispatchQuery(new ListCartPriceRulesQuery($request, $response));
+        ));
 
         $cartPriceRules = $response->getCartPriceRuleDTOs();
         $pagination = $response->getPaginationDTO();

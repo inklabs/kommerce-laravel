@@ -263,9 +263,14 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
             Route::post('ad-hoc-shipment/new', 'CreateAdHocShipmentController@post')->name('admin.tools.ad-hoc-shipment.new.post');
             Route::post('ad-hoc-shipment/buy-shipment-label', 'CreateAdHocShipmentController@postBuyShipmentLabel')->name('admin.tools.ad-hoc-shipment.buy-shipment-label');
         });
-        Route::group(['namespace' => 'Inventory', 'prefix' => 'inventory'], function () {
-            Route::get('warehouse', 'ListWarehousesController@index')->name('admin.inventory.warehouse');
-            Route::get('warehouse/new', 'CreateWarehouseController@get')->name('admin.inventory.warehouse.new');
+        Route::group(['namespace' => 'Warehouse', 'prefix' => 'warehouse'], function () {
+            Route::get('', 'ListWarehousesController@index')->name('admin.warehouse');
+            Route::get('new', 'CreateWarehouseController@get')->name('admin.warehouse.new');
+            Route::get('edit/{couponId}', 'EditWarehouseController@get')->name('admin.warehouse.edit');
+
+            Route::post('new', 'CreateWarehouseController@post')->name('admin.warehouse.new.post');
+            Route::post('edit', 'EditWarehouseController@post')->name('admin.warehouse.edit.post');
+            Route::post('delete', 'DeleteWarehouseController@post')->name('admin.warehouse.delete');
         });
     });
 });

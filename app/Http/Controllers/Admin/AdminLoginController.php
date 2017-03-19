@@ -5,8 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use inklabs\kommerce\Action\User\GetUserByEmailQuery;
 use inklabs\kommerce\Action\User\LoginCommand;
-use inklabs\kommerce\Action\User\Query\GetUserByEmailRequest;
-use inklabs\kommerce\Action\User\Query\GetUserByEmailResponse;
+use inklabs\kommerce\ActionResponse\User\GetUserByEmailResponse;
 use inklabs\kommerce\Exception\UserLoginException;
 
 class AdminLoginController extends Controller
@@ -29,9 +28,8 @@ class AdminLoginController extends Controller
                 $this->getRemoteIP4()
             ));
 
-            $request = new GetUserByEmailRequest($email);
-            $response = new GetUserByEmailResponse();
-            $this->adminDispatchQuery(new GetUserByEmailQuery($request, $response));
+            /** @var GetUserByEmailResponse $response */
+            $response = $this->adminDispatchQuery(new GetUserByEmailQuery($email));
             $user = $response->getUserDTOWithRolesAndTokens();
             $this->saveUserToSession($user);
             $this->mergeCart($user->id);
