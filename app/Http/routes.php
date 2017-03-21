@@ -272,7 +272,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
             Route::post('new', 'CreateWarehouseController@post')->name('admin.warehouse.new.post');
             Route::post('edit', 'EditWarehouseController@post')->name('admin.warehouse.edit.post');
             Route::post('delete', 'DeleteWarehouseController@post')->name('admin.warehouse.delete');
-            Route::post('add-inventory-location', 'AddInventoryLocationToWarehouseController@post')->name('admin.warehouse.add-inventory-location');
+            Route::post('add-inventory-location', 'CreateInventoryLocationController@post')->name('admin.warehouse.add-inventory-location');
             Route::post('remove-inventory-location', 'RemoveInventoryLocationFromWarehouseController@post')->name('admin.warehouse.remove-inventory-location');
         });
     });

@@ -1317,12 +1317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-core.git",
-                "reference": "cf5764528aede8b8ae27325c8bbce4ea620e9097"
+                "reference": "06f18737c9d559c206ac572383b829bcfff750cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/cf5764528aede8b8ae27325c8bbce4ea620e9097",
-                "reference": "cf5764528aede8b8ae27325c8bbce4ea620e9097",
+                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/06f18737c9d559c206ac572383b829bcfff750cc",
+                "reference": "06f18737c9d559c206ac572383b829bcfff750cc",
                 "shasum": ""
             },
             "require": {
@@ -1363,7 +1363,7 @@
                 "source": "https://github.com/inklabs/kommerce-core",
                 "issues": "https://github.com/inklabs/kommerce-core/issues"
             },
-            "time": "2017-03-19 17:59:52"
+            "time": "2017-03-21 03:33:14"
         },
         {
             "name": "inklabs/kommerce-templates",
