@@ -269,9 +269,14 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
             Route::get('edit/{couponId}', 'EditWarehouseController@get')->name('admin.warehouse.edit');
             Route::get('inventory-locations/{warehouseId}', 'ListWarehouseInventoryLocationsController@index')->name('admin.warehouse.inventory-locations');
 
+            Route::get('inventory-location/edit/{inventoryLocationId}', 'EditInventoryLocationController@get')->name('admin.warehouse.inventory-location.edit');
+            Route::get('inventory-location/products/{inventoryLocationId}', 'ListProductsForInventoryLocationController@get')->name('admin.warehouse.inventory-location.products');
+
             Route::post('new', 'CreateWarehouseController@post')->name('admin.warehouse.new.post');
             Route::post('edit', 'EditWarehouseController@post')->name('admin.warehouse.edit.post');
             Route::post('delete', 'DeleteWarehouseController@post')->name('admin.warehouse.delete');
+
+            Route::post('inventory-location/edit', 'EditInventoryLocationController@post')->name('admin.warehouse.inventory-location.edit.post');
             Route::post('add-inventory-location', 'CreateInventoryLocationController@post')->name('admin.warehouse.add-inventory-location');
             Route::post('remove-inventory-location', 'DeleteInventoryLocationController@post')->name('admin.warehouse.remove-inventory-location');
         });

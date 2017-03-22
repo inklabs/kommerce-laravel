@@ -15,6 +15,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use inklabs\kommerce\Action\Attribute\GetAttributeQuery;
 use inklabs\kommerce\Action\Attribute\GetAttributeValueQuery;
+use inklabs\kommerce\Action\Warehouse\GetInventoryLocationQuery;
 use inklabs\kommerce\Action\Warehouse\GetWarehouseQuery;
 use inklabs\kommerce\ActionResponse\Attribute\GetAttributeResponse;
 use inklabs\kommerce\ActionResponse\Attribute\GetAttributeValueResponse;
@@ -53,6 +54,7 @@ use inklabs\kommerce\ActionResponse\Product\GetRelatedProductsResponse;
 use inklabs\kommerce\ActionResponse\Shipment\GetShipmentTrackerResponse;
 use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\ActionResponse\Tag\GetTagResponse;
+use inklabs\kommerce\ActionResponse\Warehouse\GetInventoryLocationResponse;
 use inklabs\kommerce\ActionResponse\Warehouse\GetWarehouseResponse;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\AttributeValueDTO;
@@ -60,6 +62,7 @@ use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
 use inklabs\kommerce\EntityDTO\CouponDTO;
+use inklabs\kommerce\EntityDTO\InventoryLocationDTO;
 use inklabs\kommerce\EntityDTO\OptionDTO;
 use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\EntityDTO\OrderItemDTO;
@@ -868,6 +871,42 @@ class Controller extends BaseController
     {
         try {
             return $this->dispatchQuery(new GetWarehouseQuery($warehouseId));
+        } catch (EntityNotFoundException $e) {
+            return abort(404);
+        }
+    }
+
+    /**
+     * @param $inventoryLocationId
+     * @return InventoryLocationDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getInventoryLocationWithAllData($inventoryLocationId)
+    {
+        return $this->getInventoryLocationById($inventoryLocationId)
+            ->getInventoryLocationDTOWithAllData();
+    }
+
+    /**
+     * @param $inventoryLocationId
+     * @return InventoryLocationDTO
+     * @throws NotFoundHttpException
+     */
+    protected function getInventoryLocation($inventoryLocationId)
+    {
+        return $this->getInventoryLocationById($inventoryLocationId)
+            ->getInventoryLocationDTO();
+    }
+
+    /**
+     * @param string $inventoryLocationId
+     * @return GetInventoryLocationResponse
+     * @throws NotFoundHttpException
+     */
+    private function getInventoryLocationById($inventoryLocationId)
+    {
+        try {
+            return $this->dispatchQuery(new GetInventoryLocationQuery($inventoryLocationId));
         } catch (EntityNotFoundException $e) {
             return abort(404);
         }
