@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Warehouse;
 use App\Http\Controllers\Controller;
 use App\Lib\Arr;
 use Illuminate\Http\Request;
+use inklabs\kommerce\Action\Warehouse\UpdateInventoryLocationCommand;
 use inklabs\kommerce\Exception\EntityValidatorException;
 
 class EditInventoryLocationController extends Controller

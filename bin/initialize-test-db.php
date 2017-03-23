@@ -35,9 +35,9 @@ $address->setZip5('90405');
 $address->setPoint(new Point(34.052234, -118.243685));
 $warehouse = new Warehouse('Santa Monica - Main St', $address);
 
-$inventoryLocation1 = new InventoryLocation($warehouse, 'Zone 1 | Rack 1 | Bin 2', 'Z1-R1-B2');
-$inventoryLocation2 = new InventoryLocation($warehouse, 'Zone 1 | Rack 1 | Bin 3', 'Z1-R1-B3');
-$inventoryLocation3 = new InventoryLocation($warehouse, 'Zone 1 | Rack 2 | Bin 15', 'Z1-R2-B15');
+$inventoryLocation1 = new InventoryLocation($warehouse, 'Zone 1 | Rack 1 | Bin 2', 'Z01-R01-B02');
+$inventoryLocation2 = new InventoryLocation($warehouse, 'Zone 1 | Rack 1 | Bin 3', 'Z01-R01-B03');
+$inventoryLocation3 = new InventoryLocation($warehouse, 'Zone 1 | Rack 2 | Bin 15', 'Z01-R02-B15');
 
 $adminRole = new UserRole(UserRoleType::admin());
 
