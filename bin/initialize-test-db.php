@@ -6,6 +6,8 @@ use inklabs\kommerce\Entity\AttributeValue;
 use inklabs\kommerce\Entity\Configuration;
 use inklabs\kommerce\Entity\Image;
 use inklabs\kommerce\Entity\InventoryLocation;
+use inklabs\kommerce\Entity\InventoryTransaction;
+use inklabs\kommerce\Entity\InventoryTransactionType;
 use inklabs\kommerce\Entity\Point;
 use inklabs\kommerce\Entity\Product;
 use inklabs\kommerce\Entity\ProductAttribute;
@@ -122,6 +124,7 @@ function addShirts($name, $sku, $path, $width, $height, AttributeValue $colorAtt
     global $entities;
     global $sizeAttribute, $largeAttributeValue, $mediumAttributeValue, $smallAttributeValue, $colorAttribute;
     global $largeTag, $mediumTag, $smallTag;
+    global $inventoryLocation1, $inventoryLocation2, $inventoryLocation3;
 
     $image = new Image();
     $image->setPath($path);
@@ -131,6 +134,10 @@ function addShirts($name, $sku, $path, $width, $height, AttributeValue $colorAtt
     $largeProduct = getProduct('Large ' . $name, $sku . '-LG', 1000, $image);
     $mediumProduct = getProduct('Medium ' . $name, $sku . '-MD', 800, $image);
     $smallProduct = getProduct('Small ' . $name, $sku . '-SM', 600, $image);
+
+    $inventoryTransaction1 = InventoryTransaction::newProduct($inventoryLocation1, $largeProduct, 5);
+    $inventoryTransaction2 = InventoryTransaction::newProduct($inventoryLocation2, $mediumProduct, 5);
+    $inventoryTransaction3 = InventoryTransaction::newProduct($inventoryLocation3, $smallProduct, 5);
 
     $sizeAttribute->addProductAttribute(new ProductAttribute($largeProduct, $largeAttributeValue));
     $sizeAttribute->addProductAttribute(new ProductAttribute($mediumProduct, $mediumAttributeValue));
@@ -158,7 +165,10 @@ function addShirts($name, $sku, $path, $width, $height, AttributeValue $colorAtt
         $mediumProduct,
         $smallProduct,
         $tag,
-        $sizeAttribute
+        $sizeAttribute,
+        $inventoryTransaction1,
+        $inventoryTransaction2,
+        $inventoryTransaction3,
     ]);
 }
 
