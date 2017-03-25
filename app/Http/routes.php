@@ -270,7 +270,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
             Route::get('inventory-locations/{warehouseId}', 'ListWarehouseInventoryLocationsController@index')->name('admin.warehouse.inventory-locations');
 
             Route::get('inventory-location/edit/{inventoryLocationId}', 'EditInventoryLocationController@get')->name('admin.warehouse.inventory-location.edit');
-            Route::get('inventory-location/products/{inventoryLocationId}', 'ListProductsForInventoryLocationController@get')->name('admin.warehouse.inventory-location.products');
+            Route::get('inventory-location/products/{inventoryLocationId}', 'ListProductsForInventoryLocationController@index')->name('admin.warehouse.inventory-location.products');
             Route::get('inventory-location/inventory-transactions/{inventoryLocationId}', 'ListInventoryTransactionsForInventoryLocationController@index')->name('admin.warehouse.inventory-location.inventory-transactions');
 
             Route::post('new', 'CreateWarehouseController@post')->name('admin.warehouse.new.post');
