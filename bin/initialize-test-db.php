@@ -17,6 +17,8 @@ use inklabs\kommerce\Entity\User;
 use inklabs\kommerce\Entity\UserRole;
 use inklabs\kommerce\Entity\UserRoleType;
 use inklabs\kommerce\Entity\Warehouse;
+use inklabs\kommerce\Lib\Uuid;
+use inklabs\kommerce\Service\ServiceFactory;
 
 require_once __DIR__  . '/../config/cli-config.php';
 
@@ -37,6 +39,7 @@ $address->setZip5('90405');
 $address->setPoint(new Point(34.052234, -118.243685));
 $warehouse = new Warehouse('Santa Monica - Main St', $address);
 
+$holdLocation = new InventoryLocation($warehouse, 'Hold Location', 'HLD', Uuid::fromString(ServiceFactory::HOLD_LOCATION_ID));
 $inventoryLocation1 = new InventoryLocation($warehouse, 'Zone 1 | Rack 1 | Bin 2', 'Z01-R01-B02');
 $inventoryLocation2 = new InventoryLocation($warehouse, 'Zone 1 | Rack 1 | Bin 3', 'Z01-R01-B03');
 $inventoryLocation3 = new InventoryLocation($warehouse, 'Zone 1 | Rack 2 | Bin 15', 'Z01-R02-B15');
@@ -58,6 +61,7 @@ $customer->setPassword('Test123!');
 
 $entities = [
     $warehouse,
+    $holdLocation,
     $inventoryLocation1,
     $inventoryLocation2,
     $inventoryLocation3,

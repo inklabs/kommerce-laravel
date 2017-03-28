@@ -1317,12 +1317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-core.git",
-                "reference": "471502aa60ce0c5326f917529ce946109b9062d6"
+                "reference": "58fa2b32719e99d7bcdbe421d17e729be48f4e01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/471502aa60ce0c5326f917529ce946109b9062d6",
-                "reference": "471502aa60ce0c5326f917529ce946109b9062d6",
+                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/58fa2b32719e99d7bcdbe421d17e729be48f4e01",
+                "reference": "58fa2b32719e99d7bcdbe421d17e729be48f4e01",
                 "shasum": ""
             },
             "require": {
@@ -1363,7 +1363,7 @@
                 "source": "https://github.com/inklabs/kommerce-core",
                 "issues": "https://github.com/inklabs/kommerce-core/issues"
             },
-            "time": "2017-03-25 05:01:19"
+            "time": "2017-03-28 07:13:32"
         },
         {
             "name": "inklabs/kommerce-templates",
@@ -1371,12 +1371,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-templates.git",
-                "reference": "be6ec0e503dcf427edb98db7755550c82dc3b0fb"
+                "reference": "a83d59f247fc58d9f5711dd47cbcced3db2a71ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/be6ec0e503dcf427edb98db7755550c82dc3b0fb",
-                "reference": "be6ec0e503dcf427edb98db7755550c82dc3b0fb",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/a83d59f247fc58d9f5711dd47cbcced3db2a71ff",
+                "reference": "a83d59f247fc58d9f5711dd47cbcced3db2a71ff",
                 "shasum": ""
             },
             "require": {
@@ -1409,7 +1409,7 @@
                 "source": "https://github.com/inklabs/kommerce-templates",
                 "issues": "https://github.com/inklabs/kommerce-templates/issues"
             },
-            "time": "2017-03-25 05:01:57"
+            "time": "2017-03-28 07:17:06"
         },
         {
             "name": "jakub-onderka/php-console-color",
