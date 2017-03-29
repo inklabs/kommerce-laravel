@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="PSR2" type="PhpLocalRunConfigurationType" factoryName="PHP Console" singleton="true" path="$PROJECT_DIR$/vendor/bin/phpcs" scriptParameters="-p --standard=PSR2 src/ tests/ ">
+    <CommandLine workingDirectory="$PROJECT_DIR$/vendor/inklabs/kommerce-core" />
+    <option name="workingDirectory" value="$PROJECT_DIR$/vendor/inklabs/kommerce-core" />
+    <method />
+  </configuration>
+</component>

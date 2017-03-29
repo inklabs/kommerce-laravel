@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Acceptance Tests (Custom)" type="CodeceptionConfigurationType" factoryName="Codeception" singleton="true">
+    <PhpTestRunnerSettings method="" scope="ConfigurationFile" options="-vv acceptance GuestCheckoutCest" />
+    <method />
+  </configuration>
+</component>

@@ -1,7 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Acceptance Tests" type="PhpLocalRunConfigurationType" factoryName="PHP Console" singleton="true" path="$PROJECT_DIR$/vendor/bin/codecept" scriptParameters="-c vendor/inklabs/kommerce-templates/codeception.yml run acceptance">
-    <CommandLine workingDirectory="$PROJECT_DIR$" />
-    <option name="workingDirectory" value="$PROJECT_DIR$" />
+  <configuration default="false" name="Acceptance Tests" type="CodeceptionConfigurationType" factoryName="Codeception" singleton="true">
+    <PhpTestRunnerSettings method="" scope="ConfigurationFile" options="acceptance" />
     <method />
   </configuration>
 </component>
