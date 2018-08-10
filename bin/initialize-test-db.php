@@ -128,10 +128,7 @@ function addShirts($name, $sku, $path, $width, $height, AttributeValue $colorAtt
     global $largeTag, $mediumTag, $smallTag;
     global $inventoryLocation1, $inventoryLocation2, $inventoryLocation3;
 
-    $image = new Image();
-    $image->setPath($path);
-    $image->setWidth($width);
-    $image->setHeight($height);
+    $image = new Image($path, $width, $height);
 
     $largeProduct = getProduct('Large ' . $name, $sku . '-LG', 1000, $image);
     $mediumProduct = getProduct('Medium ' . $name, $sku . '-MD', 800, $image);
