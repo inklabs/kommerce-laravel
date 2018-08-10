@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "a9b5024d9e309c39652e32cc92136d5e",
@@ -1325,12 +1325,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-core.git",
-                "reference": "a9d65ff3d219adc9c81aa4aef7657be709836201"
+                "reference": "c9695af048de9cce13e3ab9a48ca51d20dd2b6e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/a9d65ff3d219adc9c81aa4aef7657be709836201",
-                "reference": "a9d65ff3d219adc9c81aa4aef7657be709836201",
+                "url": "https://api.github.com/repos/inklabs/kommerce-core/zipball/c9695af048de9cce13e3ab9a48ca51d20dd2b6e5",
+                "reference": "c9695af048de9cce13e3ab9a48ca51d20dd2b6e5",
                 "shasum": ""
             },
             "require": {
@@ -1340,16 +1340,16 @@
                 "easypost/easypost-php": "2.1.1",
                 "hamcrest/hamcrest-php": "~2.0.0",
                 "paragonie/random_compat": "~1.4",
-                "php": ">=5.6",
+                "php": ">=7.1",
                 "ramsey/uuid": "3.4.1",
                 "ramsey/uuid-doctrine": "1.2.0",
                 "stripe/stripe-php": "3.4.0",
                 "symfony/validator": "~3.1"
             },
             "require-dev": {
-                "mockery/mockery": "~0.9",
+                "mockery/mockery": "1.0.0-alpha1",
                 "phploc/phploc": "~3.0",
-                "phpunit/phpunit": "~5.4",
+                "phpunit/phpunit": "5.7.20",
                 "squizlabs/php_codesniffer": "~2.6"
             },
             "type": "library",
@@ -1371,7 +1371,7 @@
                 "source": "https://github.com/inklabs/kommerce-core",
                 "issues": "https://github.com/inklabs/kommerce-core/issues"
             },
-            "time": "2017-03-29 20:17:44"
+            "time": "2018-08-04T06:30:16+00:00"
         },
         {
             "name": "inklabs/kommerce-templates",
@@ -1379,12 +1379,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inklabs/kommerce-templates.git",
-                "reference": "8c939dd522d59c228544edb7674fd61438f523b4"
+                "reference": "3caa4281a5d9cb913588c793f25efc46ecef07fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/8c939dd522d59c228544edb7674fd61438f523b4",
-                "reference": "8c939dd522d59c228544edb7674fd61438f523b4",
+                "url": "https://api.github.com/repos/inklabs/kommerce-templates/zipball/3caa4281a5d9cb913588c793f25efc46ecef07fc",
+                "reference": "3caa4281a5d9cb913588c793f25efc46ecef07fc",
                 "shasum": ""
             },
             "require": {
@@ -1417,7 +1417,7 @@
                 "source": "https://github.com/inklabs/kommerce-templates",
                 "issues": "https://github.com/inklabs/kommerce-templates/issues"
             },
-            "time": "2017-03-29 20:18:19"
+            "time": "2018-08-10T20:51:05+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -5269,12 +5269,12 @@
             "version": "0.9.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/padraic/mockery.git",
+                "url": "https://github.com/mockery/mockery.git",
                 "reference": "686f85fa5b3b079cc0157d7cd3e9adb97f0b41e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/686f85fa5b3b079cc0157d7cd3e9adb97f0b41e1",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/686f85fa5b3b079cc0157d7cd3e9adb97f0b41e1",
                 "reference": "686f85fa5b3b079cc0157d7cd3e9adb97f0b41e1",
                 "shasum": ""
             },
