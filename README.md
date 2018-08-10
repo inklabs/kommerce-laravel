@@ -33,7 +33,7 @@ make start
 
 ### Acceptance Tests
 
-`vendor/bin/codecept run -c vendor/inklabs/kommerce-templates/codeception.yml`
+`vendor/bin/codecept run acceptance -c vendor/inklabs/kommerce-templates/codeception.yml`
 
 ## EasyPost
 

@@ -15,55 +15,58 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use inklabs\kommerce\Action\Attribute\GetAttributeQuery;
 use inklabs\kommerce\Action\Attribute\GetAttributeValueQuery;
-use inklabs\kommerce\Action\Warehouse\GetInventoryLocationQuery;
-use inklabs\kommerce\Action\Warehouse\GetWarehouseQuery;
-use inklabs\kommerce\ActionResponse\Attribute\GetAttributeResponse;
-use inklabs\kommerce\ActionResponse\Attribute\GetAttributeValueResponse;
 use inklabs\kommerce\Action\Cart\CopyCartItemsCommand;
 use inklabs\kommerce\Action\Cart\CreateCartCommand;
 use inklabs\kommerce\Action\Cart\GetCartBySessionIdQuery;
 use inklabs\kommerce\Action\Cart\GetCartByUserIdQuery;
 use inklabs\kommerce\Action\Cart\GetCartQuery;
-use inklabs\kommerce\ActionResponse\Cart\GetCartBySessionIdResponse;
-use inklabs\kommerce\ActionResponse\Cart\GetCartByUserIdResponse;
-use inklabs\kommerce\ActionResponse\Cart\GetCartResponse;
 use inklabs\kommerce\Action\Cart\RemoveCartCommand;
 use inklabs\kommerce\Action\Cart\SetCartSessionIdCommand;
 use inklabs\kommerce\Action\Cart\SetCartUserCommand;
 use inklabs\kommerce\Action\CartPriceRule\GetCartPriceRuleQuery;
-use inklabs\kommerce\ActionResponse\CartPriceRule\GetCartPriceRuleResponse;
 use inklabs\kommerce\Action\CatalogPromotion\GetCatalogPromotionQuery;
-use inklabs\kommerce\ActionResponse\CatalogPromotion\GetCatalogPromotionResponse;
 use inklabs\kommerce\Action\Configuration\GetConfigurationsByKeysQuery;
-use inklabs\kommerce\ActionResponse\Configuration\GetConfigurationsByKeysResponse;
 use inklabs\kommerce\Action\Coupon\GetCouponQuery;
-use inklabs\kommerce\ActionResponse\Coupon\GetCouponResponse;
 use inklabs\kommerce\Action\Option\GetOptionQuery;
-use inklabs\kommerce\ActionResponse\Option\GetOptionResponse;
 use inklabs\kommerce\Action\Order\GetOrderItemQuery;
 use inklabs\kommerce\Action\Order\GetOrderQuery;
-use inklabs\kommerce\ActionResponse\Order\GetOrderItemResponse;
-use inklabs\kommerce\ActionResponse\Order\GetOrderResponse;
 use inklabs\kommerce\Action\Product\GetProductQuery;
 use inklabs\kommerce\Action\Product\GetRandomProductsQuery;
 use inklabs\kommerce\Action\Product\GetRelatedProductsQuery;
+use inklabs\kommerce\Action\Shipment\GetShipmentTrackerQuery;
+use inklabs\kommerce\Action\Tag\GetTagQuery;
+use inklabs\kommerce\Action\Warehouse\GetInventoryLocationQuery;
+use inklabs\kommerce\Action\Warehouse\GetWarehouseQuery;
+use inklabs\kommerce\ActionResponse\Attribute\GetAttributeResponse;
+use inklabs\kommerce\ActionResponse\Attribute\GetAttributeValueResponse;
+use inklabs\kommerce\ActionResponse\Cart\GetCartBySessionIdResponse;
+use inklabs\kommerce\ActionResponse\Cart\GetCartByUserIdResponse;
+use inklabs\kommerce\ActionResponse\Cart\GetCartResponse;
+use inklabs\kommerce\ActionResponse\CartPriceRule\GetCartPriceRuleResponse;
+use inklabs\kommerce\ActionResponse\CatalogPromotion\GetCatalogPromotionResponse;
+use inklabs\kommerce\ActionResponse\Configuration\GetConfigurationsByKeysResponse;
+use inklabs\kommerce\ActionResponse\Coupon\GetCouponResponse;
+use inklabs\kommerce\ActionResponse\Option\GetOptionResponse;
+use inklabs\kommerce\ActionResponse\Order\GetOrderItemResponse;
+use inklabs\kommerce\ActionResponse\Order\GetOrderResponse;
 use inklabs\kommerce\ActionResponse\Product\GetProductResponse;
 use inklabs\kommerce\ActionResponse\Product\GetRandomProductsResponse;
-use inklabs\kommerce\Action\Shipment\GetShipmentTrackerQuery;
 use inklabs\kommerce\ActionResponse\Product\GetRelatedProductsResponse;
 use inklabs\kommerce\ActionResponse\Shipment\GetShipmentTrackerResponse;
-use inklabs\kommerce\Action\Tag\GetTagQuery;
 use inklabs\kommerce\ActionResponse\Tag\GetTagResponse;
 use inklabs\kommerce\ActionResponse\Warehouse\GetInventoryLocationResponse;
 use inklabs\kommerce\ActionResponse\Warehouse\GetWarehouseResponse;
 use inklabs\kommerce\EntityDTO\AttributeDTO;
 use inklabs\kommerce\EntityDTO\AttributeValueDTO;
+use inklabs\kommerce\EntityDTO\Builder\DTOBuilderFactoryInterface;
 use inklabs\kommerce\EntityDTO\CartDTO;
 use inklabs\kommerce\EntityDTO\CartPriceRuleDTO;
 use inklabs\kommerce\EntityDTO\CatalogPromotionDTO;
+use inklabs\kommerce\EntityDTO\ConfigurationDTO;
 use inklabs\kommerce\EntityDTO\CouponDTO;
 use inklabs\kommerce\EntityDTO\InventoryLocationDTO;
 use inklabs\kommerce\EntityDTO\OptionDTO;
+use inklabs\kommerce\EntityDTO\OrderAddressDTO;
 use inklabs\kommerce\EntityDTO\OrderDTO;
 use inklabs\kommerce\EntityDTO\OrderItemDTO;
 use inklabs\kommerce\EntityDTO\PaginationDTO;
@@ -75,13 +78,15 @@ use inklabs\kommerce\EntityDTO\WarehouseDTO;
 use inklabs\kommerce\Exception\EntityNotFoundException;
 use inklabs\kommerce\Exception\InvalidArgumentException;
 use inklabs\kommerce\Exception\KommerceException;
+use inklabs\kommerce\Lib\CartCalculatorInterface;
 use inklabs\kommerce\Lib\Command\CommandInterface;
+use inklabs\kommerce\Lib\PricingInterface;
 use inklabs\kommerce\Lib\Query\QueryInterface;
+use inklabs\kommerce\Lib\Query\ResponseInterface;
 use inklabs\kommerce\Lib\UuidInterface;
 use inklabs\KommerceTemplates\Lib\AssetLocationService;
 use inklabs\KommerceTemplates\Lib\TwigTemplate;
 use inklabs\KommerceTemplates\Lib\TwigThemeConfig;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
@@ -128,7 +133,7 @@ class Controller extends BaseController
         );
     }
 
-    public function userHasAdminRole(UserDTO $user)
+    public function userHasAdminRole(UserDTO $user): bool
     {
         foreach ($user->userRoles as $userRole) {
             if ($userRole->userRoleType->isAdmin) {
@@ -139,10 +144,7 @@ class Controller extends BaseController
         return false;
     }
 
-    /**
-     * @return CaptchaBuilder
-     */
-    public function getCaptchaBuilder()
+    public function getCaptchaBuilder(): CaptchaBuilder
     {
         $builder = new CaptchaBuilder();
         $builder->setBackgroundColor(255, 255, 255);
@@ -154,23 +156,17 @@ class Controller extends BaseController
         return $builder;
     }
 
-    /**
-     * @todo Fix: This is an awful way to set session variables
-     * @param string $phrase
-     */
-    private function setCaptchaPhraseToSession($phrase)
+    private function setCaptchaPhraseToSession(string $phrase): void
     {
+        // todo Fix: This is an awful way to set session variables
         /** @var \Illuminate\Session\Store $session */
         $session = app('session');
         $session->set('captchaPhrase', $phrase);
     }
 
-    /**
-     * @todo Fix: This is an awful way to get session variables
-     * @return string
-     */
-    protected function getCaptchaPhraseFromSession()
+    protected function getCaptchaPhraseFromSession(): string
     {
+        // todo Fix: This is an awful way to set session variables
         /** @var \Illuminate\Session\Store $session */
         $session = app('session');
         $phrase = $session->get('captchaPhrase');
@@ -178,7 +174,7 @@ class Controller extends BaseController
         return $phrase;
     }
 
-    protected function saveUserToSession(UserDTO $user)
+    protected function saveUserToSession(UserDTO $user): void
     {
         /** @var \Illuminate\Session\Store $session */
         $session = app('session');
@@ -186,7 +182,7 @@ class Controller extends BaseController
         $this->kommerceConfiguration->setUserId($user->id);
     }
 
-    protected function removeUserFromSession()
+    protected function removeUserFromSession(): void
     {
         /** @var \Illuminate\Session\Store $session */
         $session = app('session');
@@ -198,10 +194,7 @@ class Controller extends BaseController
         $session->remove('user');
     }
 
-    /**
-     * @return UserDTO
-     */
-    protected function getUserFromSessionOrAbort()
+    protected function getUserFromSessionOrAbort(): UserDTO
     {
         $user = $this->getUserFromSession();
 
@@ -212,10 +205,7 @@ class Controller extends BaseController
         return $user;
     }
 
-    /**
-     * @return null|UserDTO
-     */
-    protected function getUserFromSession()
+    protected function getUserFromSession(): ?UserDTO
     {
         /** @var \Illuminate\Session\Store $session */
         $session = app('session');
@@ -227,27 +217,27 @@ class Controller extends BaseController
         return $session->get('user');
     }
 
-    protected function getPricing()
+    protected function getPricing(): PricingInterface
     {
         return $this->kommerceConfiguration->getPricing();
     }
 
-    protected function getCartCalculator()
+    protected function getCartCalculator(): CartCalculatorInterface
     {
         return $this->kommerceConfiguration->getCartCalculator();
     }
 
-    public function getDTOBuilderFactory()
+    public function getDTOBuilderFactory(): DTOBuilderFactoryInterface
     {
         return $this->kommerceConfiguration->getDTOBuilderFactory();
     }
 
-    protected function getStoreAddress()
+    protected function getStoreAddress(): OrderAddressDTO
     {
         return $this->kommerceConfiguration->getStoreAddress();
     }
 
-    protected function dispatch(CommandInterface $command)
+    protected function dispatch(CommandInterface $command): void
     {
         $this->kommerceConfiguration->dispatch($command);
     }
@@ -257,52 +247,51 @@ class Controller extends BaseController
         return $this->kommerceConfiguration->dispatchQuery($query);
     }
 
-    protected function adminDispatch(CommandInterface $command)
+    protected function adminDispatch(CommandInterface $command): void
     {
         $this->adminKommerceConfiguration->dispatch($command);
     }
 
-    protected function adminDispatchQuery(QueryInterface $query)
+    protected function adminDispatchQuery(QueryInterface $query): ResponseInterface
     {
         return $this->adminKommerceConfiguration->dispatchQuery($query);
     }
 
-    /**
-     * @return string
-     */
-    protected function getRemoteIP4()
+    protected function getRemoteIP4(): string
     {
-        return request()->ip();
+        $remoteIp = request()->ip();
+
+        if ($this->isIPv6($remoteIp)) {
+            $remoteIp = "127.0.0.1";
+        }
+
+        return $remoteIp;
     }
 
-    /**
-     * @return string
-     */
-    protected function getUserAgent()
+    private function isIPv6(string $remoteIp): bool
+    {
+        return strpos($remoteIp, ':') !== false;
+    }
+
+    protected function getUserAgent(): string
     {
         return request()->header('User-Agent');
     }
 
-    /**
-     * @return string
-     */
-    private function getSessionId()
+    private function getSessionId(): string
     {
         return session()->getId();
     }
 
     /**
-     * @return \Illuminate\Session\Store
+     * @return \Illuminate\Session\Store|\Illuminate\Session\SessionManager
      */
     private function getSession()
     {
         return session();
     }
 
-    /**
-     * @return CartDTO
-     */
-    protected function getCart()
+    protected function getCart(): CartDTO
     {
         /** @var GetCartResponse $response */
         $response = $this->dispatchQuery(new GetCartQuery(
@@ -311,10 +300,7 @@ class Controller extends BaseController
         return $response->getCartDTOWithAllData();
     }
 
-    /**
-     * @return string
-     */
-    protected function getCartId()
+    protected function getCartId(): string
     {
         if ($this->cartDTO != null) {
             return $this->cartDTO->id->getHex();
@@ -332,28 +318,23 @@ class Controller extends BaseController
     }
 
     /**
-     * @return CartDTO
      * @throws EntityNotFoundException
      */
-    private function getCartFromSession()
+    private function getCartFromSession(): CartDTO
     {
         /** @var GetCartBySessionIdResponse $response */
         $response = $this->adminDispatchQuery(new GetCartBySessionIdQuery($this->getSessionId()));
         return $response->getCartDTO();
     }
 
-    /**
-     * @param string $userId
-     * @return CartDTO
-     */
-    private function getCartByUserId($userId)
+    private function getCartByUserId(string $userId): CartDTO
     {
         /** @var GetCartByUserIdResponse $response */
         $response = $this->adminDispatchQuery(new GetCartByUserIdQuery($userId));
         return $response->getCartDTO();
     }
 
-    protected function createNewCart()
+    protected function createNewCart(): void
     {
         $userId = null;
         if ($this->userDTO !== null) {
@@ -375,11 +356,11 @@ class Controller extends BaseController
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @param array $context
      * @return \Illuminate\Contracts\Routing\ResponseFactory | \Symfony\Component\HttpFoundation\Response
      */
-    protected function renderTemplate($name, $context = [])
+    protected function renderTemplate(string $name, array $context = [])
     {
         $twig = $this->getTwigTemplate();
 
@@ -390,7 +371,7 @@ class Controller extends BaseController
         );
     }
 
-    private function setGlobalFlashVariables(TwigTemplate $twig)
+    private function setGlobalFlashVariables(TwigTemplate $twig): void
     {
         $session = $this->getSession();
         if ($session->isStarted()) {
@@ -409,10 +390,7 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @return TwigTemplate
-     */
-    protected function getTwigTemplate()
+    protected function getTwigTemplate(): TwigTemplate
     {
         static $twigTemplate = null;
         if ($twigTemplate === null) {
@@ -432,20 +410,12 @@ class Controller extends BaseController
         return $twigTemplate;
     }
 
-    /**
-     * @param string $message
-     */
-    protected function flashSuccess($message = '')
+    protected function flashSuccess(string $message = ''): void
     {
         $this->flashMessage('success', $message);
     }
 
-    /**
-     * @param string $flashTemplate
-     * @param array $data
-     * @throws InvalidArgumentException
-     */
-    protected function flashTemplateError($flashTemplate, array $data = [])
+    protected function flashTemplateError(string $flashTemplate, array $data = []): void
     {
 //        if (strpos($flashTemplate, '@store/flash/') === false) {
 //            throw new InvalidArgumentException('Can only flash from @store/flash/');
@@ -458,7 +428,7 @@ class Controller extends BaseController
      * @param array $data
      * @throws InvalidArgumentException
      */
-    protected function flashTemplateSuccess($flashTemplate, array $data = [])
+    protected function flashTemplateSuccess(string $flashTemplate, array $data = []): void
     {
         if (strpos($flashTemplate, '@store/flash/') === false) {
             throw new InvalidArgumentException('Can only flash from @store/flash/');
@@ -466,40 +436,30 @@ class Controller extends BaseController
         $this->flashTemplateMessage('success', $flashTemplate, $data);
     }
 
-    /**
-     * @param string $message
-     */
-    protected function flashError($message = '')
+    protected function flashError(string $message = ''): void
     {
         $this->flashMessage('danger', $message);
     }
 
-    /**
-     * @param string $message
-     */
-    protected function flashWarning($message = '')
+    protected function flashWarning(string $message = ''): void
     {
         $this->flashMessage('warning', $message);
     }
 
-    public function flashGenericWarning($message = 'Something went wrong.')
+    public function flashGenericWarning(string $message = 'Something went wrong.'): void
     {
         $extraMessage = 'Please contact us at store@example.com';
         $this->flashWarning($message . ' ' . $extraMessage);
     }
 
-    /**
-     * @param string $type
-     * @param string $message
-     */
-    private function flashMessage($type, $message = '')
+    private function flashMessage(string $type, string $message = ''): void
     {
         $messages = session()->get('flashMessages', []);
         $messages[$type][] = $message;
         session()->flash('flashMessages', $messages);
     }
 
-    protected function flashFormErrors(ConstraintViolationListInterface $newFormErrors)
+    protected function flashFormErrors(ConstraintViolationListInterface $newFormErrors): void
     {
         /** @var ConstraintViolationListInterface | ConstraintViolationInterface[] $formErrors */
         $formErrors = session()->get('flashFormErrors', new ConstraintViolationList());
@@ -507,12 +467,7 @@ class Controller extends BaseController
         session()->flash('flashFormErrors', $formErrors);
     }
 
-    /**
-     * @param string $type
-     * @param string $flashTemplate
-     * @param array $data
-     */
-    private function flashTemplateMessage($type, $flashTemplate, array $data)
+    private function flashTemplateMessage(string $type, string $flashTemplate, array $data): void
     {
         $messages = session()->get('templateFlashMessages', []);
         $messages[$type][] = [
@@ -522,11 +477,7 @@ class Controller extends BaseController
         session()->flash('templateFlashMessages', $messages);
     }
 
-    /**
-     * @param int $maxResults
-     * @return PaginationDTO
-     */
-    protected function getPaginationDTO($maxResults)
+    protected function getPaginationDTO(int $maxResults): PaginationDTO
     {
         $page = request()->query('page');
         if (empty($page)) {
@@ -540,43 +491,41 @@ class Controller extends BaseController
         return $paginationDTO;
     }
 
-    protected function getAssetLocationService()
+    protected function getAssetLocationService(): AssetLocationService
     {
         $assetLocationService = new AssetLocationService();
         return $assetLocationService;
     }
 
-    protected function getRandomProducts($limit)
+    /**
+     * @param int $limit
+     * @return ProductDTO[]
+     */
+    protected function getRandomProducts(int $limit): array
     {
         /** @var GetRandomProductsResponse $response */
         $response = $this->dispatchQuery(new GetRandomProductsQuery($limit));
         return $response->getProductDTOs();
     }
 
-    protected function getConfigurationsByKeys(array $keys)
+    /**
+     * @param array $keys
+     * @return ConfigurationDTO[]
+     */
+    protected function getConfigurationsByKeys(array $keys): array
     {
         /** @var GetConfigurationsByKeysResponse $response */
         $response = $this->dispatchQuery(new GetConfigurationsByKeysQuery($keys));
         return $response->getConfigurationDTOs();
     }
 
-    /**
-     * @param $optionId
-     * @return OptionDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getOptionWithAllData($optionId)
+    protected function getOptionWithAllData(string $optionId): OptionDTO
     {
         return $this->getOptionById($optionId)
             ->getOptionDTOWithAllData();
     }
 
-    /**
-     * @param string $optionId
-     * @return GetOptionResponse
-     * @throws NotFoundHttpException
-     */
-    private function getOptionById($optionId)
+    private function getOptionById(string $optionId): GetOptionResponse
     {
         try {
             return $this->dispatchQuery(new GetOptionQuery($optionId));
@@ -585,23 +534,13 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param $orderId
-     * @return OrderDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getOrderWithAllData($orderId)
+    protected function getOrderWithAllData(string $orderId): OrderDTO
     {
         return $this->getOrderById($orderId)
             ->getOrderDTOWithAllData();
     }
 
-    /**
-     * @param string $orderId
-     * @return GetOrderResponse
-     * @throws NotFoundHttpException
-     */
-    private function getOrderById($orderId)
+    private function getOrderById(string $orderId): GetOrderResponse
     {
         try {
             return $this->dispatchQuery(new GetOrderQuery($orderId));
@@ -610,23 +549,13 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param $shipmentTrackerId
-     * @return ShipmentTrackerDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getShipmentTracker($shipmentTrackerId)
+    protected function getShipmentTracker(string $shipmentTrackerId): ShipmentTrackerDTO
     {
         return $this->getShipmentTrackerById($shipmentTrackerId)
             ->getShipmentTrackerDTO();
     }
 
-    /**
-     * @param string $shipmentTrackerId
-     * @return GetShipmentTrackerResponse
-     * @throws NotFoundHttpException
-     */
-    private function getShipmentTrackerById($shipmentTrackerId)
+    private function getShipmentTrackerById(string $shipmentTrackerId): GetShipmentTrackerResponse
     {
         try {
             return $this->dispatchQuery(new GetShipmentTrackerQuery($shipmentTrackerId));
@@ -635,34 +564,19 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param $orderItemId
-     * @return OrderItemDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getOrderItem($orderItemId)
+    protected function getOrderItem(string $orderItemId): OrderItemDTO
     {
         return $this->getOrderItemById($orderItemId)
             ->getOrderItemDTO();
     }
 
-    /**
-     * @param $orderItemId
-     * @return OrderItemDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getOrderItemWithAllData($orderItemId)
+    protected function getOrderItemWithAllData(string $orderItemId): OrderItemDTO
     {
         return $this->getOrderItemById($orderItemId)
             ->getOrderItemDTOWithAllData();
     }
 
-    /**
-     * @param string $orderItemId
-     * @return GetOrderItemResponse
-     * @throws NotFoundHttpException
-     */
-    private function getOrderItemById($orderItemId)
+    private function getOrderItemById(string $orderItemId): GetOrderItemResponse
     {
         try {
             return $this->dispatchQuery(new GetOrderItemQuery($orderItemId));
@@ -671,34 +585,19 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param $productId
-     * @return ProductDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getProduct($productId)
+    protected function getProduct(string $productId): ProductDTO
     {
         return $this->getProductById($productId)
             ->getProductDTO();
     }
 
-    /**
-     * @param $productId
-     * @return ProductDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getProductWithAllData($productId)
+    protected function getProductWithAllData(string $productId): ProductDTO
     {
         return $this->getProductById($productId)
             ->getProductDTOWithAllData();
     }
 
-    /**
-     * @param string $productId
-     * @return GetProductResponse
-     * @throws NotFoundHttpException
-     */
-    private function getProductById($productId)
+    private function getProductById(string $productId): GetProductResponse
     {
         try {
             return $this->dispatchQuery(new GetProductQuery($productId));
@@ -707,34 +606,19 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param $cartPriceRuleId
-     * @return CartPriceRuleDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getCartPriceRule($cartPriceRuleId)
+    protected function getCartPriceRule(string $cartPriceRuleId): CartPriceRuleDTO
     {
         return $this->getCartPriceRuleById($cartPriceRuleId)
             ->getCartPriceRuleDTO();
     }
 
-    /**
-     * @param $cartPriceRuleId
-     * @return CartPriceRuleDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getCartPriceRuleWithAllData($cartPriceRuleId)
+    protected function getCartPriceRuleWithAllData(string $cartPriceRuleId): CartPriceRuleDTO
     {
         return $this->getCartPriceRuleById($cartPriceRuleId)
             ->getCartPriceRuleDTOWithAllData();
     }
 
-    /**
-     * @param string $cartPriceRuleId
-     * @return GetCartPriceRuleResponse
-     * @throws NotFoundHttpException
-     */
-    private function getCartPriceRuleById($cartPriceRuleId)
+    private function getCartPriceRuleById(string $cartPriceRuleId): GetCartPriceRuleResponse
     {
         try {
             return $this->dispatchQuery(new GetCartPriceRuleQuery($cartPriceRuleId));
@@ -743,34 +627,19 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param $attributeId
-     * @return AttributeDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getAttributeWithAllData($attributeId)
+    protected function getAttributeWithAllData(string $attributeId): AttributeDTO
     {
         return $this->getAttributeById($attributeId)
             ->getAttributeDTOWithAttributeValues();
     }
 
-    /**
-     * @param $attributeId
-     * @return AttributeDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getAttribute($attributeId)
+    protected function getAttribute(string $attributeId): AttributeDTO
     {
         return $this->getAttributeById($attributeId)
             ->getAttributeDTO();
     }
 
-    /**
-     * @param string $attributeId
-     * @return GetAttributeResponse
-     * @throws NotFoundHttpException
-     */
-    private function getAttributeById($attributeId)
+    private function getAttributeById(string $attributeId): GetAttributeResponse
     {
         try {
             return $this->dispatchQuery(new GetAttributeQuery($attributeId));
@@ -779,34 +648,19 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param $attributeValueId
-     * @return AttributeValueDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getAttributeValueWithAllData($attributeValueId)
+    protected function getAttributeValueWithAllData(string $attributeValueId): AttributeValueDTO
     {
         return $this->getAttributeValueById($attributeValueId)
             ->getAttributeValueDTOWithAllData();
     }
 
-    /**
-     * @param $attributeValueId
-     * @return AttributeValueDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getAttributeValue($attributeValueId)
+    protected function getAttributeValue(string $attributeValueId): AttributeValueDTO
     {
         return $this->getAttributeValueById($attributeValueId)
             ->getAttributeValueDTO();
     }
 
-    /**
-     * @param string $attributeValueId
-     * @return GetAttributeValueResponse
-     * @throws NotFoundHttpException
-     */
-    private function getAttributeValueById($attributeValueId)
+    private function getAttributeValueById(string $attributeValueId): GetAttributeValueResponse
     {
         try {
             return $this->dispatchQuery(new GetAttributeValueQuery($attributeValueId));
@@ -815,23 +669,13 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param $couponId
-     * @return CouponDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getCoupon($couponId)
+    protected function getCoupon(string $couponId): CouponDTO
     {
         return $this->getCouponById($couponId)
             ->getCouponDTO();
     }
 
-    /**
-     * @param string $couponId
-     * @return GetCouponResponse
-     * @throws NotFoundHttpException
-     */
-    private function getCouponById($couponId)
+    private function getCouponById(string $couponId): GetCouponResponse
     {
         try {
             return $this->dispatchQuery(new GetCouponQuery($couponId));
@@ -840,34 +684,19 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param $warehouseId
-     * @return WarehouseDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getWarehouseWithAllData($warehouseId)
+    protected function getWarehouseWithAllData(string $warehouseId): WarehouseDTO
     {
         return $this->getWarehouseById($warehouseId)
             ->getWarehouseDTOWithAllData();
     }
 
-    /**
-     * @param $warehouseId
-     * @return WarehouseDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getWarehouse($warehouseId)
+    protected function getWarehouse(string $warehouseId): WarehouseDTO
     {
         return $this->getWarehouseById($warehouseId)
             ->getWarehouseDTO();
     }
 
-    /**
-     * @param string $warehouseId
-     * @return GetWarehouseResponse
-     * @throws NotFoundHttpException
-     */
-    private function getWarehouseById($warehouseId)
+    private function getWarehouseById(string $warehouseId): GetWarehouseResponse
     {
         try {
             return $this->dispatchQuery(new GetWarehouseQuery($warehouseId));
@@ -876,34 +705,19 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param $inventoryLocationId
-     * @return InventoryLocationDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getInventoryLocationWithAllData($inventoryLocationId)
+    protected function getInventoryLocationWithAllData(string $inventoryLocationId): InventoryLocationDTO
     {
         return $this->getInventoryLocationById($inventoryLocationId)
             ->getInventoryLocationDTOWithAllData();
     }
 
-    /**
-     * @param $inventoryLocationId
-     * @return InventoryLocationDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getInventoryLocation($inventoryLocationId)
+    protected function getInventoryLocation(string $inventoryLocationId): InventoryLocationDTO
     {
         return $this->getInventoryLocationById($inventoryLocationId)
             ->getInventoryLocationDTO();
     }
 
-    /**
-     * @param string $inventoryLocationId
-     * @return GetInventoryLocationResponse
-     * @throws NotFoundHttpException
-     */
-    private function getInventoryLocationById($inventoryLocationId)
+    private function getInventoryLocationById(string $inventoryLocationId): GetInventoryLocationResponse
     {
         try {
             return $this->dispatchQuery(new GetInventoryLocationQuery($inventoryLocationId));
@@ -912,34 +726,19 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param $catalogPromotionId
-     * @return CatalogPromotionDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getCatalogPromotionWithAllData($catalogPromotionId)
+    protected function getCatalogPromotionWithAllData(string $catalogPromotionId): CatalogPromotionDTO
     {
         return $this->getCatalogPromotionById($catalogPromotionId)
             ->getCatalogPromotionDTOWithAllData();
     }
 
-    /**
-     * @param $catalogPromotionId
-     * @return CatalogPromotionDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getCatalogPromotion($catalogPromotionId)
+    protected function getCatalogPromotion(string $catalogPromotionId): CatalogPromotionDTO
     {
         return $this->getCatalogPromotionById($catalogPromotionId)
             ->getCatalogPromotionDTO();
     }
 
-    /**
-     * @param string $catalogPromotionId
-     * @return GetCatalogPromotionResponse
-     * @throws NotFoundHttpException
-     */
-    private function getCatalogPromotionById($catalogPromotionId)
+    private function getCatalogPromotionById(string $catalogPromotionId): GetCatalogPromotionResponse
     {
         try {
             return $this->dispatchQuery(new GetCatalogPromotionQuery($catalogPromotionId));
@@ -948,34 +747,19 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param $tagId
-     * @return TagDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getTag($tagId)
+    protected function getTag(string $tagId): TagDTO
     {
         return $this->getTagById($tagId)
             ->getTagDTO();
     }
 
-    /**
-     * @param $tagId
-     * @return TagDTO
-     * @throws NotFoundHttpException
-     */
-    protected function getTagWithAllData($tagId)
+    protected function getTagWithAllData(string $tagId): TagDTO
     {
         return $this->getTagById($tagId)
             ->getTagDTOWithAllData();
     }
 
-    /**
-     * @param string $tagId
-     * @return GetTagResponse
-     * @throws NotFoundHttpException
-     */
-    private function getTagById($tagId)
+    private function getTagById(string $tagId): GetTagResponse
     {
         try {
             return $this->dispatchQuery(new GetTagQuery($tagId));
@@ -984,10 +768,7 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param string $filePath
-     */
-    protected function serveFile($filePath)
+    protected function serveFile(string $filePath)
     {
         if (!file_exists($filePath)) {
             abort(404);
@@ -1041,11 +822,7 @@ class Controller extends BaseController
         return $mime_types[$extension];
     }
 
-    /**
-     * @param string $value
-     * @return null|int
-     */
-    protected function getCentsOrNull($value)
+    protected function getCentsOrNull(string $value): ?int
     {
         if ($value === '') {
             return null;
@@ -1054,11 +831,7 @@ class Controller extends BaseController
         return (int) ($value * 100);
     }
 
-    /**
-     * @param string $value
-     * @return null|int
-     */
-    protected function getIntOrNull($value)
+    protected function getIntOrNull(string $value): ?int
     {
         if ($value === '') {
             return null;
@@ -1066,12 +839,8 @@ class Controller extends BaseController
 
         return (int) $value;
     }
-    /**
 
-     * @param string $value
-     * @return null|float
-     */
-    protected function getFloatOrNull($value)
+    protected function getFloatOrNull(string $value): ?float
     {
         if ($value === '') {
             return null;
@@ -1080,11 +849,7 @@ class Controller extends BaseController
         return (float) $value;
     }
 
-    /**
-     * @param string $value
-     * @return null|string
-     */
-    protected function getStringOrNull($value)
+    protected function getStringOrNull(string $value): ?string
     {
         $value = trim($value);
 
@@ -1095,11 +860,7 @@ class Controller extends BaseController
         return (string) $value;
     }
 
-    /**
-     * @param array $dateTime
-     * @return int|null
-     */
-    protected function getTimestampFromDateTimeTimezoneInput(array $dateTime)
+    protected function getTimestampFromDateTimeTimezoneInput(array $dateTime): ?int
     {
         $date = Arr::get($dateTime, 'date');
         $time = Arr::get($dateTime, 'time');
@@ -1113,7 +874,7 @@ class Controller extends BaseController
         return null;
     }
 
-    protected function mergeCart(UuidInterface $userId)
+    protected function mergeCart(UuidInterface $userId): void
     {
         $sessionId = $this->getSessionId();
         $userCart = null;
@@ -1168,15 +929,17 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * @param string $message
-     */
-    private function logError($message)
+    private function logError(string $message)
     {
         // TODO: Log error message to file
     }
 
-    protected function getRelatedProducts(CartDTO $cartDTO, $limit = 4)
+    /**
+     * @param CartDTO $cartDTO
+     * @param int $limit
+     * @return ProductDTO[]
+     */
+    protected function getRelatedProducts(CartDTO $cartDTO, int $limit = 4): array
     {
         $cartProductIds = [];
         foreach ($cartDTO->cartItems as $cartItem) {
@@ -1191,7 +954,7 @@ class Controller extends BaseController
      * @param int $limit
      * @return ProductDTO[]
      */
-    protected function getRecommendedProducts($productIds, $limit)
+    protected function getRecommendedProducts(array $productIds, int $limit): array
     {
         /** @var GetRelatedProductsResponse $response */
         $response = $this->dispatchQuery(new GetRelatedProductsQuery($productIds, $limit));
