@@ -866,7 +866,7 @@ class Controller extends BaseController
         $time = Arr::get($dateTime, 'time');
         $timezone = Arr::get($dateTime, 'timezone');
 
-        if (trim($date . $time) !== '') {
+        if (trim($date) !== '' && trim($time) !== '') {
             $startDateTime = new DateTime($date . ' ' . $time, new DateTimeZone($timezone));
             return $startDateTime->getTimestamp();
         }
