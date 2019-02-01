@@ -7,6 +7,16 @@ This is a sample application utilizing [Zen Kommerce Core](https://github.com/in
 
 Docs: [Github Pages](https://inklabs.github.io/kommerce-laravel)
 
+## Live Demo
+* Admin Login
+  * https://kommerce-laravel-demo.jamieisaacs.com/admin/login
+  * email: aaron@example.com
+  * pw: Test123!
+* Customer Login
+  * https://kommerce-laravel-demo.jamieisaacs.com/user/login
+  * email: charles@example.com
+  * pw: Test123!
+
 ## Initialize project
 
 ```
